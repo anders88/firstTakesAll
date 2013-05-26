@@ -3,6 +3,7 @@ package no.anderska.wta;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -60,6 +61,22 @@ public class GameServletTest {
         Gson gson = new Gson();
         AnswerResponse response = gson.fromJson(jsonResponse.toString(), AnswerResponse.class);
         assertThat(response).isEqualTo(AnswerResponse.create(AnswerStatus.WRONG));
+    }
+    
+    @Test
+    public void shouldReportMissingParameter() throws Exception {
+        when(req.getParameter("gamerId")).thenReturn("123");
+        when(req.getParameter("questionId")).thenReturn("444");
+
+        servlet.service(req, resp);
+
+        verify(questionChecker,never()).checkAnswer(anyString(), anyString(), anyString());
+        
+        Gson gson = new Gson();
+        AnswerResponse response = gson.fromJson(jsonResponse.toString(), AnswerResponse.class);
+        assertThat(response).isEqualTo(AnswerResponse.create(AnswerStatus.MISSING_PARAMETER));
+        
+        assertThat(response.getDescription()).isEqualTo("answer is required");
     }
 
     @Before
