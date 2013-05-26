@@ -1,20 +1,10 @@
 package no.anderska.wta;
 
 public class AnswerResponse {
-    @SuppressWarnings("unused")
-    private final String answerStatus;
+    private final AnswerStatus answerStatus;
 
     private static enum AnswerStatus {
-        OK("OK");
-
-        private final String textValue;
-        private AnswerStatus(String textValue) {
-            this.textValue = textValue;
-        }
-        
-        public String getTextValue() {
-            return textValue;
-        }
+        OK;
     }
     
     public static AnswerResponse ok() {
@@ -22,7 +12,19 @@ public class AnswerResponse {
     }
     
     private AnswerResponse(AnswerStatus answerStatus) {
-        this.answerStatus = answerStatus.getTextValue();
-        
+        this.answerStatus = answerStatus;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof AnswerResponse)) {
+            return false;
+        }
+        return this.answerStatus == ((AnswerResponse) obj).answerStatus;
+    }
+
+    @Override
+    public int hashCode() {
+        return 1;
     }
 }

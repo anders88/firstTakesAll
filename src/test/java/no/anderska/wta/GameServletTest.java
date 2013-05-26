@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.gson.Gson;
+
 public class GameServletTest {
     private GameServlet servlet = new GameServlet();
     private QuestionChecker questionChecker = mock(QuestionChecker.class);
@@ -38,6 +40,9 @@ public class GameServletTest {
         servlet.service(req, resp);
         
         assertThat(jsonResponse.toString()).isEqualTo("{\"answerStatus\":\"OK\"}");
+        Gson gson = new Gson();
+        AnswerResponse response = gson.fromJson(jsonResponse.toString(), AnswerResponse.class);
+        assertThat(response).isEqualTo(AnswerResponse.ok());
     }
 
     @Before
@@ -48,5 +53,6 @@ public class GameServletTest {
         when(req.getParameter("gamerId")).thenReturn("123");
         when(req.getParameter("questionId")).thenReturn("444");
         when(req.getParameter("answer")).thenReturn("42");
+        
     }
 }
