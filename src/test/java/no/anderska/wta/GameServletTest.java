@@ -29,6 +29,8 @@ public class GameServletTest {
 
     @Test
     public void shouldCheckForCorrectAnswer() throws Exception {
+        setupOkParameters();
+
         servlet.service(req, resp);
         
         verify(resp).setContentType("application/json");
@@ -37,6 +39,7 @@ public class GameServletTest {
     
     @Test
     public void shouldReplyOkWhenAnswerCorrect() throws Exception {
+        setupOkParameters();
         when(questionChecker.checkAnswer(anyString(), anyString(), anyString())).thenReturn(AnswerResponse.create(AnswerStatus.OK));
         
         servlet.service(req, resp);
@@ -46,15 +49,30 @@ public class GameServletTest {
         AnswerResponse response = gson.fromJson(jsonResponse.toString(), AnswerResponse.class);
         assertThat(response).isEqualTo(AnswerResponse.create(AnswerStatus.OK));
     }
+    
+    @Test
+    public void shouldReportErrorIfAnsweringWrong() throws Exception {
+        setupOkParameters();
+        when(questionChecker.checkAnswer(anyString(), anyString(), anyString())).thenReturn(AnswerResponse.create(AnswerStatus.WRONG));
+        
+        servlet.service(req, resp);
+
+        Gson gson = new Gson();
+        AnswerResponse response = gson.fromJson(jsonResponse.toString(), AnswerResponse.class);
+        assertThat(response).isEqualTo(AnswerResponse.create(AnswerStatus.WRONG));
+    }
 
     @Before
     public void setup() throws IOException {
         when(resp.getWriter()).thenReturn(new PrintWriter(jsonResponse));
         servlet.setQuestionChecker(questionChecker);
         when(req.getMethod()).thenReturn("POST");
+        
+    }
+
+    private void setupOkParameters() {
         when(req.getParameter("gamerId")).thenReturn("123");
         when(req.getParameter("questionId")).thenReturn("444");
         when(req.getParameter("answer")).thenReturn("42");
-        
     }
 }

@@ -4,7 +4,7 @@ public class AnswerResponse {
     private final AnswerStatus answerStatus;
 
     public static enum AnswerStatus {
-        OK;
+        OK,WRONG;
     }
     
     public static AnswerResponse create(AnswerStatus answerStatus) {
