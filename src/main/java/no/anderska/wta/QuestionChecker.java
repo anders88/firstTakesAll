@@ -2,6 +2,6 @@ package no.anderska.wta;
 
 public interface QuestionChecker {
 
-    void checkAnswer(String gamerId, String questionId, String answer);
+    AnswerResponse checkAnswer(String gamerId, String questionId, String answer);
 
 }
