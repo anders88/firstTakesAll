@@ -3,12 +3,12 @@ package no.anderska.wta;
 public class AnswerResponse {
     private final AnswerStatus answerStatus;
 
-    private static enum AnswerStatus {
+    public static enum AnswerStatus {
         OK;
     }
     
-    public static AnswerResponse ok() {
-        return new AnswerResponse(AnswerStatus.OK);
+    public static AnswerResponse create(AnswerStatus answerStatus) {
+        return new AnswerResponse(answerStatus);
     }
     
     private AnswerResponse(AnswerStatus answerStatus) {

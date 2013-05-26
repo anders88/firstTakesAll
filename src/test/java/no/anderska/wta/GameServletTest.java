@@ -13,6 +13,8 @@ import java.io.StringWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import no.anderska.wta.AnswerResponse.AnswerStatus;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,14 +37,14 @@ public class GameServletTest {
     
     @Test
     public void shouldReplyOkWhenAnswerCorrect() throws Exception {
-        when(questionChecker.checkAnswer(anyString(), anyString(), anyString())).thenReturn(AnswerResponse.ok());
+        when(questionChecker.checkAnswer(anyString(), anyString(), anyString())).thenReturn(AnswerResponse.create(AnswerStatus.OK));
         
         servlet.service(req, resp);
         
         assertThat(jsonResponse.toString()).isEqualTo("{\"answerStatus\":\"OK\"}");
         Gson gson = new Gson();
         AnswerResponse response = gson.fromJson(jsonResponse.toString(), AnswerResponse.class);
-        assertThat(response).isEqualTo(AnswerResponse.ok());
+        assertThat(response).isEqualTo(AnswerResponse.create(AnswerStatus.OK));
     }
 
     @Before
