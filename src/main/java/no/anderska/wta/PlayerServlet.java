@@ -16,6 +16,7 @@ public class PlayerServlet extends HttpServlet {
             throws ServletException, IOException {
         resp.setContentType("text/html");
         playerHandler.createPlayer(req.getParameter("gamerName"));
+        resp.sendRedirect("/");
     }
 
     public void setPlayerHandler(PlayerHandler playerHandler) {

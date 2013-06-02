@@ -26,5 +26,6 @@ public class PlayerServletTest {
         
         verify(resp).setContentType("text/html");
         verify(playerHandler).createPlayer("Gamers");
+        verify(resp).sendRedirect("/");
     }
 }
