@@ -15,21 +15,56 @@ public class PlayerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        displayCreatePage(resp,null,"");
+    }
+
+    private void displayCreatePage(HttpServletResponse resp, String errormessage, String nameValue) throws IOException {
         PrintWriter writer = resp.getWriter();
+        writer.append("<html><body>");
+        if (errormessage != null) {
+            writer.append("<p style='color: red;'>" + errormessage + "</p>");
+        }
         writer
             .append("<form method='POST' action='createGamer.html'>") //
-            .append("<input type='text' name='gamerName' value=''/>") //
-            .append("<input type='submit' name='createGamer' value=''/>") //
+            .append("<input type='text' name='gamerName' value='") //
+            .append(nameValue) //
+            .append("'/>") //
+            .append("<input type='submit' name='createGamer' value='Create Gamer'/>") //
             .append("</form>") //
         ;
+        writer.append("</body></html>");
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         resp.setContentType("text/html");
-        playerHandler.createPlayer(req.getParameter("gamerName"));
-        resp.sendRedirect("/");
+        String gamerName = req.getParameter("gamerName");
+        String errormessage = validateName(gamerName);
+        if (errormessage == null) {
+            playerHandler.createPlayer(gamerName);
+            resp.sendRedirect("/");
+        } else {
+            displayCreatePage(resp,errormessage,htmlEscape(gamerName));
+        }
+    }
+
+    private String htmlEscape(String text) {
+        return text //
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                ;
+    }
+
+    private String validateName(String gamerName) {
+        for (char c : gamerName.toCharArray()) {
+            if (Character.isLetter(c) || c == ' ') {
+                continue;
+            }
+            return "Name can only contain letters";
+        }
+        return null;
     }
 
     public void setPlayerHandler(PlayerHandler playerHandler) {
