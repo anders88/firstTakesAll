@@ -45,12 +45,18 @@ public class PlayerServletTest {
     public void shouldAddPlayer() throws Exception {
         when(req.getParameter("gamerName")).thenReturn("Gamers");
         when(req.getMethod()).thenReturn("POST");
+        when(playerHandler.createPlayer(anyString())).thenReturn(42L);
         
         servlet.service(req, resp);
         
         verify(resp).setContentType("text/html");
         verify(playerHandler).createPlayer("Gamers");
-        verify(resp).sendRedirect("/");
+        
+        assertThat(htmlDoc.toString()) //
+            .contains("Welcome Gamers you have id 42")
+            .contains("<a href='index.html'>To main</a>")
+        ;
+        DocumentHelper.parseText(htmlDoc.toString());
     }
 
     @Test

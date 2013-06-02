@@ -42,8 +42,14 @@ public class PlayerServlet extends HttpServlet {
         String gamerName = req.getParameter("gamerName");
         String errormessage = validateName(gamerName);
         if (errormessage == null) {
-            playerHandler.createPlayer(gamerName);
-            resp.sendRedirect("/");
+            long playerId = playerHandler.createPlayer(gamerName);
+            PrintWriter writer = resp.getWriter();
+            writer //
+                .append("<html><body>") //
+                .append("<p>Welcome " + gamerName + " you have id " + playerId + "</p>") //
+                .append("<p><a href='index.html'>To main</a></p>") //
+                .append("</body></html>") //
+                ;
         } else {
             displayCreatePage(resp,errormessage,htmlEscape(gamerName));
         }
