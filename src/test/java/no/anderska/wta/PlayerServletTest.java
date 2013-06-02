@@ -70,6 +70,24 @@ public class PlayerServletTest {
         DocumentHelper.parseText(htmlDoc.toString());
 
     }
+    
+    @Test
+    public void shouldNotAllowEmptyName() throws Exception {
+        when(req.getParameter("gamerName")).thenReturn("");
+        when(req.getMethod()).thenReturn("POST");
+        
+        servlet.service(req, resp);
+        
+        verify(playerHandler,never()).createPlayer(anyString());
+
+        assertThat(htmlDoc.toString()) //
+        .contains("<input type='text' name='gamerName' value=''") //
+        .contains("<p style='color: red;'>Empty name is not allowed</p>") //
+        ;
+
+        DocumentHelper.parseText(htmlDoc.toString());
+        
+    }
 
     @Before
     public void setup() throws IOException {

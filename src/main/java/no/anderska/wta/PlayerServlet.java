@@ -58,6 +58,9 @@ public class PlayerServlet extends HttpServlet {
     }
 
     private String validateName(String gamerName) {
+        if (gamerName == null || gamerName.trim().isEmpty()) {
+            return "Empty name is not allowed";
+        }
         for (char c : gamerName.toCharArray()) {
             if (Character.isLetter(c) || c == ' ') {
                 continue;
