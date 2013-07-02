@@ -1,2 +1,2 @@
 # First Takes All
-To be continued
+To be continued...
