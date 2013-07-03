@@ -7,7 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import no.anderska.wta.AnswerResponse.AnswerStatus;
+import no.anderska.wta.dto.AnswerResponse;
+import no.anderska.wta.dto.AnswerResponse.AnswerStatus;
 
 import com.google.gson.Gson;
 

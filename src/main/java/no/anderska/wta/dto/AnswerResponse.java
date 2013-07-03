@@ -1,4 +1,4 @@
-package no.anderska.wta;
+package no.anderska.wta.dto;
 
 
 public class AnswerResponse {

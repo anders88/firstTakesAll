@@ -14,14 +14,15 @@ import java.io.StringWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import no.anderska.wta.AnswerResponse.AnswerStatus;
+import no.anderska.wta.dto.AnswerResponse;
+import no.anderska.wta.dto.AnswerResponse.AnswerStatus;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.google.gson.Gson;
 
-public class GameServletTest {
+public class GameServletResponeTest {
     private GameServlet servlet = new GameServlet();
     private QuestionChecker questionChecker = mock(QuestionChecker.class);
     private HttpServletRequest req = mock(HttpServletRequest.class);
