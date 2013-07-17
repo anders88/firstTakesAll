@@ -39,6 +39,8 @@ public class GameServletDisplayTest {
         List<QuestionCategory> categories = gson.fromJson(jsonResponse.toString(), new TypeToken<List<QuestionCategory>>() {}.getType());
         
         assertThat(categories).hasSize(2);
+        
+        assertThat(categories.get(0).getDescription()).isEqualTo("one");
     }
     
     @Before

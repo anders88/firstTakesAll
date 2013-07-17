@@ -30,5 +30,9 @@ public class QuestionCategory {
     public int hashCode() {
         return id != null ? id.hashCode() : -1;
     }
+    
+    public String getDescription() {
+		return description;
+	}
 
 }
