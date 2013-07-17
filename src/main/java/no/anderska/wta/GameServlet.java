@@ -1,6 +1,7 @@
 package no.anderska.wta;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import no.anderska.wta.dto.AnswerResponse;
 import no.anderska.wta.dto.AnswerResponse.AnswerStatus;
+import no.anderska.wta.dto.QuestionCategory;
 
 import com.google.gson.Gson;
 
@@ -37,6 +39,14 @@ public class GameServlet extends HttpServlet {
         }
         
         writeResponse(resp, answerResponse);
+    }
+    
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+    		throws ServletException, IOException {
+    	List<QuestionCategory> allCategories = questionChecker.allCategories();
+    	Gson gson = new Gson();
+    	resp.getWriter().append(gson.toJson(allCategories));
     }
 
     private void writeResponse(HttpServletResponse resp,

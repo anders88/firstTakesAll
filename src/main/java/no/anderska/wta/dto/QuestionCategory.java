@@ -8,6 +8,7 @@ public class QuestionCategory {
         this.id = id;
         this.description = description;
     }
+    
 
     public static QuestionCategory create(Long id,String description) {
         return new QuestionCategory(id,description);

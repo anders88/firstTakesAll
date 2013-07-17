@@ -1,5 +1,6 @@
 package no.anderska.wta;
 
+import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -18,6 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class GameServletDisplayTest {
     private GameServlet servlet = new GameServlet();
@@ -33,9 +35,10 @@ public class GameServletDisplayTest {
         servlet.service(req, resp);
         
         Gson gson = new Gson();
-        gson.fromJson(jsonResponse.toString(), List.class);
         
+        List<QuestionCategory> categories = gson.fromJson(jsonResponse.toString(), new TypeToken<List<QuestionCategory>>() {}.getType());
         
+        assertThat(categories).hasSize(2);
     }
     
     @Before
