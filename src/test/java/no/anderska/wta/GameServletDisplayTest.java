@@ -30,6 +30,7 @@ public class GameServletDisplayTest {
 
     @Test
     public void shouldDisplayQuestionCategories() throws Exception {
+    	when(req.getPathInfo()).thenReturn("/");
         when(questionChecker.allCategories()).thenReturn(Arrays.asList(QuestionCategory.create(1L, "one"),QuestionCategory.create(2L, "two")));
 
         servlet.service(req, resp);
