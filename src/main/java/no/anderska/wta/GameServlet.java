@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import no.anderska.wta.dto.AnswerResponse;
 import no.anderska.wta.dto.AnswerResponse.AnswerStatus;
+import no.anderska.wta.dto.Question;
 import no.anderska.wta.dto.QuestionCategory;
 
 import com.google.gson.Gson;
@@ -44,13 +45,16 @@ public class GameServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
     		throws ServletException, IOException {
+        Gson gson = new Gson();
+
         if ("/category".equals(req.getPathInfo())) {
             Long categoryId = Long.parseLong(req.getParameter("id"));
-            questionChecker.listCategory(categoryId);
+            List<Question> questions = questionChecker.listCategory(categoryId);
+            resp.getWriter().append(gson.toJson(questions));
             return;
         }
-    	List<QuestionCategory> allCategories = questionChecker.allCategories();
-    	Gson gson = new Gson();
+    	
+        List<QuestionCategory> allCategories = questionChecker.allCategories();
     	resp.getWriter().append(gson.toJson(allCategories));
     }
 

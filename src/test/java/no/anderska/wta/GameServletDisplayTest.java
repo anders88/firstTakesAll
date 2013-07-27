@@ -1,6 +1,7 @@
 package no.anderska.wta;
 
 import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -14,6 +15,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import no.anderska.wta.dto.Question;
 import no.anderska.wta.dto.QuestionCategory;
 
 import org.junit.Before;
@@ -50,9 +52,21 @@ public class GameServletDisplayTest {
         when(req.getPathInfo()).thenReturn("/category");
         when(req.getParameter("id")).thenReturn("2");
         
+        Question question = Question.factory().withId(1).withText("What is the meaning of life?").withPoint(42).withAnswered(false).create();
+        
+        when(questionChecker.listCategory(anyLong())).thenReturn(Arrays.asList(question));
+        
         servlet.service(req, resp);
         
         verify(questionChecker).listCategory(2L);
+        
+        
+        Gson gson = new Gson();
+        
+        List<Question> categories = gson.fromJson(jsonResponse.toString(), new TypeToken<List<Question>>() {}.getType());
+        
+        assertThat(categories).hasSize(1);
+        
     }
     
     @Before
