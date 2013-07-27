@@ -52,9 +52,9 @@ public class GameServletDisplayTest {
         when(req.getPathInfo()).thenReturn("/category");
         when(req.getParameter("id")).thenReturn("2");
         
-        Question question = Question.factory().withId(1).withText("What is the meaning of life?").withPoint(42).withAnswered(false).create();
+        Question expected = Question.factory().withId(1).withText("What is the meaning of life?").withPoint(42).withAnswered(false).create();
         
-        when(questionChecker.listCategory(anyLong())).thenReturn(Arrays.asList(question));
+        when(questionChecker.listCategory(anyLong())).thenReturn(Arrays.asList(expected));
         
         servlet.service(req, resp);
         
@@ -63,10 +63,16 @@ public class GameServletDisplayTest {
         
         Gson gson = new Gson();
         
-        List<Question> categories = gson.fromJson(jsonResponse.toString(), new TypeToken<List<Question>>() {}.getType());
+        List<Question> questions = gson.fromJson(jsonResponse.toString(), new TypeToken<List<Question>>() {}.getType());
         
-        assertThat(categories).hasSize(1);
+        assertThat(questions).hasSize(1);
         
+        Question actual = questions.get(0);
+        
+        assertThat(actual.getId()).isEqualTo(expected.getId());
+        assertThat(actual.getText()).isEqualTo(expected.getText());
+        assertThat(actual.getPoint()).isEqualTo(expected.getPoint());
+        assertThat(actual.isAnswered()).isEqualTo(expected.isAnswered());
     }
     
     @Before
