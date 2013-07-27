@@ -2,6 +2,7 @@ package no.anderska.wta;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
@@ -42,6 +43,16 @@ public class GameServletDisplayTest {
         assertThat(categories).hasSize(2);
         
         assertThat(categories.get(0).getDescription()).isEqualTo("one");
+    }
+    
+    @Test
+    public void shouldDisplayQuestionsForACategory() throws Exception {
+        when(req.getPathInfo()).thenReturn("/category");
+        when(req.getParameter("id")).thenReturn("2");
+        
+        servlet.service(req, resp);
+        
+        verify(questionChecker).listCategory(2L);
     }
     
     @Before

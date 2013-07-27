@@ -44,6 +44,11 @@ public class GameServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
     		throws ServletException, IOException {
+        if ("/category".equals(req.getPathInfo())) {
+            Long categoryId = Long.parseLong(req.getParameter("id"));
+            questionChecker.listCategory(categoryId);
+            return;
+        }
     	List<QuestionCategory> allCategories = questionChecker.allCategories();
     	Gson gson = new Gson();
     	resp.getWriter().append(gson.toJson(allCategories));
