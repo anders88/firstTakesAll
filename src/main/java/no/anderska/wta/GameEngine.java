@@ -17,11 +17,34 @@ public class GameEngine implements QuestionChecker {
 
     private final PlayerHandler playerHandler;
     private final Map<Integer,QuestionCategoryEngine> engines;
-    
+    private final Map<Integer,List<QuestionStatus>> questionByCategory;
+    private final Map<Integer,QuestionStatus> allQuestions;
 
     public GameEngine(List<QuestionCategoryEngine> categories, PlayerHandler playerHandler) {
         this.playerHandler = playerHandler;
-        this.engines = initializeEngines(categories); 
+        this.engines = initializeEngines(categories);
+        this.questionByCategory = new Hashtable<>();
+        this.allQuestions = new Hashtable<>();
+        initializeQuestions();
+    }
+
+    private void initializeQuestions() {
+        int idbase = 0;
+        Set<Entry<Integer, QuestionCategoryEngine>> entrySet = engines.entrySet();
+        for (Entry<Integer, QuestionCategoryEngine> entry : entrySet) {
+            idbase+=1000000;
+            
+            List<Question> myQuestions = entry.getValue().myQuestions();
+            List<QuestionStatus> questionsThisCategory = new ArrayList<>();
+            for (Question question : myQuestions) {
+                QuestionStatus qs = new QuestionStatus(
+                        idbase+question.getId(), question, entry.getValue());
+                questionsThisCategory.add(qs);
+                allQuestions.put(qs.getMyId(), qs);
+            }
+            questionByCategory.put(entry.getKey(),questionsThisCategory);
+            
+        }
     }
 
     private Map<Integer, QuestionCategoryEngine> initializeEngines(
@@ -50,8 +73,21 @@ public class GameEngine implements QuestionChecker {
 
     @Override
     public List<QuestionDTO> listCategory(int categoryId) {
-        // TODO Auto-generated method stub
-        return null;
+        List<QuestionStatus> myQuestions = questionByCategory.get(categoryId);
+        if (myQuestions == null) {
+            return new ArrayList<>();
+        }
+        ArrayList<QuestionDTO> result = new ArrayList<>();
+        for (QuestionStatus questionStatus : myQuestions) {
+            result.add(QuestionDTO.factory()
+                .withId(questionStatus.getMyId())
+                .withPoint(questionStatus.getQuestion().getPoints())
+                .withText(questionStatus.getQuestion().getText())
+                .withAnswered(!questionStatus.isAvailible())
+                .create());
+        }
+        
+        return result;
     }
 
 }
