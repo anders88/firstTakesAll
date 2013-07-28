@@ -14,8 +14,8 @@ import java.io.StringWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import no.anderska.wta.dto.AnswerResponse;
-import no.anderska.wta.dto.AnswerResponse.AnswerStatus;
+import no.anderska.wta.dto.AnswerResponseDTO;
+import no.anderska.wta.dto.AnswerResponseDTO.AnswerStatus;
 import no.anderska.wta.servlet.GameServlet;
 import no.anderska.wta.servlet.QuestionChecker;
 
@@ -44,26 +44,26 @@ public class GameServletResponeTest {
     @Test
     public void shouldReplyOkWhenAnswerCorrect() throws Exception {
         setupOkParameters();
-        when(questionChecker.checkAnswer(anyString(), anyString(), anyString())).thenReturn(AnswerResponse.create(AnswerStatus.OK));
+        when(questionChecker.checkAnswer(anyString(), anyString(), anyString())).thenReturn(AnswerResponseDTO.create(AnswerStatus.OK));
         
         servlet.service(req, resp);
         
         assertThat(jsonResponse.toString()).isEqualTo("{\"answerStatus\":\"OK\"}");
         Gson gson = new Gson();
-        AnswerResponse response = gson.fromJson(jsonResponse.toString(), AnswerResponse.class);
-        assertThat(response).isEqualTo(AnswerResponse.create(AnswerStatus.OK));
+        AnswerResponseDTO response = gson.fromJson(jsonResponse.toString(), AnswerResponseDTO.class);
+        assertThat(response).isEqualTo(AnswerResponseDTO.create(AnswerStatus.OK));
     }
     
     @Test
     public void shouldReportErrorIfAnsweringWrong() throws Exception {
         setupOkParameters();
-        when(questionChecker.checkAnswer(anyString(), anyString(), anyString())).thenReturn(AnswerResponse.create(AnswerStatus.WRONG));
+        when(questionChecker.checkAnswer(anyString(), anyString(), anyString())).thenReturn(AnswerResponseDTO.create(AnswerStatus.WRONG));
         
         servlet.service(req, resp);
 
         Gson gson = new Gson();
-        AnswerResponse response = gson.fromJson(jsonResponse.toString(), AnswerResponse.class);
-        assertThat(response).isEqualTo(AnswerResponse.create(AnswerStatus.WRONG));
+        AnswerResponseDTO response = gson.fromJson(jsonResponse.toString(), AnswerResponseDTO.class);
+        assertThat(response).isEqualTo(AnswerResponseDTO.create(AnswerStatus.WRONG));
     }
     
     @Test
@@ -76,8 +76,8 @@ public class GameServletResponeTest {
         verify(questionChecker,never()).checkAnswer(anyString(), anyString(), anyString());
         
         Gson gson = new Gson();
-        AnswerResponse response = gson.fromJson(jsonResponse.toString(), AnswerResponse.class);
-        assertThat(response).isEqualTo(AnswerResponse.create(AnswerStatus.MISSING_PARAMETER));
+        AnswerResponseDTO response = gson.fromJson(jsonResponse.toString(), AnswerResponseDTO.class);
+        assertThat(response).isEqualTo(AnswerResponseDTO.create(AnswerStatus.MISSING_PARAMETER));
         
         assertThat(response.getDescription()).isEqualTo("answer is required");
     }

@@ -2,15 +2,15 @@ package no.anderska.wta.servlet;
 
 import java.util.List;
 
-import no.anderska.wta.dto.AnswerResponse;
-import no.anderska.wta.dto.Question;
-import no.anderska.wta.dto.QuestionCategory;
+import no.anderska.wta.dto.AnswerResponseDTO;
+import no.anderska.wta.dto.QuestionDTO;
+import no.anderska.wta.dto.QuestionCategoryDTO;
 
 public interface QuestionChecker {
 
-    AnswerResponse checkAnswer(String gamerId, String questionId, String answer);
+    AnswerResponseDTO checkAnswer(String gamerId, String questionId, String answer);
 
-    List<QuestionCategory> allCategories();
+    List<QuestionCategoryDTO> allCategories();
 
-    List<Question> listCategory(int categoryId);
+    List<QuestionDTO> listCategory(int categoryId);
 }

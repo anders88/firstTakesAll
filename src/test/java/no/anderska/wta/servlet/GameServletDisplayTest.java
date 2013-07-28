@@ -16,8 +16,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import no.anderska.wta.dto.Question;
-import no.anderska.wta.dto.QuestionCategory;
+import no.anderska.wta.dto.QuestionDTO;
+import no.anderska.wta.dto.QuestionCategoryDTO;
 import no.anderska.wta.servlet.GameServlet;
 import no.anderska.wta.servlet.QuestionChecker;
 
@@ -37,13 +37,13 @@ public class GameServletDisplayTest {
     @Test
     public void shouldDisplayQuestionCategories() throws Exception {
     	when(req.getPathInfo()).thenReturn("/");
-        when(questionChecker.allCategories()).thenReturn(Arrays.asList(QuestionCategory.create(1, "one"),QuestionCategory.create(2, "two")));
+        when(questionChecker.allCategories()).thenReturn(Arrays.asList(QuestionCategoryDTO.create(1, "one"),QuestionCategoryDTO.create(2, "two")));
 
         servlet.service(req, resp);
         
         Gson gson = new Gson();
         
-        List<QuestionCategory> categories = gson.fromJson(jsonResponse.toString(), new TypeToken<List<QuestionCategory>>() {}.getType());
+        List<QuestionCategoryDTO> categories = gson.fromJson(jsonResponse.toString(), new TypeToken<List<QuestionCategoryDTO>>() {}.getType());
         
         assertThat(categories).hasSize(2);
         
@@ -55,7 +55,7 @@ public class GameServletDisplayTest {
         when(req.getPathInfo()).thenReturn("/category");
         when(req.getParameter("id")).thenReturn("2");
         
-        Question expected = Question.factory().withId(1).withText("What is the meaning of life?").withPoint(42).withAnswered(false).create();
+        QuestionDTO expected = QuestionDTO.factory().withId(1).withText("What is the meaning of life?").withPoint(42).withAnswered(false).create();
         
         when(questionChecker.listCategory(anyInt())).thenReturn(Arrays.asList(expected));
         
@@ -66,11 +66,11 @@ public class GameServletDisplayTest {
         
         Gson gson = new Gson();
         
-        List<Question> questions = gson.fromJson(jsonResponse.toString(), new TypeToken<List<Question>>() {}.getType());
+        List<QuestionDTO> questions = gson.fromJson(jsonResponse.toString(), new TypeToken<List<QuestionDTO>>() {}.getType());
         
         assertThat(questions).hasSize(1);
         
-        Question actual = questions.get(0);
+        QuestionDTO actual = questions.get(0);
         
         assertThat(actual.getId()).isEqualTo(expected.getId());
         assertThat(actual.getText()).isEqualTo(expected.getText());

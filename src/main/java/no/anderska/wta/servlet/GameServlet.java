@@ -8,10 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import no.anderska.wta.dto.AnswerResponse;
-import no.anderska.wta.dto.AnswerResponse.AnswerStatus;
-import no.anderska.wta.dto.Question;
-import no.anderska.wta.dto.QuestionCategory;
+import no.anderska.wta.dto.AnswerResponseDTO;
+import no.anderska.wta.dto.AnswerResponseDTO.AnswerStatus;
+import no.anderska.wta.dto.QuestionDTO;
+import no.anderska.wta.dto.QuestionCategoryDTO;
 
 import com.google.gson.Gson;
 
@@ -28,7 +28,7 @@ public class GameServlet extends HttpServlet {
         String questionId = req.getParameter("questionId");
         String answer = req.getParameter("answer");
         
-        AnswerResponse answerResponse;
+        AnswerResponseDTO answerResponse;
         if (nullOrEmpty(gamerId)) {
             answerResponse = parameterError("gamerId is required");
         } else if (nullOrEmpty(questionId)) {            
@@ -50,7 +50,7 @@ public class GameServlet extends HttpServlet {
             displayGivenCategory(req, resp);
         } else {
             Gson gson = new Gson();
-            List<QuestionCategory> allCategories = questionChecker.allCategories();
+            List<QuestionCategoryDTO> allCategories = questionChecker.allCategories();
             resp.getWriter().append(gson.toJson(allCategories));
         }
     }
@@ -70,19 +70,19 @@ public class GameServlet extends HttpServlet {
             return;
         }
         Gson gson = new Gson();
-        List<Question> questions = questionChecker.listCategory(categoryId);
+        List<QuestionDTO> questions = questionChecker.listCategory(categoryId);
         resp.getWriter().append(gson.toJson(questions));
     }
 
     private void writeResponse(HttpServletResponse resp,
-            AnswerResponse answerResponse) throws IOException {
+            AnswerResponseDTO answerResponse) throws IOException {
         Gson gson = new Gson();
         String response = gson.toJson(answerResponse);
         resp.getWriter().append(response);
     }
 
-    private AnswerResponse parameterError(String message) {
-        return AnswerResponse.create(AnswerStatus.MISSING_PARAMETER).withDescription(message);
+    private AnswerResponseDTO parameterError(String message) {
+        return AnswerResponseDTO.create(AnswerStatus.MISSING_PARAMETER).withDescription(message);
     }
 
     private boolean nullOrEmpty(String value) {
