@@ -1,4 +1,4 @@
-package no.anderska.wta;
+package no.anderska.wta.servlet;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Matchers.anyString;
@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import no.anderska.wta.dto.AnswerResponse;
 import no.anderska.wta.dto.AnswerResponse.AnswerStatus;
+import no.anderska.wta.servlet.GameServlet;
+import no.anderska.wta.servlet.QuestionChecker;
 
 import org.junit.Before;
 import org.junit.Test;

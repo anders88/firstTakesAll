@@ -1,4 +1,4 @@
-package no.anderska.wta;
+package no.anderska.wta.servlet;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Matchers.anyString;
@@ -13,6 +13,9 @@ import java.io.StringWriter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import no.anderska.wta.servlet.PlayerHandler;
+import no.anderska.wta.servlet.PlayerServlet;
 
 import org.dom4j.DocumentHelper;
 import org.junit.Before;
