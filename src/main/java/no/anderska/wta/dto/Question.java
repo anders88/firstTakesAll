@@ -2,7 +2,7 @@ package no.anderska.wta.dto;
 
 public class Question {
     
-    private long id;
+    private int id;
     private String text;
     private long point;
     private boolean answered;
@@ -10,7 +10,7 @@ public class Question {
     public static class QuestionFactory {
         private Question question = new Question();
         
-        public QuestionFactory withId(long id) {
+        public QuestionFactory withId(int id) {
             question.id = id;
             return this;
         }
@@ -43,7 +43,7 @@ public class Question {
     private Question() {
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 

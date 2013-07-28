@@ -12,5 +12,5 @@ public interface QuestionChecker {
 
     List<QuestionCategory> allCategories();
 
-    List<Question> listCategory(long categoryId);
+    List<Question> listCategory(int categoryId);
 }

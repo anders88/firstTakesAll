@@ -48,7 +48,7 @@ public class GameServlet extends HttpServlet {
         Gson gson = new Gson();
 
         if ("/category".equals(req.getPathInfo())) {
-            Long categoryId = Long.parseLong(req.getParameter("id"));
+            Integer categoryId = Integer.parseInt(req.getParameter("id"));
             List<Question> questions = questionChecker.listCategory(categoryId);
             resp.getWriter().append(gson.toJson(questions));
             return;

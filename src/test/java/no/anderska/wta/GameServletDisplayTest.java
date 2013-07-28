@@ -1,7 +1,7 @@
 package no.anderska.wta;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -34,7 +34,7 @@ public class GameServletDisplayTest {
     @Test
     public void shouldDisplayQuestionCategories() throws Exception {
     	when(req.getPathInfo()).thenReturn("/");
-        when(questionChecker.allCategories()).thenReturn(Arrays.asList(QuestionCategory.create(1L, "one"),QuestionCategory.create(2L, "two")));
+        when(questionChecker.allCategories()).thenReturn(Arrays.asList(QuestionCategory.create(1, "one"),QuestionCategory.create(2, "two")));
 
         servlet.service(req, resp);
         
@@ -54,11 +54,11 @@ public class GameServletDisplayTest {
         
         Question expected = Question.factory().withId(1).withText("What is the meaning of life?").withPoint(42).withAnswered(false).create();
         
-        when(questionChecker.listCategory(anyLong())).thenReturn(Arrays.asList(expected));
+        when(questionChecker.listCategory(anyInt())).thenReturn(Arrays.asList(expected));
         
         servlet.service(req, resp);
         
-        verify(questionChecker).listCategory(2L);
+        verify(questionChecker).listCategory(2);
         
         
         Gson gson = new Gson();
