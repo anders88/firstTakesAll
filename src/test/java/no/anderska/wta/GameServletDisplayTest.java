@@ -3,6 +3,7 @@ package no.anderska.wta;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -73,6 +74,27 @@ public class GameServletDisplayTest {
         assertThat(actual.getText()).isEqualTo(expected.getText());
         assertThat(actual.getPoint()).isEqualTo(expected.getPoint());
         assertThat(actual.isAnswered()).isEqualTo(expected.isAnswered());
+    }
+    
+    @Test
+    public void shouldGiveErrorWhenMissingCategoryId() throws Exception {
+        when(req.getPathInfo()).thenReturn("/category");
+        
+        servlet.service(req, resp);
+        
+        verify(resp).sendError(HttpServletResponse.SC_BAD_REQUEST,"Missing parameter id");
+        verify(questionChecker,never()).listCategory(anyInt());
+    }
+    
+    @Test
+    public void shouldGiveErrorWhenIllegalCategoryId() throws Exception {
+        when(req.getPathInfo()).thenReturn("/category");
+        when(req.getParameter("id")).thenReturn("x");
+        
+        servlet.service(req, resp);
+        
+        verify(resp).sendError(HttpServletResponse.SC_BAD_REQUEST,"Illegal category id");
+        verify(questionChecker,never()).listCategory(anyInt());
     }
     
     @Before

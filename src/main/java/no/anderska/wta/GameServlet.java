@@ -45,17 +45,33 @@ public class GameServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
     		throws ServletException, IOException {
-        Gson gson = new Gson();
 
         if ("/category".equals(req.getPathInfo())) {
-            Integer categoryId = Integer.parseInt(req.getParameter("id"));
-            List<Question> questions = questionChecker.listCategory(categoryId);
-            resp.getWriter().append(gson.toJson(questions));
+            displayGivenCategory(req, resp);
+        } else {
+            Gson gson = new Gson();
+            List<QuestionCategory> allCategories = questionChecker.allCategories();
+            resp.getWriter().append(gson.toJson(allCategories));
+        }
+    }
+
+    private void displayGivenCategory(HttpServletRequest req,
+            HttpServletResponse resp) throws IOException {
+        String givenId = req.getParameter("id");
+        if (givenId == null) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"Missing parameter id");
             return;
         }
-    	
-        List<QuestionCategory> allCategories = questionChecker.allCategories();
-    	resp.getWriter().append(gson.toJson(allCategories));
+        Integer categoryId;
+        try {
+            categoryId = Integer.parseInt(givenId);
+        } catch (NumberFormatException e) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"Illegal category id");
+            return;
+        }
+        Gson gson = new Gson();
+        List<Question> questions = questionChecker.listCategory(categoryId);
+        resp.getWriter().append(gson.toJson(questions));
     }
 
     private void writeResponse(HttpServletResponse resp,
