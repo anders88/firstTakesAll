@@ -34,6 +34,10 @@ public class AnswerResponseDTO {
         return description;
     }
     
+    public AnswerStatus getAnswerStatus() {
+        return answerStatus;
+    }
+    
     public AnswerResponseDTO withDescription(String description) {
         this.description = description;
         return this;

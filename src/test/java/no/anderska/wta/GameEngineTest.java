@@ -8,6 +8,8 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.List;
 
+import no.anderska.wta.dto.AnswerResponseDTO;
+import no.anderska.wta.dto.AnswerResponseDTO.AnswerStatus;
 import no.anderska.wta.dto.QuestionCategoryDTO;
 import no.anderska.wta.dto.QuestionDTO;
 import no.anderska.wta.servlet.PlayerHandler;
@@ -60,5 +62,20 @@ public class GameEngineTest {
         assertThat(questionsCatTwo).hasSize(1);
         
         assertThat(questionsCatOne.get(0).getId()).isNotEqualTo(questionsCatTwo.get(0).getId());
+    }
+    
+    @Test
+    public void shouldCheckIfCorrectAnswer() {
+        when(dummyQCE.myQuestions()).thenReturn(Arrays.asList(new Question(1,"Question one",10)));
+        
+        GameEngine gameEngine = new GameEngine(Arrays.asList(dummyQCE),playerHandler);
+        QuestionDTO questionDTO = gameEngine.listCategory(gameEngine.allCategories().get(0).getId()).get(0);
+        when(dummyQCE.checkAnswer("3", questionDTO.getId(), "42")).thenReturn(true);
+        
+        AnswerResponseDTO answerResponse = gameEngine.checkAnswer("3", "" + questionDTO.getId(), "42");
+        
+        assertThat(answerResponse.getAnswerStatus()).isEqualTo(AnswerStatus.OK);
+        
+        
     }
 }

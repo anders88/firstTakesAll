@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import no.anderska.wta.dto.AnswerResponseDTO;
+import no.anderska.wta.dto.AnswerResponseDTO.AnswerStatus;
 import no.anderska.wta.dto.QuestionDTO;
 import no.anderska.wta.dto.QuestionCategoryDTO;
 import no.anderska.wta.servlet.PlayerHandler;
@@ -59,7 +60,11 @@ public class GameEngine implements QuestionChecker {
 
     @Override
     public AnswerResponseDTO checkAnswer(String gamerId, String questionId, String answer) {
-        return null;
+        int qid = Integer.parseInt(questionId);
+        QuestionStatus questionStatus = allQuestions.get(qid);
+        boolean result = questionStatus.getEngine().checkAnswer(gamerId, qid, answer);
+        AnswerStatus status = result ? AnswerStatus.OK : AnswerStatus.WRONG;
+        return AnswerResponseDTO.create(status);
     }
 
     @Override
