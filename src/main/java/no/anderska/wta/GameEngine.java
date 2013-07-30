@@ -60,8 +60,16 @@ public class GameEngine implements QuestionChecker {
 
     @Override
     public AnswerResponseDTO checkAnswer(String gamerId, String questionId, String answer) {
-        int qid = Integer.parseInt(questionId);
+        int qid;
+        try {
+            qid = Integer.parseInt(questionId);
+        } catch (NumberFormatException | NullPointerException e) {
+            return AnswerResponseDTO.create(AnswerStatus.MISSING_PARAMETER).withDescription("Unknown question id");
+        }
         QuestionStatus questionStatus = allQuestions.get(qid);
+        if (questionStatus == null) {
+            return AnswerResponseDTO.create(AnswerStatus.MISSING_PARAMETER).withDescription("Unknown question id");            
+        }
         boolean result = questionStatus.getEngine().checkAnswer(gamerId, qid, answer);
         AnswerStatus status = result ? AnswerStatus.OK : AnswerStatus.WRONG;
         return AnswerResponseDTO.create(status);

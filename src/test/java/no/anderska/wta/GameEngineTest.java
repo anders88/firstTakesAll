@@ -1,7 +1,10 @@
 package no.anderska.wta;
 
 import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -75,7 +78,36 @@ public class GameEngineTest {
         AnswerResponseDTO answerResponse = gameEngine.checkAnswer("3", "" + questionDTO.getId(), "42");
         
         assertThat(answerResponse.getAnswerStatus()).isEqualTo(AnswerStatus.OK);
+    }
+    
+    @Test
+    public void shouldHandleUnknownQuestionId() {
+        when(dummyQCE.myQuestions()).thenReturn(Arrays.asList(new Question(1,"Question one",10)));
         
+        GameEngine gameEngine = new GameEngine(Arrays.asList(dummyQCE),playerHandler);
+        
+        AnswerResponseDTO answerResponse = gameEngine.checkAnswer("3", "456", "42");
+        
+        verify(dummyQCE,never()).checkAnswer(anyString(), anyInt(), anyString());
+        
+        assertThat(answerResponse.getAnswerStatus()).isEqualTo(AnswerStatus.MISSING_PARAMETER);
+        assertThat(answerResponse.getDescription()).isEqualTo("Unknown question id");
         
     }
+   
+    @Test
+    public void shouldHandleIllegalQuestionId() {
+        when(dummyQCE.myQuestions()).thenReturn(Arrays.asList(new Question(1,"Question one",10)));
+        
+        GameEngine gameEngine = new GameEngine(Arrays.asList(dummyQCE),playerHandler);
+        
+        AnswerResponseDTO answerResponse = gameEngine.checkAnswer("3", "456x", "42");
+        
+        verify(dummyQCE,never()).checkAnswer(anyString(), anyInt(), anyString());
+        
+        assertThat(answerResponse.getAnswerStatus()).isEqualTo(AnswerStatus.MISSING_PARAMETER);
+        assertThat(answerResponse.getDescription()).isEqualTo("Unknown question id");
+        
+    }
+
 }
