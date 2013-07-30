@@ -66,6 +66,17 @@ public class GameEngine implements QuestionChecker {
         } catch (NumberFormatException | NullPointerException e) {
             return AnswerResponseDTO.create(AnswerStatus.MISSING_PARAMETER).withDescription("Unknown question id");
         }
+        
+        try {
+            long playerId = Long.parseLong(gamerId);
+            if (!playerHandler.playerPlaying(playerId)) {
+                return AnswerResponseDTO.create(AnswerStatus.MISSING_PARAMETER).withDescription("Unknown player id");
+            }
+        } catch (NumberFormatException | NullPointerException e) {
+            return AnswerResponseDTO.create(AnswerStatus.MISSING_PARAMETER).withDescription("Unknown player id");
+        }
+        
+        
         QuestionStatus questionStatus = allQuestions.get(qid);
         if (questionStatus == null) {
             return AnswerResponseDTO.create(AnswerStatus.MISSING_PARAMETER).withDescription("Unknown question id");            
@@ -73,6 +84,9 @@ public class GameEngine implements QuestionChecker {
         boolean correctAnswer = questionStatus.getEngine().checkAnswer(gamerId, qid, answer);
         AnswerStatus status = correctAnswer ? AnswerStatus.OK : AnswerStatus.WRONG;
         int points = questionStatus.getQuestion().getPoints();
+        if (!correctAnswer) {
+            points = points * -1;
+        }
         playerHandler.addPoints(Long.parseLong(gamerId), points);
         return AnswerResponseDTO.create(status);
     }

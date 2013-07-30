@@ -2,6 +2,7 @@ package no.anderska.wta;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -74,6 +75,7 @@ public class GameEngineTest {
         GameEngine gameEngine = new GameEngine(Arrays.asList(dummyQCE),playerHandler);
         QuestionDTO questionDTO = gameEngine.listCategory(gameEngine.allCategories().get(0).getId()).get(0);
         when(dummyQCE.checkAnswer("3", questionDTO.getId(), "42")).thenReturn(true);
+        when(playerHandler.playerPlaying(3)).thenReturn(true);
         
         AnswerResponseDTO answerResponse = gameEngine.checkAnswer("3", "" + questionDTO.getId(), "42");
         
@@ -82,10 +84,26 @@ public class GameEngineTest {
     }
     
     @Test
+    public void shouldHandleWrongAnswer() {
+        when(dummyQCE.myQuestions()).thenReturn(Arrays.asList(new Question(1,"Question one",10)));
+        
+        GameEngine gameEngine = new GameEngine(Arrays.asList(dummyQCE),playerHandler);
+        QuestionDTO questionDTO = gameEngine.listCategory(gameEngine.allCategories().get(0).getId()).get(0);
+        when(dummyQCE.checkAnswer("3", questionDTO.getId(), "42")).thenReturn(false);
+        when(playerHandler.playerPlaying(3)).thenReturn(true);
+        
+        AnswerResponseDTO answerResponse = gameEngine.checkAnswer("3", "" + questionDTO.getId(), "42");
+        
+        assertThat(answerResponse.getAnswerStatus()).isEqualTo(AnswerStatus.WRONG);
+        verify(playerHandler).addPoints(3, -10);
+    }
+    
+    @Test
     public void shouldHandleUnknownQuestionId() {
         when(dummyQCE.myQuestions()).thenReturn(Arrays.asList(new Question(1,"Question one",10)));
         
         GameEngine gameEngine = new GameEngine(Arrays.asList(dummyQCE),playerHandler);
+        when(playerHandler.playerPlaying(3)).thenReturn(true);
         
         AnswerResponseDTO answerResponse = gameEngine.checkAnswer("3", "456", "42");
         
@@ -101,6 +119,7 @@ public class GameEngineTest {
         when(dummyQCE.myQuestions()).thenReturn(Arrays.asList(new Question(1,"Question one",10)));
         
         GameEngine gameEngine = new GameEngine(Arrays.asList(dummyQCE),playerHandler);
+        when(playerHandler.playerPlaying(3)).thenReturn(true);
         
         AnswerResponseDTO answerResponse = gameEngine.checkAnswer("3", "456x", "42");
         
@@ -108,7 +127,22 @@ public class GameEngineTest {
         
         assertThat(answerResponse.getAnswerStatus()).isEqualTo(AnswerStatus.MISSING_PARAMETER);
         assertThat(answerResponse.getDescription()).isEqualTo("Unknown question id");
+    }
+    
+    @Test
+    public void shouldHandleUnknownPlayer() throws Exception {
+when(dummyQCE.myQuestions()).thenReturn(Arrays.asList(new Question(1,"Question one",10)));
         
+        GameEngine gameEngine = new GameEngine(Arrays.asList(dummyQCE),playerHandler);
+        when(playerHandler.playerPlaying(3)).thenReturn(false);
+
+        QuestionDTO questionDTO = gameEngine.listCategory(gameEngine.allCategories().get(0).getId()).get(0);
+
+        verify(dummyQCE,never()).checkAnswer(anyString(), anyInt(), anyString());
+        
+        AnswerResponseDTO answerResponse = gameEngine.checkAnswer("3", "" + questionDTO.getId(), "42");
+        assertThat(answerResponse.getAnswerStatus()).isEqualTo(AnswerStatus.MISSING_PARAMETER);
+        assertThat(answerResponse.getDescription()).isEqualTo("Unknown player id");
     }
 
 }
