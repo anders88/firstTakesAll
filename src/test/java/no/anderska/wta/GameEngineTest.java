@@ -78,6 +78,7 @@ public class GameEngineTest {
         AnswerResponseDTO answerResponse = gameEngine.checkAnswer("3", "" + questionDTO.getId(), "42");
         
         assertThat(answerResponse.getAnswerStatus()).isEqualTo(AnswerStatus.OK);
+        verify(playerHandler).addPoints(3, 10);
     }
     
     @Test
