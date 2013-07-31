@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import no.anderska.wta.SetupGame;
 import no.anderska.wta.dto.AnswerResponseDTO;
 import no.anderska.wta.dto.AnswerResponseDTO.AnswerStatus;
 import no.anderska.wta.dto.QuestionDTO;
@@ -91,5 +92,10 @@ public class GameServlet extends HttpServlet {
 
     public void setQuestionChecker(QuestionChecker questionChecker) {
         this.questionChecker = questionChecker;
+    }
+    
+    @Override
+    public void init() throws ServletException {
+    	questionChecker = SetupGame.instance.getGameEngine();
     }
 }

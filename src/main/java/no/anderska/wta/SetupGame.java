@@ -8,7 +8,7 @@ import no.anderska.wta.engines.EchoEngine;
 import no.anderska.wta.servlet.PlayerHandler;
 
 public class SetupGame {
-	public static SetupGame instance = setup();
+	public static final SetupGame instance = setup();
 	
 	private static SetupGame setup() {
 		SetupGame setup = new SetupGame();

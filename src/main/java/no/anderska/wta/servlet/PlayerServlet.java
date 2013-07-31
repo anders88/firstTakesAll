@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import no.anderska.wta.SetupGame;
+
 public class PlayerServlet extends HttpServlet {
 
     private PlayerHandler playerHandler;
@@ -78,6 +80,11 @@ public class PlayerServlet extends HttpServlet {
 
     public void setPlayerHandler(PlayerHandler playerHandler) {
         this.playerHandler = playerHandler;
-        
+    }
+    
+    @Override
+    public void init() throws ServletException {
+    	this.playerHandler = SetupGame.instance.getPlayerHandler();
+    			
     }
 }
