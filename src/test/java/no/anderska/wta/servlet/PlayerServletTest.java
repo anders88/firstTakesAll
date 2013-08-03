@@ -36,7 +36,7 @@ public class PlayerServletTest {
         servlet.service(req, resp);
 
         assertThat(htmlDoc.toString()) //
-            .contains("<form method='POST' action='createGamer.html'") //
+            .contains("<form method='POST' action='player'") //
             .contains("<input type='text' name='gamerName' value=''") //
             .contains("<input type='submit' name='createGamer' value='Create Gamer'") //
             ;

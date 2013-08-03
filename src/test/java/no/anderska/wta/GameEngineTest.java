@@ -69,12 +69,12 @@ public class GameEngineTest {
     
     @Test
     public void shouldCheckIfCorrectAnswer() {
-        when(dummyQCE.myQuestions()).thenReturn(Arrays.asList(new Question(1,"Question one",10)));
+        when(dummyQCE.myQuestions()).thenReturn(Arrays.asList(new Question(54,"Question one",10)));
+        when(dummyQCE.checkAnswer("3", 54, "42")).thenReturn(true);
+        when(playerHandler.playerPlaying(3)).thenReturn(true);
         
         GameEngine gameEngine = new GameEngine(Arrays.asList(dummyQCE),playerHandler);
         QuestionDTO questionDTO = gameEngine.listCategory(gameEngine.allCategories().get(0).getId()).get(0);
-        when(dummyQCE.checkAnswer("3", questionDTO.getId(), "42")).thenReturn(true);
-        when(playerHandler.playerPlaying(3)).thenReturn(true);
         
         AnswerResponseDTO answerResponse = gameEngine.checkAnswer("3", "" + questionDTO.getId(), "42");
         

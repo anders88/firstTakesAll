@@ -27,7 +27,7 @@ public class PlayerServlet extends HttpServlet {
             writer.append("<p style='color: red;'>" + errormessage + "</p>");
         }
         writer
-            .append("<form method='POST' action='createGamer.html'>") //
+            .append("<form method='POST' action='player'>") //
             .append("<input type='text' name='gamerName' value='") //
             .append(nameValue) //
             .append("'/>") //

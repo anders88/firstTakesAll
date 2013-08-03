@@ -81,7 +81,7 @@ public class GameEngine implements QuestionChecker {
         if (questionStatus == null) {
             return AnswerResponseDTO.create(AnswerStatus.MISSING_PARAMETER).withDescription("Unknown question id");            
         }
-        boolean correctAnswer = questionStatus.getEngine().checkAnswer(gamerId, qid, answer);
+        boolean correctAnswer = questionStatus.getEngine().checkAnswer(gamerId, questionStatus.getQuestion().getId(), answer);
         AnswerStatus status = correctAnswer ? AnswerStatus.OK : AnswerStatus.WRONG;
         int points = questionStatus.getQuestion().getPoints();
         if (!correctAnswer) {
