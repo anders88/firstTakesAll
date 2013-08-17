@@ -2,3 +2,5 @@
 .project
 .settings/
 target/
+.idea/
+winner-takes-all.iml
