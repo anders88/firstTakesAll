@@ -5,7 +5,7 @@ import java.util.Map;
 
 import no.anderska.wta.servlet.PlayerHandler;
 
-public class PlayerHandlerMemory implements PlayerHandler {
+public class  PlayerHandlerMemory implements PlayerHandler {
 	private static class Player {
 		@SuppressWarnings("unused")
 		private long id;
