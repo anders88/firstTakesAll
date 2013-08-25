@@ -6,5 +6,13 @@ var urlParam = function(name){
 function QuestionsCtrl($scope,$http) {
     $scope.categoryId = urlParam("id");
 
+    $scope.questions = [];
+
+    $http({method: "GET", url: "game/category?id=" + $scope.categoryId })
+        .success(function(data) {
+            $scope.questions = data;
+        });
+
+
 };
 
