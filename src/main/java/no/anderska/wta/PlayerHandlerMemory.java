@@ -1,8 +1,10 @@
 package no.anderska.wta;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import no.anderska.wta.dto.PlayerDTO;
 import no.anderska.wta.servlet.PlayerHandler;
 
 public class  PlayerHandlerMemory implements PlayerHandler {
@@ -44,5 +46,10 @@ public class  PlayerHandlerMemory implements PlayerHandler {
 	public boolean playerPlaying(long id) {
 		return players.containsKey(id);
 	}
+
+    @Override
+    public List<PlayerDTO> playerList() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 
 }

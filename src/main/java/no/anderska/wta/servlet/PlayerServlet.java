@@ -2,13 +2,16 @@ package no.anderska.wta.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import no.anderska.wta.SetupGame;
+import no.anderska.wta.dto.PlayerDTO;
 
 public class PlayerServlet extends HttpServlet {
 
@@ -17,10 +20,18 @@ public class PlayerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        displayCreatePage(resp,null,"");
+        if ("/info".equals(req.getPathInfo())) {
+            resp.setContentType("text/json");
+            Gson gson = new Gson();
+            List<PlayerDTO> players = playerHandler.playerList();
+            resp.getWriter().append(gson.toJson(players));
+        } else {
+            displayCreatePage(resp,null,"");
+        }
     }
 
     private void displayCreatePage(HttpServletResponse resp, String errormessage, String nameValue) throws IOException {
+        resp.setContentType("text/html");
         PrintWriter writer = resp.getWriter();
         writer.append("<html><body>");
         if (errormessage != null) {

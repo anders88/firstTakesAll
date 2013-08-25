@@ -10,10 +10,16 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import no.anderska.wta.dto.PlayerDTO;
+import no.anderska.wta.dto.QuestionCategoryDTO;
 import no.anderska.wta.servlet.PlayerHandler;
 import no.anderska.wta.servlet.PlayerServlet;
 
@@ -31,7 +37,8 @@ public class PlayerServletTest {
     @Test
     public void shouldDisplayCreatePlayerPage() throws Exception {
         when(req.getMethod()).thenReturn("GET");
-        
+        when(req.getPathInfo()).thenReturn("/");
+
         
         servlet.service(req, resp);
 
@@ -41,9 +48,30 @@ public class PlayerServletTest {
             .contains("<input type='submit' name='createGamer' value='Create Gamer'") //
             ;
 
+        verify(resp).setContentType("text/html");
         DocumentHelper.parseText(htmlDoc.toString());
     }
-    
+
+    @Test
+    public void shouldDisplayPlayerList() throws Exception {
+        when(req.getMethod()).thenReturn("GET");
+        when(req.getPathInfo()).thenReturn("/info");
+
+        when(playerHandler.playerList()).thenReturn(Arrays.asList(new PlayerDTO("PlayerOne",10),new PlayerDTO("PlayerTwo",20)));
+
+        servlet.service(req, resp);
+
+        verify(resp).setContentType("text/json");
+
+        Gson gson = new Gson();
+
+        List<PlayerDTO> players = gson.fromJson(htmlDoc.toString(), new TypeToken<List<PlayerDTO>>() {}.getType());
+
+        assertThat(players).hasSize(2);
+
+    }
+
+
     @Test
     public void shouldAddPlayer() throws Exception {
         when(req.getParameter("gamerName")).thenReturn("Gamers");
@@ -98,7 +126,9 @@ public class PlayerServletTest {
         
     }
 
-    @Before
+
+
+        @Before
     public void setup() throws IOException {
         servlet.setPlayerHandler(playerHandler);
         when(resp.getWriter()).thenReturn(new PrintWriter(htmlDoc));
