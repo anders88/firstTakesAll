@@ -1,8 +1,6 @@
 package no.anderska.wta;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import no.anderska.wta.dto.PlayerDTO;
 import no.anderska.wta.servlet.PlayerHandler;
@@ -49,7 +47,11 @@ public class  PlayerHandlerMemory implements PlayerHandler {
 
     @Override
     public List<PlayerDTO> playerList() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        List<PlayerDTO> result = new ArrayList<>();
+        for (Player player : players.values()) {
+            result.add(new PlayerDTO(player.name,player.points));
+        }
+        return result;
     }
 
 }
