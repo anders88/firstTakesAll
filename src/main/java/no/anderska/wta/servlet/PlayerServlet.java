@@ -20,7 +20,7 @@ public class PlayerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        if ("/info".equals(req.getPathInfo())) {
+        if ("/list".equals(req.getPathInfo())) {
             resp.setContentType("text/json");
             Gson gson = new Gson();
             List<PlayerDTO> players = playerHandler.playerList();
@@ -60,7 +60,7 @@ public class PlayerServlet extends HttpServlet {
             writer //
                 .append("<html><body>") //
                 .append("<p>Welcome " + gamerName + " you have id " + playerId + "</p>") //
-                .append("<p><a href='index.html'>To main</a></p>") //
+                .append("<p><a href='../'>To main</a></p>") //
                 .append("</body></html>") //
                 ;
         } else {

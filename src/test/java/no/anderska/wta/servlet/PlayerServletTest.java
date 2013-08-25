@@ -55,7 +55,7 @@ public class PlayerServletTest {
     @Test
     public void shouldDisplayPlayerList() throws Exception {
         when(req.getMethod()).thenReturn("GET");
-        when(req.getPathInfo()).thenReturn("/info");
+        when(req.getPathInfo()).thenReturn("/list");
 
         when(playerHandler.playerList()).thenReturn(Arrays.asList(new PlayerDTO("PlayerOne",10),new PlayerDTO("PlayerTwo",20)));
 
@@ -82,7 +82,7 @@ public class PlayerServletTest {
         
         verify(resp).setContentType("text/html");
         verify(playerHandler).createPlayer("Gamers");
-        
+
         assertThat(htmlDoc.toString()) //
             .contains("Welcome Gamers you have id 42")
             .contains("<a href='index.html'>To main</a>")
