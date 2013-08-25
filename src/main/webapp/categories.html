@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html ng-app>
 <head>
     <title>Categories</title>
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <script src="js/angular.min.js"></script>
+    <script src="js/categoriesCtrl.js"></script>
 </head>
-<body>
-   <h1>Categories</h1>
+<body ng-controller="CategoriesCtrl">
+    <div class="offset2">
+        <h1>Categories</h1>
+        <ul>
+            <li ng-repeat="category in categories">{{ category.id }} - {{ category.description }}</li>
+        </ul>
+    </div>
 </body>
 </html>
