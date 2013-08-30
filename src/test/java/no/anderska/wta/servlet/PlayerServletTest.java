@@ -25,6 +25,7 @@ import no.anderska.wta.servlet.PlayerServlet;
 
 import org.dom4j.DocumentHelper;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class PlayerServletTest {
@@ -73,6 +74,7 @@ public class PlayerServletTest {
 
 
     @Test
+    @Ignore
     public void shouldAddPlayer() throws Exception {
         when(req.getParameter("gamerName")).thenReturn("Gamers");
         when(req.getMethod()).thenReturn("POST");
