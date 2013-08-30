@@ -4,13 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
 
-import no.anderska.wta.Question;
-import no.anderska.wta.QuestionCategoryEngine;
-
-public class AdditionEngine implements QuestionCategoryEngine {
+public class AdditionEngine {
 
 	private static class SumQuestion {
 		private List<Integer> factors;
@@ -47,40 +43,11 @@ public class AdditionEngine implements QuestionCategoryEngine {
 		
 	}
 
-	@Override
-	public boolean checkAnswer(String gamerId, int questionId, String answer) {
-		SumQuestion sumQuestion = questions.get(questionId);
-		if (sumQuestion == null) {
-			return false;
-		}
-		int sum=0;
-		for (Integer value : sumQuestion.getFactors()) {
-			sum+=value;
-		}
-		String sumstr = "" + sum;
-		return sumstr.equals(answer);
-	}
 
-	@Override
 	public String getDescription() {
 		return "The answer is the sum. Question: '4+2+7', Correct answer '13'";
 	}
 
-	@Override
-	public List<Question> myQuestions() {
-		List<Question> questionList = new ArrayList<>();
-		for (Entry<Integer, SumQuestion> entry : questions.entrySet()) {
-			StringBuilder text = new StringBuilder();
-			List<Integer> factors = entry.getValue().getFactors();
-			for (Integer value : factors) {
-				if (!text.toString().isEmpty()) {
-					text.append("+");
-				}
-				text.append(value);
-			}
-			questionList.add(new Question(entry.getKey(), text.toString(), 2));
-		}
-		return questionList;
-	}
+
 
 }

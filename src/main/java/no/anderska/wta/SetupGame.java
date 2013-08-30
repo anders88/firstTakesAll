@@ -16,21 +16,13 @@ public class SetupGame {
 	}
 	
 	private PlayerHandler playerHandler = new PlayerHandlerMemory();
-	private GameEngine gameEngine;
 
 	private SetupGame() {
-		List<QuestionCategoryEngine> categories = Arrays.asList(
-				new EchoEngine(10),new AdditionEngine(20, 4)
-				);
-		gameEngine = new GameEngine(categories, playerHandler);
 	}
 	
 	public PlayerHandler getPlayerHandler() {
 		return playerHandler;
 	}
 	
-	public GameEngine getGameEngine() {
-		return gameEngine;
-	}
-	
+
 }
