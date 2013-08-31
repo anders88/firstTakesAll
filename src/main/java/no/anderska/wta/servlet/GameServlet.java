@@ -3,7 +3,7 @@ package no.anderska.wta.servlet;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import no.anderska.wta.AnswerStatus;
-import no.anderska.wta.GameHandler;
+import no.anderska.wta.GameHandlerPlayerInterface;
 import no.anderska.wta.QuestionList;
 import no.anderska.wta.dto.PlayerAnswerDto;
 
@@ -18,7 +18,7 @@ import java.io.PrintWriter;
 public class GameServlet extends HttpServlet {
 
 
-    private GameHandler gameHandler;
+    private GameHandlerPlayerInterface gameHandlerPlayerInterface;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -34,7 +34,7 @@ public class GameServlet extends HttpServlet {
             return;
         }
 
-        AnswerStatus answer = gameHandler.answer(playerAnswerDto.getPlayerId(), playerAnswerDto.getAnswers());
+        AnswerStatus answer = gameHandlerPlayerInterface.answer(playerAnswerDto.getPlayerId(), playerAnswerDto.getAnswers());
 
         answer(resp, answer);
     }
@@ -71,7 +71,7 @@ public class GameServlet extends HttpServlet {
 
         resp.setContentType("text/json");
 
-        QuestionList questionList = gameHandler.questions(playerid, category);
+        QuestionList questionList = gameHandlerPlayerInterface.questions(playerid, category);
 
         if (questionList.isOk()) {
             resp.getWriter().append(new Gson().toJson(questionList.getQuestions()));
@@ -89,7 +89,7 @@ public class GameServlet extends HttpServlet {
     public void init() throws ServletException {
     }
 
-    public void setGameHandler(GameHandler gameHandler) {
-        this.gameHandler = gameHandler;
+    public void setGameHandlerPlayerInterface(GameHandlerPlayerInterface gameHandlerPlayerInterface) {
+        this.gameHandlerPlayerInterface = gameHandlerPlayerInterface;
     }
 }

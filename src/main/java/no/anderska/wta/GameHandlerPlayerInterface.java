@@ -2,7 +2,7 @@ package no.anderska.wta;
 
 import java.util.List;
 
-public interface GameHandler {
+public interface GameHandlerPlayerInterface {
 
     public AnswerStatus answer(String playerid,List<String> answers);
 
