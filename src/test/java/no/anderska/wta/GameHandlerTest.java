@@ -43,6 +43,17 @@ public class GameHandlerTest {
         verify(engine,never()).generateQuestions(anyString());
         assertThat(questions.isOk()).isFalse();
         assertThat(questions.getErrormessage()).isEqualTo("Unknown player 'playerone'");
+    }
+
+    @Test
+    public void shouldGiveErrorOnWrongCategory() throws Exception {
+        when(playerHandler.playerPlaying(anyString())).thenReturn(true);
+
+        QuestionList questions = gameHandler.questions("playerone", "two");
+
+        verify(engine,never()).generateQuestions(anyString());
+        assertThat(questions.isOk()).isFalse();
+        assertThat(questions.getErrormessage()).isEqualTo("Unknown category 'two'");
 
     }
 

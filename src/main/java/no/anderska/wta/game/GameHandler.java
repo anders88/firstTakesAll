@@ -23,7 +23,11 @@ public class GameHandler implements GameHandlerPlayerInterface {
         if (!playerHandler.playerPlaying(playerid)) {
             return QuestionList.error("Unknown player '" + playerid + "'");
         }
-        List<Question> questions = engines.get(categoryid).generateQuestions(playerid);
+        Engine engine = engines.get(categoryid);
+        if (engine == null) {
+            return QuestionList.error("Unknown category '" + categoryid + "'");
+        }
+        List<Question> questions = engine.generateQuestions(playerid);
         List<String> questionList = new ArrayList<>();
 
         for (Question question : questions) {
