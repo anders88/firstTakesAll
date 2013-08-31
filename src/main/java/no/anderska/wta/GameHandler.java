@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface GameHandler {
 
-    public boolean answer(String playerid,List<String> answers);
+    public AnswerStatus answer(String playerid,List<String> answers);
 }
