@@ -2,8 +2,10 @@ package no.anderska.wta.servlet;
 
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import no.anderska.wta.AnswerStatus;
 import no.anderska.wta.GameHandler;
+import no.anderska.wta.QuestionList;
 import no.anderska.wta.dto.PlayerAnswerDto;
 import org.junit.Before;
 import org.junit.Test;
@@ -63,6 +65,29 @@ public class GameServletTest {
 
         assertThat(htmlSource.toString()).isEqualTo("{\"status\" : \"ERROR\"}");
         verify(gameHandler,never()).answer(anyString(),anyList());
+    }
+
+    @Test
+    public void shouldGiveQuestions() throws Exception {
+        when(req.getMethod()).thenReturn("GET");
+        when(req.getParameter("playerid")).thenReturn("playerone");
+        when(req.getParameter("category")).thenReturn("catid");
+
+        when(gameHandler.questions(anyString(),anyString())).thenReturn(new QuestionList(Arrays.asList("q1", "q2", "q3")));
+
+
+        servlet.service(req, resp);
+
+        verify(gameHandler).questions("playerone","catid");
+        verify(resp).setStatus(HttpServletResponse.SC_OK);
+        verify(resp).setContentType("text/json");
+
+        Gson gson = new Gson();
+
+        List<String> answers = gson.fromJson(htmlSource.toString(), new TypeToken<List<String>>() {}.getType());
+
+        assertThat(answers).containsExactly("q1","q2","q3");
+
     }
 
     @Before

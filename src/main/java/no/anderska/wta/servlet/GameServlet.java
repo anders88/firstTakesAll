@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import no.anderska.wta.AnswerStatus;
 import no.anderska.wta.GameHandler;
+import no.anderska.wta.QuestionList;
 import no.anderska.wta.dto.PlayerAnswerDto;
 
 import javax.servlet.ServletException;
@@ -55,6 +56,16 @@ public class GameServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
     		throws ServletException, IOException {
+        String playerid = req.getParameter("playerid");
+        String category = req.getParameter("category");
+
+        resp.setContentType("text/json");
+
+        QuestionList questionList = gameHandler.questions(playerid, category);
+
+        resp.getWriter().append(new Gson().toJson(questionList.getQuestions()));
+
+        resp.setStatus(HttpServletResponse.SC_OK);
 
     }
 
