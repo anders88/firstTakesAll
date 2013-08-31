@@ -87,7 +87,17 @@ public class GameServletTest {
         List<String> answers = gson.fromJson(htmlSource.toString(), new TypeToken<List<String>>() {}.getType());
 
         assertThat(answers).containsExactly("q1","q2","q3");
+    }
 
+    @Test
+    public void shouldGiveErrorOnMissingParameters() throws Exception {
+        when(req.getMethod()).thenReturn("GET");
+        when(req.getParameter("playerid")).thenReturn("playerone");
+
+        servlet.service(req, resp);
+
+        verify(gameHandler,never()).questions(anyString(),anyString());
+        verify(resp).sendError(HttpServletResponse.SC_BAD_REQUEST,"Missing parameter category");
     }
 
     @Before

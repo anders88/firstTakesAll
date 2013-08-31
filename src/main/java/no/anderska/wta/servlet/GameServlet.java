@@ -59,6 +59,16 @@ public class GameServlet extends HttpServlet {
         String playerid = req.getParameter("playerid");
         String category = req.getParameter("category");
 
+        if (category == null) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"Missing parameter category");
+            return;
+        }
+
+        if (playerid == null) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"Missing parameter playerid");
+            return;
+        }
+
         resp.setContentType("text/json");
 
         QuestionList questionList = gameHandler.questions(playerid, category);
