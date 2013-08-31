@@ -20,7 +20,9 @@ public class GameHandler implements GameHandlerPlayerInterface {
 
     @Override
     public QuestionList questions(String playerid, String categoryid) {
-        playerHandler.playerPlaying(playerid);
+        if (!playerHandler.playerPlaying(playerid)) {
+            return new QuestionList("Unknown player '" + playerid + "'");
+        }
         List<Question> questions = engines.get(categoryid).generateQuestions(playerid);
         List<String> questionList = new ArrayList<>();
 
