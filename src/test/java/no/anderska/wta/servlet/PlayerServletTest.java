@@ -74,7 +74,6 @@ public class PlayerServletTest {
 
 
     @Test
-    @Ignore
     public void shouldAddPlayer() throws Exception {
         when(req.getParameter("gamerName")).thenReturn("Gamers");
         when(req.getMethod()).thenReturn("POST");
@@ -87,7 +86,7 @@ public class PlayerServletTest {
 
         assertThat(htmlDoc.toString()) //
             .contains("Welcome Gamers you have id 42")
-            .contains("<a href='index.html'>To main</a>")
+            .contains("<a href='../'>To main</a>")
         ;
         DocumentHelper.parseText(htmlDoc.toString());
     }
