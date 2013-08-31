@@ -73,9 +73,12 @@ public class GameServlet extends HttpServlet {
 
         QuestionList questionList = gameHandler.questions(playerid, category);
 
-        resp.getWriter().append(new Gson().toJson(questionList.getQuestions()));
-
-        resp.setStatus(HttpServletResponse.SC_OK);
+        if (questionList.isOk()) {
+            resp.getWriter().append(new Gson().toJson(questionList.getQuestions()));
+            resp.setStatus(HttpServletResponse.SC_OK);
+        } else {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST,questionList.getErrormessage());
+        }
 
     }
 

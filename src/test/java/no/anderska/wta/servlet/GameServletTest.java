@@ -100,6 +100,20 @@ public class GameServletTest {
         verify(resp).sendError(HttpServletResponse.SC_BAD_REQUEST,"Missing parameter category");
     }
 
+    @Test
+    public void shouldGiveErrorWhenHandlerSaysSo() throws Exception {
+        when(req.getMethod()).thenReturn("GET");
+        when(req.getParameter("playerid")).thenReturn("playerone");
+        when(req.getParameter("category")).thenReturn("catid");
+
+        when(gameHandler.questions(anyString(),anyString())).thenReturn(new QuestionList("Unknown playerid"));
+
+        servlet.service(req, resp);
+
+        verify(resp).sendError(HttpServletResponse.SC_BAD_REQUEST,"Unknown playerid");
+
+    }
+
     @Before
     public void setup() throws IOException {
         when(resp.getWriter()).thenReturn(new PrintWriter(htmlSource));
