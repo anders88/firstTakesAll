@@ -54,6 +54,19 @@ public class GameHandlerTest {
         verify(engine,never()).generateQuestions(anyString());
         assertThat(questions.isOk()).isFalse();
         assertThat(questions.getErrormessage()).isEqualTo("Unknown category 'two'");
+    }
+
+    @Test
+    public void shouldHandleCorrectAnswer() throws Exception {
+        when(playerHandler.playerPlaying(anyString())).thenReturn(true);
+
+        when(engine.generateQuestions(anyString())).thenReturn(Arrays.asList(new Question("one", "factone"), new Question("two", "facttwo")));
+
+        gameHandler.questions("playerone", "one");
+
+        AnswerStatus answerStatus = gameHandler.answer("playerone", Arrays.asList("factone", "facttwo"));
+
+        assertThat(answerStatus).isEqualTo(AnswerStatus.OK);
 
     }
 

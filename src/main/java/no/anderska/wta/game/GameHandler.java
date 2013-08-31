@@ -6,16 +6,18 @@ import no.anderska.wta.QuestionList;
 import no.anderska.wta.servlet.PlayerHandler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class GameHandler implements GameHandlerPlayerInterface {
     private PlayerHandler playerHandler;
     private Map<String,Engine> engines;
+    private Map<String,QuestionSet> askedQuestions = new HashMap<>();
 
     @Override
     public AnswerStatus answer(String playerid, List<String> answers) {
-        return null;
+        return askedQuestions.get(playerid).validateAnswer(answers);
     }
 
     @Override
@@ -33,6 +35,8 @@ public class GameHandler implements GameHandlerPlayerInterface {
         for (Question question : questions) {
             questionList.add(question.getQuestion());
         }
+
+        askedQuestions.put(playerid,new QuestionSet(questions));
 
         return QuestionList.create(questionList);
     }
