@@ -72,7 +72,7 @@ public class GameServletTest {
         when(req.getParameter("playerid")).thenReturn("playerone");
         when(req.getParameter("category")).thenReturn("catid");
 
-        when(gameHandlerPlayerInterface.questions(anyString(),anyString())).thenReturn(new QuestionList(Arrays.asList("q1", "q2", "q3")));
+        when(gameHandlerPlayerInterface.questions(anyString(),anyString())).thenReturn(QuestionList.create(Arrays.asList("q1", "q2", "q3")));
 
 
         servlet.service(req, resp);
@@ -105,7 +105,7 @@ public class GameServletTest {
         when(req.getParameter("playerid")).thenReturn("playerone");
         when(req.getParameter("category")).thenReturn("catid");
 
-        when(gameHandlerPlayerInterface.questions(anyString(),anyString())).thenReturn(new QuestionList("Unknown playerid"));
+        when(gameHandlerPlayerInterface.questions(anyString(),anyString())).thenReturn(QuestionList.error("Unknown playerid"));
 
         servlet.service(req, resp);
 

@@ -21,7 +21,7 @@ public class GameHandler implements GameHandlerPlayerInterface {
     @Override
     public QuestionList questions(String playerid, String categoryid) {
         if (!playerHandler.playerPlaying(playerid)) {
-            return new QuestionList("Unknown player '" + playerid + "'");
+            return QuestionList.error("Unknown player '" + playerid + "'");
         }
         List<Question> questions = engines.get(categoryid).generateQuestions(playerid);
         List<String> questionList = new ArrayList<>();
@@ -30,7 +30,7 @@ public class GameHandler implements GameHandlerPlayerInterface {
             questionList.add(question.getQuestion());
         }
 
-        return new QuestionList(questionList);
+        return QuestionList.create(questionList);
     }
 
     public void setPlayerHandler(PlayerHandler playerHandler) {

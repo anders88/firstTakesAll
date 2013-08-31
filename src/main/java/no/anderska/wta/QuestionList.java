@@ -6,11 +6,19 @@ public class QuestionList {
     private List<String> questions;
     private String errormessage;
 
-    public QuestionList(List<String> questions) {
+    public static QuestionList create(List<String> questions)  {
+        return new QuestionList(questions);
+    }
+
+    public static QuestionList error(String errormessage) {
+        return new QuestionList(errormessage);
+    }
+
+    private QuestionList(List<String> questions) {
         this.questions = questions;
     }
 
-    public  QuestionList(String errormessage) {
+    private QuestionList(String errormessage) {
         this.errormessage = errormessage;
     }
 
