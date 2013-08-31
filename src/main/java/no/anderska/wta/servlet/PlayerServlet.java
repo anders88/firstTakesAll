@@ -55,7 +55,7 @@ public class PlayerServlet extends HttpServlet {
         String gamerName = req.getParameter("gamerName");
         String errormessage = validateName(gamerName);
         if (errormessage == null) {
-            long playerId = playerHandler.createPlayer(gamerName);
+            String playerId = playerHandler.createPlayer(gamerName);
             PrintWriter writer = resp.getWriter();
             writer //
                 .append("<html><body>") //

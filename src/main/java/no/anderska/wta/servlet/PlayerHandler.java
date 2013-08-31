@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface PlayerHandler {
 
-    long createPlayer(String name);
-    void addPoints(long id, int points);
-    boolean playerPlaying(long id);
+    String createPlayer(String name);
+    void addPoints(String id, int points);
+    boolean playerPlaying(String id);
     List<PlayerDTO> playerList();
 
 }

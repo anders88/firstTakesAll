@@ -77,7 +77,7 @@ public class PlayerServletTest {
     public void shouldAddPlayer() throws Exception {
         when(req.getParameter("gamerName")).thenReturn("Gamers");
         when(req.getMethod()).thenReturn("POST");
-        when(playerHandler.createPlayer(anyString())).thenReturn(42L);
+        when(playerHandler.createPlayer(anyString())).thenReturn("42");
         
         servlet.service(req, resp);
         
