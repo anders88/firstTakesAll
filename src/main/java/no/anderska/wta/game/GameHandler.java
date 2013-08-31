@@ -5,6 +5,7 @@ import no.anderska.wta.GameHandlerPlayerInterface;
 import no.anderska.wta.QuestionList;
 import no.anderska.wta.servlet.PlayerHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,8 +21,14 @@ public class GameHandler implements GameHandlerPlayerInterface {
     @Override
     public QuestionList questions(String playerid, String categoryid) {
         playerHandler.playerPlaying(playerid);
-        engines.get(categoryid).generateQuestions(playerid);
-        return null;
+        List<Question> questions = engines.get(categoryid).generateQuestions(playerid);
+        List<String> questionList = new ArrayList<>();
+
+        for (Question question : questions) {
+            questionList.add(question.getQuestion());
+        }
+
+        return new QuestionList(questionList);
     }
 
     public void setPlayerHandler(PlayerHandler playerHandler) {
