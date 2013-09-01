@@ -1,6 +1,7 @@
 package no.anderska.wta.servlet;
 
 import com.google.gson.Gson;
+import no.anderska.wta.SetupGame;
 import no.anderska.wta.StatusGiver;
 import no.anderska.wta.dto.CategoryDTO;
 
@@ -25,5 +26,10 @@ public class StatusServlet extends HttpServlet {
 
         resp.setContentType("text/json");
         resp.getWriter().append(gson.toJson(categories));
+    }
+
+    @Override
+    public void init() throws ServletException {
+        this.statusGiver = SetupGame.instance().getGameHandler();
     }
 }

@@ -5,6 +5,7 @@ import com.google.gson.JsonSyntaxException;
 import no.anderska.wta.AnswerStatus;
 import no.anderska.wta.GameHandlerPlayerInterface;
 import no.anderska.wta.QuestionList;
+import no.anderska.wta.SetupGame;
 import no.anderska.wta.dto.PlayerAnswerDto;
 
 import javax.servlet.ServletException;
@@ -87,6 +88,7 @@ public class GameServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
+        this.gameHandlerPlayerInterface = SetupGame.instance().getGameHandler();
     }
 
     public void setGameHandlerPlayerInterface(GameHandlerPlayerInterface gameHandlerPlayerInterface) {

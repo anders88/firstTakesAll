@@ -95,7 +95,7 @@ public class PlayerServlet extends HttpServlet {
     
     @Override
     public void init() throws ServletException {
-    	this.playerHandler = SetupGame.instance.getPlayerHandler();
+    	this.playerHandler = SetupGame.instance().getPlayerHandler();
     			
     }
 }
