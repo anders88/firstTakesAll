@@ -26,6 +26,17 @@
 	</servlet-mapping>
 
     <servlet>
+        <servlet-name>statusServlet</servlet-name>
+        <servlet-class>no.anderska.wta.servlet.StatusServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>statusServlet</servlet-name>
+        <url-pattern>/status/*</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
         <!-- Override init parameter to avoid nasty -->
         <!-- file locking issue on windows.         -->
         <servlet-name>default</servlet-name>
