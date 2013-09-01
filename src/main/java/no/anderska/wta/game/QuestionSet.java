@@ -7,10 +7,12 @@ import java.util.List;
 
 public class QuestionSet {
     private List<Question> questions;
+    private Engine engine;
     private DateTime limit;
 
-    public QuestionSet(List<Question> questions) {
+    public QuestionSet(List<Question> questions, Engine engine) {
         this.questions = questions;
+        this.engine = engine;
         this.limit = new DateTime().plusSeconds(8);
     }
 
@@ -32,5 +34,9 @@ public class QuestionSet {
             return AnswerStatus.LATE;
         }
         return AnswerStatus.OK;
+    }
+
+    public Engine getEngine() {
+        return engine;
     }
 }

@@ -79,7 +79,6 @@ public class GameHandlerTest {
         AnswerStatus answerStatus = gameHandler.answer("playerone", Arrays.asList("factone", "facttwo"));
 
         assertThat(answerStatus).isEqualTo(AnswerStatus.ERROR);
-
     }
 
     @Before

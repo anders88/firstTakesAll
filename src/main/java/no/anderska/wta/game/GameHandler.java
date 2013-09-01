@@ -21,7 +21,11 @@ public class GameHandler implements GameHandlerPlayerInterface {
         if (questionSet == null) {
             return AnswerStatus.ERROR;
         }
-        return questionSet.validateAnswer(answers);
+        AnswerStatus answerStatus = questionSet.validateAnswer(answers);
+        if (answerStatus == AnswerStatus.OK) {
+            playerHandler.addPoints(playerid,questionSet.getEngine().points());
+        }
+        return answerStatus;
     }
 
     @Override
@@ -40,7 +44,7 @@ public class GameHandler implements GameHandlerPlayerInterface {
             questionList.add(question.getQuestion());
         }
 
-        askedQuestions.put(playerid,new QuestionSet(questions));
+        askedQuestions.put(playerid,new QuestionSet(questions,engine));
 
         return QuestionList.create(questionList);
     }
@@ -51,5 +55,9 @@ public class GameHandler implements GameHandlerPlayerInterface {
 
     public void setEngines(Map<String, Engine> engines) {
         this.engines = engines;
+    }
+
+    public void setAskedQuestions(Map<String, QuestionSet> askedQuestions) {
+        this.askedQuestions = askedQuestions;
     }
 }
