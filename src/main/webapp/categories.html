@@ -9,20 +9,22 @@
 <body ng-controller="CategoriesCtrl">
     <div class="offset2">
         <h1>Categories</h1>
-        <span class="span9">
+        <span class="span12">
             <table class="table table-striped table-bordered">
                 <thead>
                 <tr>
                     <th>Id</th>
                     <th>Description</th>
-                    <th>Details</th>
+                    <th>Points</th>
+                    <th>Solved by</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="category in categories">
                     <td>{{ category.id }}</td>
-                    <td>{{ category.description }}</td>
-                    <td><a href="questionList.html?id={{ category.id }}">Details</a></td>
+                    <td>{{ category.name }}</td>
+                    <td>{{ category.points }}</td>
+                    <td>{{ category.answeredBy }}</td>
                 </tr>
                 </tbody>
             </table>
