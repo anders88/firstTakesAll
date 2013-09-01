@@ -36,6 +36,7 @@ public class StatusServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         this.statusGiver = SetupGame.instance().getGameHandler();
+        this.playerHandler = SetupGame.instance().getPlayerHandler();
     }
 
     public void setPlayerHandler(PlayerHandler playerHandler) {

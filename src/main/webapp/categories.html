@@ -7,7 +7,26 @@
     <script src="js/categoriesCtrl.js"></script>
 </head>
 <body ng-controller="CategoriesCtrl">
-    <div class="offset2">
+    <div class="row offset2">
+        <h1>Scores</h1>
+        <span class="span6">
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Score</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="player in gameStatus.players">
+                    <td>{{ player.name }}</td>
+                    <td>{{ player.points}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </span>
+    </div>
+    <div class="row offset2">
         <h1>Categories</h1>
         <span class="span12">
             <table class="table table-striped table-bordered">
@@ -20,7 +39,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="category in categories">
+                <tr ng-repeat="category in gameStatus.categories">
                     <td>{{ category.id }}</td>
                     <td>{{ category.name }}</td>
                     <td>{{ category.points }}</td>

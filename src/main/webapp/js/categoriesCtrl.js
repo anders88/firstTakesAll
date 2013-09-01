@@ -1,9 +1,9 @@
 function CategoriesCtrl($scope,$http) {
-    $scope.categories = [];
+    $scope.gameStatus = [];
 
     $http({method: "GET", url: "status"})
         .success(function(data) {
-           $scope.categories = data;
+           $scope.gameStatus = data;
         });
 
 };
