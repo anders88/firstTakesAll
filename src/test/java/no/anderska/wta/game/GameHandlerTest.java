@@ -1,5 +1,7 @@
-package no.anderska.wta;
+package no.anderska.wta.game;
 
+import no.anderska.wta.AnswerStatus;
+import no.anderska.wta.QuestionList;
 import no.anderska.wta.game.Engine;
 import no.anderska.wta.game.GameHandler;
 import no.anderska.wta.game.Question;

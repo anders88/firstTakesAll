@@ -12,6 +12,14 @@ public class QuestionSet {
     }
 
     public AnswerStatus validateAnswer(List<String> answers) {
+        if (answers == null) {
+            return AnswerStatus.ERROR;
+        }
+        for (int i=0;i<answers.size();i++) {
+            if (!questions.get(i).isCorrect(answers.get(i))) {
+                return AnswerStatus.WRONG;
+            }
+        }
         return AnswerStatus.OK;
     }
 }
