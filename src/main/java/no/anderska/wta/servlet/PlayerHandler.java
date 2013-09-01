@@ -10,5 +10,6 @@ public interface PlayerHandler {
     void addPoints(String id, int points);
     boolean playerPlaying(String id);
     List<PlayerDTO> playerList();
+    public String playerName(String playerid);
 
 }

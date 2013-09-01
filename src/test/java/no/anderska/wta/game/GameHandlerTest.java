@@ -2,6 +2,7 @@ package no.anderska.wta.game;
 
 import no.anderska.wta.AnswerStatus;
 import no.anderska.wta.QuestionList;
+import no.anderska.wta.dto.CategoryDTO;
 import no.anderska.wta.game.Engine;
 import no.anderska.wta.game.GameHandler;
 import no.anderska.wta.game.Question;
@@ -11,8 +12,10 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 import static org.fest.assertions.Assertions.*;
 
@@ -73,8 +76,37 @@ public class GameHandlerTest {
     }
 
     @Test
+    public void shouldGiveCorrectStatus() throws Exception {
+        when(playerHandler.playerPlaying(anyString())).thenReturn(true);
+
+        when(engine.generateQuestions(anyString())).thenReturn(Arrays.asList(new Question("one", "factone"), new Question("two", "facttwo")));
+        when(engine.points()).thenReturn(4);
+        when(engine.description()).thenReturn("Category description");
+        when(playerHandler.playerName("playerone")).thenReturn("Player One");
+
+        gameHandler.questions("playerone", "one");
+
+
+        gameHandler.answer("playerone", Arrays.asList("factone", "facttwo"));
+
+        List<CategoryDTO> categoryDTOs = gameHandler.catergoryStatus();
+
+        assertThat(categoryDTOs).hasSize(1);
+
+        CategoryDTO categoryDTO = categoryDTOs.get(0);
+
+        assertThat(categoryDTO.getId()).isEqualTo("one");
+        assertThat(categoryDTO.getName()).isEqualTo("Category description");
+        assertThat(categoryDTO.getAnsweredBy()).isEqualTo("Player One");
+
+
+
+    }
+
+    @Test
     public void shouldHandleNoQuestion() throws Exception {
         when(playerHandler.playerPlaying(anyString())).thenReturn(true);
+
 
         AnswerStatus answerStatus = gameHandler.answer("playerone", Arrays.asList("factone", "facttwo"));
 

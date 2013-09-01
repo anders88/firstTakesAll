@@ -54,4 +54,9 @@ public class  PlayerHandlerMemory implements PlayerHandler {
         return result;
     }
 
+    @Override
+    public String playerName(String playerid) {
+        return players.get(playerid).name;
+    }
+
 }

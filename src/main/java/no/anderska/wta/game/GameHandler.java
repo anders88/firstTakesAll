@@ -3,15 +3,17 @@ package no.anderska.wta.game;
 import no.anderska.wta.AnswerStatus;
 import no.anderska.wta.GameHandlerPlayerInterface;
 import no.anderska.wta.QuestionList;
+import no.anderska.wta.StatusGiver;
+import no.anderska.wta.dto.CategoryDTO;
 import no.anderska.wta.servlet.PlayerHandler;
 
 import java.util.*;
 
-public class GameHandler implements GameHandlerPlayerInterface {
+public class GameHandler implements GameHandlerPlayerInterface, StatusGiver {
     private PlayerHandler playerHandler;
     private Map<String,Engine> engines;
     private Map<String,QuestionSet> askedQuestions = new HashMap<>();
-    private Set<String> remainingCategories;
+    private Map<String,String> takenCategories = new HashMap<>();
 
     @Override
     public AnswerStatus answer(String playerid, List<String> answers) {
@@ -21,7 +23,7 @@ public class GameHandler implements GameHandlerPlayerInterface {
         }
         AnswerStatus answerStatus = questionSet.validateAnswer(answers);
         if (answerStatus == AnswerStatus.OK) {
-            boolean gotpoint = claimCategory(questionSet.getCategoryName());
+            boolean gotpoint = claimCategory(questionSet.getCategoryName(),playerid);
             if (gotpoint) {
                 playerHandler.addPoints(playerid,questionSet.getEngine().points());
             }
@@ -29,8 +31,12 @@ public class GameHandler implements GameHandlerPlayerInterface {
         return answerStatus;
     }
 
-    private synchronized boolean claimCategory(String categoryName) {
-        return remainingCategories.remove(categoryName);
+    private synchronized boolean claimCategory(String categoryName,String playerid) {
+        if (takenCategories.containsKey(categoryName)) {
+            return false;
+        }
+        takenCategories.put(categoryName,playerid);
+        return true;
     }
 
     @Override
@@ -60,10 +66,22 @@ public class GameHandler implements GameHandlerPlayerInterface {
 
     public void setEngines(Map<String, Engine> engines) {
         this.engines = engines;
-        this.remainingCategories = new HashSet<>(engines.keySet());
     }
 
     public void setAskedQuestions(Map<String, QuestionSet> askedQuestions) {
         this.askedQuestions = askedQuestions;
+    }
+
+    @Override
+    public List<CategoryDTO> catergoryStatus() {
+        List<CategoryDTO> result = new ArrayList<>();
+        for (Map.Entry<String, Engine> entry : engines.entrySet()) {
+
+            String answeredById = takenCategories.get(entry.getKey());
+            String answeredBy = answeredById != null ? playerHandler.playerName(answeredById) : null;
+            CategoryDTO categoryDTO = new CategoryDTO(entry.getKey(), entry.getValue().description(), entry.getValue().points(), answeredBy);
+            result.add(categoryDTO);
+        }
+        return result;
     }
 }
