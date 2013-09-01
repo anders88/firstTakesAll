@@ -15,6 +15,9 @@ public class QuestionSet {
         if (answers == null) {
             return AnswerStatus.ERROR;
         }
+        if (questions.size() != answers.size()) {
+            return AnswerStatus.WRONG;
+        }
         for (int i=0;i<answers.size();i++) {
             if (!questions.get(i).isCorrect(answers.get(i))) {
                 return AnswerStatus.WRONG;

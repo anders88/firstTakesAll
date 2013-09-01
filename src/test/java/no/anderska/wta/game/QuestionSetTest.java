@@ -14,7 +14,6 @@ public class QuestionSetTest {
 
         AnswerStatus answerStatus = questionSet.validateAnswer(Arrays.asList("factone", "facttwo"));
         assertThat(answerStatus).isEqualTo(AnswerStatus.OK);
-
     }
 
     @Test
@@ -23,6 +22,14 @@ public class QuestionSetTest {
 
         AnswerStatus answerStatus = questionSet.validateAnswer(Arrays.asList("factone", "wrong"));
         assertThat(answerStatus).isEqualTo(AnswerStatus.WRONG);
-
     }
+
+    @Test
+    public void shouldHandleWrongNumberOfAnswers() throws Exception {
+        QuestionSet questionSet = new QuestionSet(Arrays.asList(new Question("one","factone"),new Question("two","facttwo")));
+
+        AnswerStatus answerStatus = questionSet.validateAnswer(Arrays.asList("factone", "facttwo","factthree"));
+        assertThat(answerStatus).isEqualTo(AnswerStatus.WRONG);
+    }
+
 }
