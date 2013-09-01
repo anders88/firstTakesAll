@@ -70,6 +70,16 @@ public class GameHandlerTest {
 
     }
 
+    @Test
+    public void shouldHandleNoQuestion() throws Exception {
+        when(playerHandler.playerPlaying(anyString())).thenReturn(true);
+
+        AnswerStatus answerStatus = gameHandler.answer("playerone", Arrays.asList("factone", "facttwo"));
+
+        assertThat(answerStatus).isEqualTo(AnswerStatus.ERROR);
+
+    }
+
     @Before
     public void setup() {
         gameHandler.setPlayerHandler(playerHandler);

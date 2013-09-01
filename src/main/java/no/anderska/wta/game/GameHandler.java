@@ -17,7 +17,11 @@ public class GameHandler implements GameHandlerPlayerInterface {
 
     @Override
     public AnswerStatus answer(String playerid, List<String> answers) {
-        return askedQuestions.get(playerid).validateAnswer(answers);
+        QuestionSet questionSet = askedQuestions.get(playerid);
+        if (questionSet == null) {
+            return AnswerStatus.ERROR;
+        }
+        return questionSet.validateAnswer(answers);
     }
 
     @Override
