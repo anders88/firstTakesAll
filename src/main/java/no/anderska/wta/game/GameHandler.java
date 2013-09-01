@@ -5,15 +5,13 @@ import no.anderska.wta.GameHandlerPlayerInterface;
 import no.anderska.wta.QuestionList;
 import no.anderska.wta.servlet.PlayerHandler;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GameHandler implements GameHandlerPlayerInterface {
     private PlayerHandler playerHandler;
     private Map<String,Engine> engines;
     private Map<String,QuestionSet> askedQuestions = new HashMap<>();
+    private Set<String> remainingCategories;
 
     @Override
     public AnswerStatus answer(String playerid, List<String> answers) {
@@ -23,9 +21,16 @@ public class GameHandler implements GameHandlerPlayerInterface {
         }
         AnswerStatus answerStatus = questionSet.validateAnswer(answers);
         if (answerStatus == AnswerStatus.OK) {
-            playerHandler.addPoints(playerid,questionSet.getEngine().points());
+            boolean gotpoint = claimCategory(questionSet.getCategoryName());
+            if (gotpoint) {
+                playerHandler.addPoints(playerid,questionSet.getEngine().points());
+            }
         }
         return answerStatus;
+    }
+
+    private synchronized boolean claimCategory(String categoryName) {
+        return remainingCategories.remove(categoryName);
     }
 
     @Override
@@ -44,7 +49,7 @@ public class GameHandler implements GameHandlerPlayerInterface {
             questionList.add(question.getQuestion());
         }
 
-        askedQuestions.put(playerid,new QuestionSet(questions,engine));
+        askedQuestions.put(playerid,new QuestionSet(questions,engine, categoryid));
 
         return QuestionList.create(questionList);
     }
@@ -55,6 +60,7 @@ public class GameHandler implements GameHandlerPlayerInterface {
 
     public void setEngines(Map<String, Engine> engines) {
         this.engines = engines;
+        this.remainingCategories = new HashSet<>(engines.keySet());
     }
 
     public void setAskedQuestions(Map<String, QuestionSet> askedQuestions) {

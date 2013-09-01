@@ -16,7 +16,7 @@ public class QuestionSetTest {
     private Engine engine = mock(Engine.class);
     @Test
     public void shouldHandleCorrectAnswer() throws Exception {
-        QuestionSet questionSet = new QuestionSet(Arrays.asList(new Question("one","factone"),new Question("two","facttwo")), engine);
+        QuestionSet questionSet = new QuestionSet(Arrays.asList(new Question("one","factone"),new Question("two","facttwo")), engine, "dummyCategory");
 
         AnswerStatus answerStatus = questionSet.validateAnswer(Arrays.asList("factone", "facttwo"));
         assertThat(answerStatus).isEqualTo(AnswerStatus.OK);
@@ -24,7 +24,7 @@ public class QuestionSetTest {
 
     @Test
     public void shouldHandleWrongAnswer() throws Exception {
-        QuestionSet questionSet = new QuestionSet(Arrays.asList(new Question("one","factone"),new Question("two","facttwo")), engine);
+        QuestionSet questionSet = new QuestionSet(Arrays.asList(new Question("one","factone"),new Question("two","facttwo")), engine, "dummyCategory");
 
         AnswerStatus answerStatus = questionSet.validateAnswer(Arrays.asList("factone", "wrong"));
         assertThat(answerStatus).isEqualTo(AnswerStatus.WRONG);
@@ -32,7 +32,7 @@ public class QuestionSetTest {
 
     @Test
     public void shouldHandleWrongNumberOfAnswers() throws Exception {
-        QuestionSet questionSet = new QuestionSet(Arrays.asList(new Question("one","factone"),new Question("two","facttwo")), engine);
+        QuestionSet questionSet = new QuestionSet(Arrays.asList(new Question("one","factone"),new Question("two","facttwo")), engine, "dummyCategory");
 
         AnswerStatus answerStatus = questionSet.validateAnswer(Arrays.asList("factone", "facttwo","factthree"));
         assertThat(answerStatus).isEqualTo(AnswerStatus.WRONG);
@@ -40,7 +40,7 @@ public class QuestionSetTest {
 
     @Test
     public void shouldHandleLateAnswer() throws Exception {
-        QuestionSet questionSet = new QuestionSet(Arrays.asList(new Question("one","factone"),new Question("two","facttwo")), engine);
+        QuestionSet questionSet = new QuestionSet(Arrays.asList(new Question("one","factone"),new Question("two","facttwo")), engine, "dummyCategory");
 
         DateTimeUtils.setCurrentMillisFixed(new DateTime().plusSeconds(10).getMillis());
 

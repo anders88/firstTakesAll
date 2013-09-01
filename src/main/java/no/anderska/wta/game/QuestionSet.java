@@ -8,11 +8,13 @@ import java.util.List;
 public class QuestionSet {
     private List<Question> questions;
     private Engine engine;
+    private String categoryName;
     private DateTime limit;
 
-    public QuestionSet(List<Question> questions, Engine engine) {
+    public QuestionSet(List<Question> questions, Engine engine, String categoryName) {
         this.questions = questions;
         this.engine = engine;
+        this.categoryName = categoryName;
         this.limit = new DateTime().plusSeconds(8);
     }
 
@@ -38,5 +40,9 @@ public class QuestionSet {
 
     public Engine getEngine() {
         return engine;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
     }
 }
