@@ -19,4 +19,9 @@ public class Question {
     public boolean isCorrect(String answer) {
         return fact.equals(answer);
     }
+
+    @Override
+    public String toString() {
+        return "Question<'" + question + "'|'" + fact + "'>";
+    }
 }
