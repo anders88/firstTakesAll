@@ -6,7 +6,7 @@ import static org.fest.assertions.Assertions.assertThat;
 
 public class RomanNumberEngineTest {
 
-    private final RomanNumberEngine romanNumberEngine = new RomanNumberEngine();
+    private final RomanNumberEngine romanNumberEngine = new RomanNumberEngine(10,10);
 
     @Test
     public void oneIsI() throws Exception {
