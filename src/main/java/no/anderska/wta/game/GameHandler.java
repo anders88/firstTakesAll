@@ -9,7 +9,7 @@ import no.anderska.wta.servlet.PlayerHandler;
 
 import java.util.*;
 
-public class GameHandler implements GameHandlerPlayerInterface, StatusGiver {
+public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, AdminHandler {
     private PlayerHandler playerHandler;
     private Map<String,Engine> engines;
     private Map<String,QuestionSet> askedQuestions = new HashMap<>();
@@ -83,5 +83,18 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver {
             result.add(categoryDTO);
         }
         return result;
+    }
+
+    @Override
+    public String restartGame(String password) {
+        if (!"secret".equals(password)) {
+            return "Wrong password";
+        }
+        askedQuestions.clear();
+        takenCategories.clear();
+
+        playerHandler.clear();
+
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

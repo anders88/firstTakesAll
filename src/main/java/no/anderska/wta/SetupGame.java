@@ -21,7 +21,7 @@ public class SetupGame {
 		return setup;
 	}
 	
-	private PlayerHandler playerHandler = new PlayerHandlerMemory();
+	private PlayerHandlerMemory playerHandler = new PlayerHandlerMemory();
     private GameHandler gameHandler = new GameHandler();
 
 	private SetupGame() {

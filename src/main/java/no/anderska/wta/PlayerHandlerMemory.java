@@ -76,4 +76,9 @@ public class  PlayerHandlerMemory implements PlayerHandler {
         return players.get(playerid).name;
     }
 
+    @Override
+    public void clear() {
+        players.clear();
+    }
+
 }

@@ -12,4 +12,5 @@ public interface PlayerHandler {
     List<PlayerDTO> playerList();
     public String playerName(String playerid);
 
+    void clear();
 }
