@@ -38,9 +38,9 @@ public class StatusServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        adminHandler.restartGame(req.getParameter("password"));
+        String errormessage = adminHandler.restartGame(req.getParameter("password"));
         resp.setContentType("text/html");
-        writeResponse(resp.getWriter(),"Game restarted");
+        writeResponse(resp.getWriter(),errormessage != null ? errormessage : "Game restarted");
     }
 
     private void writeResponse(PrintWriter writer, String message) {

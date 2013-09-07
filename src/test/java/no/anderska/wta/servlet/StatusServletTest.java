@@ -1,6 +1,7 @@
 package no.anderska.wta.servlet;
 
 import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -32,6 +33,7 @@ public class StatusServletTest {
     private final HttpServletRequest req = mock(HttpServletRequest.class);
     private final HttpServletResponse resp = mock(HttpServletResponse.class);
     private final StringWriter htmlSource = new StringWriter();
+    private final AdminHandler adminHandler = mock(AdminHandler.class);
 
     @Test
     public void shouldGiveListOfCategories() throws Exception {
@@ -70,10 +72,6 @@ public class StatusServletTest {
         when(req.getParameter("password")).thenReturn("secret");
         when(req.getParameter("reset")).thenReturn("true");
 
-        AdminHandler adminHandler = mock(AdminHandler.class);
-
-        servlet.setAdminHandler(adminHandler);
-
         servlet.service(req, resp);
 
         verify(resp).setContentType("text/html");
@@ -84,9 +82,26 @@ public class StatusServletTest {
 
     }
 
+
+    @Test
+    public void sholdGiveIndicationOnWrongPassword() throws Exception {
+        when(req.getMethod()).thenReturn("POST");
+        when(req.getParameter("reset")).thenReturn("true");
+
+        when(adminHandler.restartGame(anyString())).thenReturn("Wrong password");
+
+        servlet.service(req, resp);
+
+        assertThat(htmlSource.toString()).contains("Wrong password");
+
+        DocumentHelper.parseText(htmlSource.toString());
+
+    }
+
     @Before
     public void setup() throws IOException {
         when(resp.getWriter()).thenReturn(new PrintWriter(htmlSource));
+        servlet.setAdminHandler(adminHandler);
     }
 
 
