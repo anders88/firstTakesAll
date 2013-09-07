@@ -81,6 +81,7 @@ public class MinesweeperEngine implements Engine {
                 boolean mineHere = (random.nextInt(100) < percentMines);
                 board.append(mineHere ? "*" : "-");
             }
+            board.append("]");
         }
         return board.toString();
     }
