@@ -1,9 +1,29 @@
 package no.anderska.wta.engines;
 
+import no.anderska.wta.game.Engine;
+import no.anderska.wta.game.Question;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-public class MinesweeperEngine {
+public class MinesweeperEngine implements Engine {
+    int rows;
+    int cols;
+    private int percentMines;
+    private int numberOfBoards;
+
+
+    public MinesweeperEngine(int rows, int cols, int percentMines, int numberOfBoards) {
+        if (rows < 1 || cols < 1 || numberOfBoards < 1 || percentMines < 0 || percentMines > 100) {
+            throw new IllegalArgumentException("Wrong parameters");
+        }
+        this.rows = rows;
+        this.cols = cols;
+        this.percentMines = percentMines;
+        this.numberOfBoards = numberOfBoards;
+    }
+
     private int mineVal(List<String> boardlines,int row,int col) {
         if (row < 0 || row >= boardlines.size() || col < 0 || col >= boardlines.get(row).length()) {
             return 0;
@@ -50,5 +70,38 @@ public class MinesweeperEngine {
             pos = board.indexOf("[",pos+1);
         }
         return result;
+    }
+
+    private String generateBoard() {
+        StringBuilder board = new StringBuilder();
+        Random random = new Random();
+        for (int row=0;row<rows;row++) {
+            board.append("[");
+            for (int col=0;col<cols;col++) {
+                boolean mineHere = (random.nextInt(100) < percentMines);
+                board.append(mineHere ? "*" : "-");
+            }
+        }
+        return board.toString();
+    }
+
+    @Override
+    public List<Question> generateQuestions(String playerid) {
+        List<Question> questions = new ArrayList<>();
+        for (int i=0;i<numberOfBoards;i++) {
+            String genboard = generateBoard();
+            questions.add(new Question(genboard,solve(genboard)));
+        }
+        return questions;
+    }
+
+    @Override
+    public String description() {
+        return "Display the number of mines on a minesweeper board with mines denoted * and empty fields denoted -. [-*-] => [1*1] and [--*][*--][---] => [12*][*21][110]";
+    }
+
+    @Override
+    public int points() {
+        return 20;
     }
 }
