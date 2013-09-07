@@ -4,6 +4,7 @@
     <title>Categories</title>
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     <script src="js/angular.min.js"></script>
+    <script src="js/underscore.js"></script>
     <script src="js/categoriesCtrl.js"></script>
 </head>
 <body ng-controller="CategoriesCtrl">
@@ -19,7 +20,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="player in gameStatus.players">
+                <tr ng-repeat="player in players">
                     <td>{{ player.name }}</td>
                     <td>{{ player.points}}</td>
                 </tr>
@@ -40,7 +41,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="category in gameStatus.categories">
+                <tr ng-repeat="category in categories">
                     <td>{{ category.id }}</td>
                     <td>{{ category.name }}</td>
                     <td>{{ category.points }}</td>
