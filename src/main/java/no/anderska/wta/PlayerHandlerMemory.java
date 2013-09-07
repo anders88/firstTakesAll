@@ -28,9 +28,26 @@ public class  PlayerHandlerMemory implements PlayerHandler {
 	
 	private long playerid = 0;
 
+    private synchronized long nextId() {
+        playerid++;
+        return playerid;
+    }
+
+    private String genNewId() {
+        StringBuilder id = new StringBuilder();
+        long givenid = nextId();
+        if (givenid < 10L) {
+            id.append("0");
+        }
+        id.append(givenid);
+        int randomSeed = new Random().nextInt(90000) + 10000;
+        id.append(randomSeed);
+        return id.toString();
+    }
+
 	@Override
-	public synchronized String createPlayer(String name) {
-		String givenid = new Long(++playerid).toString();
+	public String createPlayer(String name) {
+		String givenid = genNewId();
 		players.put(givenid, new Player(givenid, name));
 		return givenid;
 	}
