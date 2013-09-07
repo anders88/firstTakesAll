@@ -42,6 +42,6 @@ public class ToRomanNumberEngine implements Engine {
 
     @Override
     public int points() {
-        return 10;
+        return 40;
     }
 }

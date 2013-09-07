@@ -44,7 +44,7 @@ public class RomanNumberEngine implements Engine {
 
     @Override
     public int points() {
-        return 4;
+        return 40;
     }
 
 

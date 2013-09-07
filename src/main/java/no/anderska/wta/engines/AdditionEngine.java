@@ -37,7 +37,7 @@ public class AdditionEngine implements Engine {
 
     @Override
     public int points() {
-        return 3;
+        return 10;
     }
 
 

@@ -35,6 +35,6 @@ public class EchoEngine implements Engine {
 
     @Override
     public int points() {
-        return 1;
+        return 2;
     }
 }

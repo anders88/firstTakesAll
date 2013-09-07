@@ -71,6 +71,6 @@ public class PrimeFactorEngine implements Engine {
 
     @Override
     public int points() {
-        return 6;
+        return 50;
     }
 }

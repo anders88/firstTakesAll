@@ -102,6 +102,6 @@ public class MinesweeperEngine implements Engine {
 
     @Override
     public int points() {
-        return 20;
+        return 50;
     }
 }
