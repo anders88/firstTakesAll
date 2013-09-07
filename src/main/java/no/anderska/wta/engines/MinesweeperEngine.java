@@ -4,6 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MinesweeperEngine {
+    private int mineVal(List<String> boardlines,int row,int col) {
+        if (row < 0 || row >= boardlines.size() || col < 0 || col >= boardlines.get(row).length()) {
+            return 0;
+        }
+        return boardlines.get(row).charAt(col) == '*' ? 1 : 0;
+    }
+
     String solve(String board) {
         List<String> boardlines=lines(board);
         StringBuilder genboard=new StringBuilder();
@@ -15,9 +22,18 @@ public class MinesweeperEngine {
             for (int col=0;col<line.length();col++) {
                 if (line.charAt(col) == '*') {
                     genboard.append("*");
-                } else {
-                    genboard.append("0");
+                    continue;
                 }
+                int minecount =
+                        mineVal(boardlines,row-1,col-1) +
+                        mineVal(boardlines,row-1,col) +
+                        mineVal(boardlines,row-1,col+1) +
+                        mineVal(boardlines,row,col-1) +
+                        mineVal(boardlines,row,col+1) +
+                        mineVal(boardlines,row+1,col-1) +
+                        mineVal(boardlines,row+1,col) +
+                        mineVal(boardlines,row+1,col+1);
+                genboard.append(minecount);
             }
 
             genboard.append("]");

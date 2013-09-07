@@ -29,6 +29,12 @@ public class MinesweeperEngineTest {
         assertThat(lines).hasSize(2);
         assertThat(lines.get(0)).isEqualTo("12");
         assertThat(lines.get(1)).isEqualTo("34");
+    }
+
+    @Test
+    public void shouldCountMines() throws Exception {
+        assertThat(engine.solve("[-*-]")).isEqualTo("[1*1]");
+        assertThat(engine.solve("[--*][*--][---]")).isEqualTo("[12*][*21][110]");
 
     }
 }
