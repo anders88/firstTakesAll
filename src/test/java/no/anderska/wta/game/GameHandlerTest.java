@@ -1,23 +1,24 @@
 package no.anderska.wta.game;
 
-import no.anderska.wta.AnswerStatus;
-import no.anderska.wta.QuestionList;
-import no.anderska.wta.dto.CategoryDTO;
-import no.anderska.wta.game.Engine;
-import no.anderska.wta.game.GameHandler;
-import no.anderska.wta.game.Question;
-import no.anderska.wta.servlet.PlayerHandler;
-import org.junit.Before;
-import org.junit.Test;
+import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Mockito.*;
-import static org.fest.assertions.Assertions.*;
+import no.anderska.wta.AnswerStatus;
+import no.anderska.wta.QuestionList;
+import no.anderska.wta.dto.CategoryDTO;
+import no.anderska.wta.servlet.PlayerHandler;
+
+import org.junit.Before;
+import org.junit.Test;
 
 public class GameHandlerTest {
 

@@ -1,26 +1,37 @@
 package no.anderska.wta.servlet;
 
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Matchers.anyList;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import no.anderska.wta.AnswerStatus;
 import no.anderska.wta.GameHandlerPlayerInterface;
 import no.anderska.wta.QuestionList;
 import no.anderska.wta.dto.PlayerAnswerDto;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Matchers;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.io.*;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.fest.assertions.Assertions.*;
-import static org.mockito.Mockito.*;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class GameServletTest {
 

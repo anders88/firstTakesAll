@@ -1,23 +1,25 @@
 package no.anderska.wta.servlet;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import no.anderska.wta.StatusGiver;
-import no.anderska.wta.dto.CategoryDTO;
-import no.anderska.wta.dto.GameStatusDTO;
-import no.anderska.wta.dto.PlayerDTO;
-import org.junit.Test;
+import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import no.anderska.wta.StatusGiver;
+import no.anderska.wta.dto.CategoryDTO;
+import no.anderska.wta.dto.GameStatusDTO;
+import no.anderska.wta.dto.PlayerDTO;
+
+import org.junit.Test;
+
+import com.google.gson.Gson;
 
 public class StatusServletTest {
 

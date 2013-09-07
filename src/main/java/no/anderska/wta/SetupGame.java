@@ -1,8 +1,6 @@
 package no.anderska.wta;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import no.anderska.wta.engines.AdditionEngine;

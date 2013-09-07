@@ -37,7 +37,7 @@ public class ToRomanNumberEngine implements Engine {
 
     @Override
     public String description() {
-        return return "Compute the Number of a given Roman number (max " + maxNumber + "). E.g. 'III' = '3' or 'XLII'='42'";
+        return "Compute the Number of a given Roman number (max " + maxNumber + "). E.g. 'III' = '3' or 'XLII'='42'";
     }
 
     @Override

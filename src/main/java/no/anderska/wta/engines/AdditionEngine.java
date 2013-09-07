@@ -1,13 +1,11 @@
 package no.anderska.wta.engines;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import no.anderska.wta.game.Engine;
 import no.anderska.wta.game.Question;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 public class AdditionEngine implements Engine {
 

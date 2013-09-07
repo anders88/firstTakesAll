@@ -1,12 +1,12 @@
 package no.anderska.wta.engines;
 
-import no.anderska.wta.game.Question;
-import org.fest.assertions.Assertions;
-import org.junit.Test;
+import static org.fest.assertions.Assertions.assertThat;
 
 import java.util.List;
 
-import static org.fest.assertions.Assertions.assertThat;
+import no.anderska.wta.game.Question;
+
+import org.junit.Test;
 
 public class PrimeFactorEngineTest {
     @Test

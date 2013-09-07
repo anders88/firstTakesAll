@@ -16,17 +16,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import no.anderska.wta.dto.PlayerDTO;
-import no.anderska.wta.dto.QuestionCategoryDTO;
-import no.anderska.wta.servlet.PlayerHandler;
-import no.anderska.wta.servlet.PlayerServlet;
 
 import org.dom4j.DocumentHelper;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class PlayerServletTest {
     private HttpServletRequest req = mock(HttpServletRequest.class);
