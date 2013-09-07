@@ -2,8 +2,10 @@ package no.anderska.wta.servlet;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Arrays;
@@ -17,24 +19,23 @@ import no.anderska.wta.dto.CategoryDTO;
 import no.anderska.wta.dto.GameStatusDTO;
 import no.anderska.wta.dto.PlayerDTO;
 
+import no.anderska.wta.game.AdminHandler;
+import org.dom4j.DocumentHelper;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.google.gson.Gson;
 
 public class StatusServletTest {
 
-
+    private final StatusServlet servlet = new StatusServlet();
+    private final HttpServletRequest req = mock(HttpServletRequest.class);
+    private final HttpServletResponse resp = mock(HttpServletResponse.class);
+    private final StringWriter htmlSource = new StringWriter();
 
     @Test
     public void shouldGiveListOfCategories() throws Exception {
-        StatusServlet servlet = new StatusServlet();
-
-        HttpServletRequest req = mock(HttpServletRequest.class);
         when(req.getMethod()).thenReturn("GET");
-
-        HttpServletResponse resp = mock(HttpServletResponse.class);
-        StringWriter htmlSource = new StringWriter();
-        when(resp.getWriter()).thenReturn(new PrintWriter(htmlSource));
 
         StatusGiver statusGiver = mock(StatusGiver.class);
         when(statusGiver.catergoryStatus()).thenReturn(Arrays.asList(new CategoryDTO("1","one",1,null),new CategoryDTO("2","two",2,"Someone")));
@@ -61,8 +62,31 @@ public class StatusServletTest {
         List<PlayerDTO> players = gameStatusDTO.getPlayers();
 
         assertThat(players).hasSize(2);
+    }
 
+    @Test
+    public void shouldRestartGame() throws Exception {
+        when(req.getMethod()).thenReturn("POST");
+        when(req.getParameter("password")).thenReturn("secret");
+        when(req.getParameter("reset")).thenReturn("true");
 
+        AdminHandler adminHandler = mock(AdminHandler.class);
+
+        servlet.setAdminHandler(adminHandler);
+
+        servlet.service(req, resp);
+
+        verify(resp).setContentType("text/html");
+        verify(adminHandler).restartGame("secret");
+        assertThat(htmlSource.toString()).contains("Game restarted");
+
+        DocumentHelper.parseText(htmlSource.toString());
+
+    }
+
+    @Before
+    public void setup() throws IOException {
+        when(resp.getWriter()).thenReturn(new PrintWriter(htmlSource));
     }
 
 
