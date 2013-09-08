@@ -96,7 +96,7 @@ public class CalculusGenerator {
         partToStr(res,part);
 
         String [] resarr = new String[2];
-        resarr[0] = res.toString() + "=" + part.value;
+        resarr[0] = res.toString() + " eq " + part.value;
         resarr[1] = "" + xp.value;
         return resarr;
     }

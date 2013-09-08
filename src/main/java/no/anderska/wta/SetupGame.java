@@ -32,6 +32,8 @@ public class SetupGame {
         allEngines.put("PrimeFactor",PrimeFactorEngine.class);
         allEngines.put("ToRoman",RomanNumberEngine.class);
         allEngines.put("FromRoman",ToRomanNumberEngine.class);
+        allEngines.put("Computation",ComputationEngine.class);
+        allEngines.put("Equation",EquationEngine.class);
 
         gameHandler.setPlayerHandler(playerHandler);
 
