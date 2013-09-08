@@ -39,7 +39,7 @@ public class SetupGame {
         gameHandler.setEngines(engines);
 	}
 
-    private Map<String, Engine> createEngines(Set<String> categoryNames) {
+    public Map<String, Engine> createEngines(Set<String> categoryNames) {
         Map<String,Engine> engines = new HashMap<>();
 
         for (String category : categoryNames) {

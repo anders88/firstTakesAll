@@ -1,9 +1,6 @@
 package no.anderska.wta.game;
 
-import no.anderska.wta.AnswerStatus;
-import no.anderska.wta.GameHandlerPlayerInterface;
-import no.anderska.wta.QuestionList;
-import no.anderska.wta.StatusGiver;
+import no.anderska.wta.*;
 import no.anderska.wta.dto.CategoryDTO;
 import no.anderska.wta.servlet.PlayerHandler;
 
@@ -124,6 +121,31 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
         if (!checkPassword(password)) {
             return "Wrong password";
         }
-        return "Sorry not implemented yet";
+        synchronized (lockHolder) {
+            Map<String, Engine> newEngines = SetupGame.instance().createEngines(new HashSet<>(Arrays.asList(engineNames)));
+
+            for (Map.Entry<String,Engine> entry : newEngines.entrySet()) {
+                if (engines.containsKey(entry.getKey())) {
+                    continue;
+                }
+                engines.put(entry.getKey(),entry.getValue());
+            }
+
+            Set<String> toRemove = new HashSet<>();
+
+            for (Map.Entry<String,Engine> entry : engines.entrySet()) {
+                if (newEngines.containsKey(entry.getKey())) {
+                    continue;
+                }
+                toRemove.add(entry.getKey());
+            }
+
+            for (String remove : toRemove) {
+                engines.remove(remove);
+                takenCategories.remove(remove);
+            }
+        }
+
+        return "Engines updated";
     }
 }
