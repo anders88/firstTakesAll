@@ -70,13 +70,13 @@ public class StatusServletTest {
     public void shouldRestartGame() throws Exception {
         when(req.getMethod()).thenReturn("POST");
         when(req.getParameter("password")).thenReturn("secret");
-        when(req.getParameter("reset")).thenReturn("true");
+        when(req.getParameter("action")).thenReturn("resetAll");
 
         servlet.service(req, resp);
 
         verify(resp).setContentType("text/html");
         verify(adminHandler).restartGame("secret");
-        assertThat(htmlSource.toString()).contains("Game restarted");
+        assertThat(htmlSource.toString()).contains("Action performed");
 
         DocumentHelper.parseText(htmlSource.toString());
 
@@ -86,7 +86,7 @@ public class StatusServletTest {
     @Test
     public void sholdGiveIndicationOnWrongPassword() throws Exception {
         when(req.getMethod()).thenReturn("POST");
-        when(req.getParameter("reset")).thenReturn("true");
+        when(req.getParameter("action")).thenReturn("resetAll");
 
         when(adminHandler.restartGame(anyString())).thenReturn("Wrong password");
 

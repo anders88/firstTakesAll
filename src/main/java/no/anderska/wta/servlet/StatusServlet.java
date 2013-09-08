@@ -51,7 +51,7 @@ public class StatusServlet extends HttpServlet {
             errormessage = "Unknown action";
         }
         resp.setContentType("text/html");
-        writeResponse(resp.getWriter(),errormessage != null ? errormessage : "Action perfomed");
+        writeResponse(resp.getWriter(),errormessage != null ? errormessage : "Action performed");
         }
 
     private void writeResponse(PrintWriter writer, String message) {
