@@ -38,10 +38,21 @@ public class StatusServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String errormessage = adminHandler.restartGame(req.getParameter("password"));
+        String action = req.getParameter("action");
+        String errormessage = null;
+        String password = req.getParameter("password");
+        if ("resetAll".equals(action)) {
+            errormessage = adminHandler.restartGame(password);
+        } else if ("resetCategories".equals(action)) {
+            errormessage = adminHandler.resetCategories(password);
+        } else if ("categoryEdit".equals(action)) {
+            errormessage = adminHandler.editCategories(password,req.getParameterValues("engines"));
+        } else {
+            errormessage = "Unknown action";
+        }
         resp.setContentType("text/html");
-        writeResponse(resp.getWriter(),errormessage != null ? errormessage : "Game restarted");
-    }
+        writeResponse(resp.getWriter(),errormessage != null ? errormessage : "Action perfomed");
+        }
 
     private void writeResponse(PrintWriter writer, String message) {
         writer.append("<html><body><p>");

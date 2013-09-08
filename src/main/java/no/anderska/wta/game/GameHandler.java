@@ -14,6 +14,7 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
     private Map<String,Engine> engines;
     private Map<String,QuestionSet> askedQuestions = new HashMap<>();
     private Map<String,String> takenCategories = new HashMap<>();
+    private Integer lockHolder = new Integer(42);
 
     @Override
     public AnswerStatus answer(String playerid, List<String> answers) {
@@ -31,12 +32,14 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
         return answerStatus;
     }
 
-    private synchronized boolean claimCategory(String categoryName,String playerid) {
-        if (takenCategories.containsKey(categoryName)) {
-            return false;
+    private boolean claimCategory(String categoryName,String playerid) {
+        synchronized (lockHolder) {
+            if (takenCategories.containsKey(categoryName)) {
+                return false;
+            }
+            takenCategories.put(categoryName,playerid);
+            return true;
         }
-        takenCategories.put(categoryName,playerid);
-        return true;
     }
 
     @Override
@@ -55,7 +58,9 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
             questionList.add(question.getQuestion());
         }
 
-        askedQuestions.put(playerid,new QuestionSet(questions,engine, categoryid));
+        synchronized (lockHolder) {
+            askedQuestions.put(playerid,new QuestionSet(questions,engine, categoryid));
+        }
 
         return QuestionList.create(questionList);
     }
@@ -87,14 +92,38 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
 
     @Override
     public String restartGame(String password) {
-        if (!"secret".equals(password)) {
+        if (!checkPassword(password)) {
             return "Wrong password";
         }
-        askedQuestions.clear();
-        takenCategories.clear();
+        synchronized (lockHolder) {
+            askedQuestions.clear();
+            takenCategories.clear();
+            playerHandler.clear();
+        }
 
-        playerHandler.clear();
+        return null;
+    }
 
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    private boolean checkPassword(String password) {
+        return "secret".equals(password);
+    }
+
+    @Override
+    public String resetCategories(String password) {
+        if (!checkPassword(password)) {
+            return "Wrong password";
+        }
+        synchronized (lockHolder) {
+            takenCategories.clear();
+        }
+        return null;
+    }
+
+    @Override
+    public String editCategories(String password, String[] engineNames) {
+        if (!checkPassword(password)) {
+            return "Wrong password";
+        }
+        return "Sorry not implemented yet";
     }
 }
