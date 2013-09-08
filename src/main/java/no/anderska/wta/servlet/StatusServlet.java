@@ -53,6 +53,8 @@ public class StatusServlet extends HttpServlet {
             errormessage = adminHandler.resetCategories(password);
         } else if ("categoryEdit".equals(action)) {
             errormessage = adminHandler.editCategories(password,req.getParameterValues("engines"));
+        } else if ("looserBonus".equals(action)) {
+            errormessage = adminHandler.toggleLoserBonus(password);
         } else {
             errormessage = "Unknown action";
         }

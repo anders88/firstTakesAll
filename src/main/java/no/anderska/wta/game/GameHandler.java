@@ -12,8 +12,15 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
     private Map<String,Engine> engines;
     private Map<String,QuestionSet> askedQuestions = new HashMap<>();
     private Map<String,String> takenCategories = new HashMap<>();
-    private Integer lockHolder = new Integer(42);
     private Map<String,Set<String>> answered = new HashMap<>();
+    private boolean looserBonus = false;
+    private Map<String,Set<String>> categoryPointAwarded = new HashMap<>();
+
+    private Integer lockHolder = new Integer(42);
+
+    private static enum PointAwarded {
+        FULL,HALF,NONE;
+    }
 
     @Override
     public AnswerStatus answer(String playerid, List<String> answers) {
@@ -23,15 +30,19 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
         }
         AnswerStatus answerStatus = questionSet.validateAnswer(answers);
         if (answerStatus == AnswerStatus.OK) {
-            boolean gotpoint = claimCategory(questionSet.getCategoryName(),playerid);
-            if (gotpoint) {
-                playerHandler.addPoints(playerid,questionSet.getEngine().points());
+            PointAwarded pointAwarded = claimCategory(questionSet.getCategoryName(),playerid);
+            if (pointAwarded != PointAwarded.NONE) {
+                int points = questionSet.getEngine().points();
+                if (pointAwarded == PointAwarded.HALF) {
+                    points = points / 2;
+                }
+                playerHandler.addPoints(playerid, points);
             }
         }
         return answerStatus;
     }
 
-    private boolean claimCategory(String categoryName,String playerid) {
+    private PointAwarded claimCategory(String categoryName,String playerid) {
         synchronized (lockHolder) {
             Set<String> catAnswered = answered.get(playerid);
             if (catAnswered == null) {
@@ -41,10 +52,23 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
             catAnswered.add(categoryName);
 
             if (takenCategories.containsKey(categoryName)) {
-                return false;
+                if (!looserBonus || takenCategories.get(categoryName).equals(playerid)) {
+                    return PointAwarded.NONE;
+                }
+                Set<String> playersAnswered = categoryPointAwarded.get(categoryName);
+                if (playersAnswered == null) {
+                    playersAnswered = new HashSet<>();
+                    categoryPointAwarded.put(categoryName,playersAnswered);
+                }
+                if (playersAnswered.contains(playerid)) {
+                    return PointAwarded.NONE;
+                }
+                playersAnswered.add(playerid);
+                return PointAwarded.HALF;
+            } else {
+                takenCategories.put(categoryName,playerid);
+                return PointAwarded.FULL;
             }
-            takenCategories.put(categoryName,playerid);
-            return true;
         }
     }
 
@@ -105,6 +129,7 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
             askedQuestions.clear();
             takenCategories.clear();
             playerHandler.clear();
+            categoryPointAwarded.clear();
         }
 
         return null;
@@ -121,6 +146,7 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
         }
         synchronized (lockHolder) {
             takenCategories.clear();
+            categoryPointAwarded.clear();
         }
         return null;
     }
@@ -152,6 +178,7 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
             for (String remove : toRemove) {
                 engines.remove(remove);
                 takenCategories.remove(remove);
+                categoryPointAwarded.remove(remove);
             }
         }
 
@@ -168,5 +195,18 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
             result.add(new CategoriesAnsweredDTO(playerName, categories));
         }
         return result;
+    }
+
+    @Override
+    public String toggleLoserBonus(String password) {
+        if (!checkPassword(password)) {
+            return "Wrong password";
+        }
+
+        synchronized (lockHolder) {
+            looserBonus = !looserBonus;
+            categoryPointAwarded.clear();
+        }
+        return "Looser bonus is now " + looserBonus;
     }
 }

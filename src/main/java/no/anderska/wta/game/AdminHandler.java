@@ -12,4 +12,6 @@ public interface AdminHandler {
     String editCategories(String password, String[] engineNames);
 
     List<CategoriesAnsweredDTO> categoriesAnswered();
+
+    String toggleLoserBonus(String password);
 }
