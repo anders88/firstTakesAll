@@ -83,7 +83,7 @@ public class PlayerServletTest {
 
         assertThat(htmlDoc.toString()) //
             .contains("Welcome Gamers you have id 42")
-            .contains("<a href='../'>To main</a>")
+            .contains("<a href='../categories.html'>To game status</a>")
         ;
         DocumentHelper.parseText(htmlDoc.toString());
     }

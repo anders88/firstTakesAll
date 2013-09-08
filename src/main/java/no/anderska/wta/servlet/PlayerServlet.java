@@ -60,7 +60,7 @@ public class PlayerServlet extends HttpServlet {
             writer //
                 .append("<html><body>") //
                 .append("<p>Welcome " + gamerName + " you have id " + playerId + "</p>") //
-                .append("<p><a href='../'>To main</a></p>") //
+                .append("<p><a href='../categories.html'>To game status</a></p>") //
                 .append("</body></html>") //
                 ;
         } else {
