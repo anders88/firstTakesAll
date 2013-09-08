@@ -9,13 +9,16 @@ public class EchoEngine implements Engine {
 
     private int numberOfQuestions;
 
-    public EchoEngine(int numberOfQuestions) {
+    private EchoEngine(int numberOfQuestions) {
         this.numberOfQuestions = numberOfQuestions;
         if (numberOfQuestions <= 0) {
 			throw new IllegalArgumentException("Number of questions must be positive");
 		}
 	}
 
+    public EchoEngine() {
+        this(5);
+    }
 
     @Override
     public List<Question> generateQuestions(String playerid) {

@@ -10,12 +10,16 @@ import java.util.Random;
 public class ToRomanNumberEngine implements Engine {
     private RomanNumberSolver solver = new RomanNumberSolver();
 
-    public ToRomanNumberEngine(int maxNumber, int numberOfQuestions) {
+    private ToRomanNumberEngine(int maxNumber, int numberOfQuestions) {
         if (maxNumber < 1 || maxNumber > 1000 || numberOfQuestions < 1) {
             throw new IllegalArgumentException("Wrong parameters");
         }
         this.maxNumber = maxNumber;
         this.numberOfQuestions = numberOfQuestions;
+    }
+
+    public ToRomanNumberEngine() {
+        this(1000,30);
     }
 
     private int maxNumber;

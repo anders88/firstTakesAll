@@ -14,7 +14,7 @@ public class MinesweeperEngine implements Engine {
     private int numberOfBoards;
 
 
-    public MinesweeperEngine(int rows, int cols, int percentMines, int numberOfBoards) {
+    private MinesweeperEngine(int rows, int cols, int percentMines, int numberOfBoards) {
         if (rows < 1 || cols < 1 || numberOfBoards < 1 || percentMines < 0 || percentMines > 100) {
             throw new IllegalArgumentException("Wrong parameters");
         }
@@ -22,6 +22,10 @@ public class MinesweeperEngine implements Engine {
         this.cols = cols;
         this.percentMines = percentMines;
         this.numberOfBoards = numberOfBoards;
+    }
+
+    public MinesweeperEngine() {
+        this(16,16,18,10);
     }
 
     private int mineVal(List<String> boardlines,int row,int col) {

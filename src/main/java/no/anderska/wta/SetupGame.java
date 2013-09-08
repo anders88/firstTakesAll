@@ -2,6 +2,7 @@ package no.anderska.wta;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import no.anderska.wta.engines.*;
 import no.anderska.wta.game.Engine;
@@ -22,20 +23,43 @@ public class SetupGame {
 	
 	private PlayerHandlerMemory playerHandler = new PlayerHandlerMemory();
     private GameHandler gameHandler = new GameHandler();
+    private Map<String,Class<? extends Engine>> allEngines = new HashMap<>();
 
 	private SetupGame() {
+        allEngines.put("Echo",EchoEngine.class);
+        allEngines.put("Addition",AdditionEngine.class);
+        allEngines.put("Minesweeper",MinesweeperEngine.class);
+        allEngines.put("PrimeFactor",PrimeFactorEngine.class);
+        allEngines.put("ToRoman",RomanNumberEngine.class);
+        allEngines.put("FromRoman",ToRomanNumberEngine.class);
+
         gameHandler.setPlayerHandler(playerHandler);
-        Map<String, Engine> engines = new HashMap<>();
-        engines.put("Echo",new EchoEngine(5));
-        engines.put("Addition",new AdditionEngine(25,4));
-        engines.put("Minesweeper",new MinesweeperEngine(16,16,18,10)) ;
-        engines.put("PrimeFactor",new PrimeFactorEngine(130,4,15));
-        engines.put("ToRoman",new RomanNumberEngine(1000,30));
-        engines.put("FromRoman",new ToRomanNumberEngine(1000,30));
+
+        Map<String, Engine> engines = createEngines(allEngines.keySet());
         gameHandler.setEngines(engines);
 	}
-	
-	public PlayerHandler getPlayerHandler() {
+
+    private Map<String, Engine> createEngines(Set<String> categoryNames) {
+        Map<String,Engine> engines = new HashMap<>();
+
+        for (String category : categoryNames) {
+            Class<? extends Engine> engineClass = allEngines.get(category);
+            if (engineClass == null) {
+                throw new IllegalArgumentException("Unknown category " + category);
+            }
+            try {
+                Engine engine = engineClass.newInstance();
+                engines.put(category,engine);
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return engines;
+    }
+
+
+    public PlayerHandler getPlayerHandler() {
 		return playerHandler;
 	}
 

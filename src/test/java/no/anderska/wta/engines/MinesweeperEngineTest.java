@@ -7,7 +7,7 @@ import java.util.List;
 import static org.fest.assertions.Assertions.assertThat;
 
 public class MinesweeperEngineTest {
-    private MinesweeperEngine engine = new MinesweeperEngine(1,1,1,1);
+    private MinesweeperEngine engine = new MinesweeperEngine();
 
 
     @Test

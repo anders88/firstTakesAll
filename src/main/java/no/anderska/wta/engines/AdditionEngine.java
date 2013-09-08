@@ -45,7 +45,7 @@ public class AdditionEngine implements Engine {
     private int numberOfQuestions;
     private final int maxFactors;
 
-    public AdditionEngine(int numberOfQuestions, int maxFactors) {
+    private AdditionEngine(int numberOfQuestions, int maxFactors) {
         if (maxFactors < 2) {
             if (numberOfQuestions <= 0) {
                 throw new IllegalArgumentException("Number of questions must be positive");
@@ -58,8 +58,11 @@ public class AdditionEngine implements Engine {
 		
 	}
 
+    public AdditionEngine() {
+        this(25,4);
+    }
 
-	public String getDescription() {
+    public String getDescription() {
 		return "The answer is the sum. Question: '4+2+7', Correct answer '13'";
 	}
 

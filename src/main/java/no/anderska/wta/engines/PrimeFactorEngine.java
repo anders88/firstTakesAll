@@ -14,7 +14,7 @@ public class PrimeFactorEngine implements Engine {
     private int maxPicks;
     private int numberOfQuestions;
 
-    public PrimeFactorEngine(int maxNumber,int maxPicks, int numberOfQuestions) {
+    private PrimeFactorEngine(int maxNumber,int maxPicks, int numberOfQuestions) {
         this.maxPicks = maxPicks;
         this.numberOfQuestions = numberOfQuestions;
         if (maxNumber <= 2 || maxPicks <= 0 || numberOfQuestions < 1) {
@@ -33,6 +33,10 @@ public class PrimeFactorEngine implements Engine {
                 primeFactor.add(num);
             }
         }
+    }
+
+    public PrimeFactorEngine() {
+        this(130,4,15);
     }
 
     public List<Integer> getPrimeFactor() {
