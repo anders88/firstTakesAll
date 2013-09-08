@@ -7,13 +7,11 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import no.anderska.wta.AnswerStatus;
 import no.anderska.wta.QuestionList;
+import no.anderska.wta.dto.CategoriesAnsweredDTO;
 import no.anderska.wta.dto.CategoryDTO;
 import no.anderska.wta.servlet.PlayerHandler;
 
@@ -108,10 +106,41 @@ public class GameHandlerTest {
     public void shouldHandleNoQuestion() throws Exception {
         when(playerHandler.playerPlaying(anyString())).thenReturn(true);
 
-
         AnswerStatus answerStatus = gameHandler.answer("playerone", Arrays.asList("factone", "facttwo"));
 
         assertThat(answerStatus).isEqualTo(AnswerStatus.ERROR);
+    }
+
+    @Test
+    public void shouldRegisterCorrectAnswers() throws Exception {
+        when(playerHandler.playerPlaying(anyString())).thenReturn(true);
+        when(playerHandler.playerName("playerone")).thenReturn("Player One");
+        when(playerHandler.playerName("playertwo")).thenReturn("Player Two");
+
+        when(engine.generateQuestions(anyString())).thenReturn(Arrays.asList(new Question("one", "factone"), new Question("two", "facttwo")));
+
+        gameHandler.questions("playerone", "one");
+        gameHandler.answer("playerone", Arrays.asList("factone", "facttwo"));
+
+        gameHandler.questions("playertwo", "one");
+        gameHandler.answer("playertwo", Arrays.asList("factone", "facttwo"));
+
+        List<CategoriesAnsweredDTO> answered = gameHandler.categoriesAnswered();
+
+        assertThat(answered).hasSize(2);
+
+        CategoriesAnsweredDTO plone;
+        CategoriesAnsweredDTO pltwo;
+
+        assertThat("Player One".equals(answered.get(0).getPlayerName()) || "Player One".equals(answered.get(1).getPlayerName())).isTrue();
+        assertThat("Player Two".equals(answered.get(0).getPlayerName()) || "Player Two".equals(answered.get(1).getPlayerName())).isTrue();
+
+        List<String> catOne = answered.get(0).getCategories();
+        List<String> catTwo = answered.get(1).getCategories();
+        assertThat(catOne).hasSize(1);
+        assertThat(catOne.get(0)).isEqualTo("one");
+        assertThat(catTwo).hasSize(1);
+        assertThat(catTwo.get(0)).isEqualTo("one");
     }
 
     @Before

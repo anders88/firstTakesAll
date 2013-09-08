@@ -1,6 +1,7 @@
 package no.anderska.wta.game;
 
 import no.anderska.wta.*;
+import no.anderska.wta.dto.CategoriesAnsweredDTO;
 import no.anderska.wta.dto.CategoryDTO;
 import no.anderska.wta.servlet.PlayerHandler;
 
@@ -12,6 +13,7 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
     private Map<String,QuestionSet> askedQuestions = new HashMap<>();
     private Map<String,String> takenCategories = new HashMap<>();
     private Integer lockHolder = new Integer(42);
+    private Map<String,Set<String>> answered = new HashMap<>();
 
     @Override
     public AnswerStatus answer(String playerid, List<String> answers) {
@@ -31,6 +33,13 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
 
     private boolean claimCategory(String categoryName,String playerid) {
         synchronized (lockHolder) {
+            Set<String> catAnswered = answered.get(playerid);
+            if (catAnswered == null) {
+                catAnswered = new HashSet<>();
+                answered.put(playerid,catAnswered);
+            }
+            catAnswered.add(categoryName);
+
             if (takenCategories.containsKey(categoryName)) {
                 return false;
             }
@@ -147,5 +156,17 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
         }
 
         return "Engines updated";
+    }
+
+    @Override
+    public List<CategoriesAnsweredDTO> categoriesAnswered() {
+        List<CategoriesAnsweredDTO> result = new ArrayList<>();
+        for (Map.Entry<String,Set<String>> entry : answered.entrySet()) {
+            String playerName = playerHandler.playerName(entry.getKey());
+            ArrayList<String> categories = new ArrayList<>(entry.getValue());
+
+            result.add(new CategoriesAnsweredDTO(playerName, categories));
+        }
+        return result;
     }
 }
