@@ -3,6 +3,7 @@ package no.anderska.wta.servlet;
 import com.google.gson.Gson;
 import no.anderska.wta.SetupGame;
 import no.anderska.wta.StatusGiver;
+import no.anderska.wta.dto.CategoriesAnsweredDTO;
 import no.anderska.wta.dto.CategoryDTO;
 import no.anderska.wta.dto.GameStatusDTO;
 import no.anderska.wta.dto.PlayerDTO;
@@ -27,12 +28,17 @@ public class StatusServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/json");
+        Gson gson = new Gson();
+        if ("/allStat".equals(req.getPathInfo())) {
+            List<CategoriesAnsweredDTO> categoriesAnsweredDTOs = adminHandler.categoriesAnswered();
+            resp.getWriter().append(gson.toJson(categoriesAnsweredDTOs));
+            return;
+        }
         List<CategoryDTO> categories = statusGiver.catergoryStatus();
         List<PlayerDTO> players = playerHandler.playerList();
         GameStatusDTO gameStatusDTO = new GameStatusDTO(players, categories);
-        Gson gson = new Gson();
 
-        resp.setContentType("text/json");
         resp.getWriter().append(gson.toJson(gameStatusDTO));
     }
 
