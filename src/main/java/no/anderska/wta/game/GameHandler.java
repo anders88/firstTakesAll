@@ -1,7 +1,6 @@
 package no.anderska.wta.game;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -20,7 +19,7 @@ import no.anderska.wta.servlet.PlayerHandler;
 
 public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, AdminHandler {
     private final PlayerHandler playerHandler = new PlayerHandlerMemory();
-    private Map<String,QuestionGenerator> generators;
+    private Map<String,QuestionGenerator> generators = new HashMap<>();
     private Map<String,QuestionSet> askedQuestions = new HashMap<>();
     private final Map<String,String> takenCategories = new HashMap<>();
     private final Map<String,Set<String>> answered = new HashMap<>();
@@ -118,14 +117,17 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
     @Override
     public List<CategoryDTO> categoryStatus() {
         List<CategoryDTO> result = new ArrayList<>();
-        for (Map.Entry<String, QuestionGenerator> entry : generators.entrySet()) {
-
-            String answeredById = takenCategories.get(entry.getKey());
-            String answeredBy = answeredById != null ? playerHandler.playerName(answeredById) : null;
-            CategoryDTO categoryDTO = new CategoryDTO(entry.getKey(), entry.getValue().description(), entry.getValue().points(), answeredBy);
-            result.add(categoryDTO);
+        for (String category : generators.keySet()) {
+            result.add(categoryStatus(category));
         }
         return result;
+    }
+
+    CategoryDTO categoryStatus(String category) {
+        QuestionGenerator generator = generators.get(category);
+        String answeredById = takenCategories.get(category);
+        String answeredBy = answeredById != null ? playerHandler.playerName(answeredById) : null;
+        return new CategoryDTO(category, generator.description(), generator.points(), answeredBy);
     }
 
     @Override
@@ -160,37 +162,33 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
     }
 
     @Override
-    public String editCategories(String password, String[] generatorNames) {
+    public String editCategories(String password, List<String> generatorNames) {
         if (!checkPassword(password)) {
             return "Wrong password";
         }
         synchronized (lockHolder) {
-            Map<String, QuestionGenerator> newGenerators = SetupGame.instance().createGenerators(new HashSet<>(Arrays.asList(generatorNames)));
-
-            for (Map.Entry<String,QuestionGenerator> entry : newGenerators.entrySet()) {
-                if (generators.containsKey(entry.getKey())) {
-                    continue;
+            for (String category : generatorNames) {
+                if (!generators.containsKey(category)) {
+                    addQuestionCategory(category, SetupGame.instance().createGenerator(category));
                 }
-                generators.put(entry.getKey(),entry.getValue());
             }
-
-            Set<String> toRemove = new HashSet<>();
-
-            for (Map.Entry<String,QuestionGenerator> entry : generators.entrySet()) {
-                if (newGenerators.containsKey(entry.getKey())) {
-                    continue;
+            for (String entry : new ArrayList<>(generators.keySet())) {
+                if (!generatorNames.contains(entry)) {
+                    removeQuestionCategory(entry);
                 }
-                toRemove.add(entry.getKey());
-            }
-
-            for (String remove : toRemove) {
-                generators.remove(remove);
-                takenCategories.remove(remove);
-                categoryPointAwarded.remove(remove);
             }
         }
-
         return "Generators updated";
+    }
+
+    public QuestionGenerator addQuestionCategory(String category, QuestionGenerator generator) {
+        return generators.put(category, generator);
+    }
+
+    private void removeQuestionCategory(String entry) {
+        generators.remove(entry);
+        takenCategories.remove(entry);
+        categoryPointAwarded.remove(entry);
     }
 
     @Override

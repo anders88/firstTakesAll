@@ -1,6 +1,15 @@
 package no.anderska.wta.servlet;
 
-import com.google.gson.Gson;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import no.anderska.wta.SetupGame;
 import no.anderska.wta.StatusGiver;
 import no.anderska.wta.dto.CategoriesAnsweredDTO;
@@ -9,13 +18,7 @@ import no.anderska.wta.dto.GameStatusDTO;
 import no.anderska.wta.dto.PlayerDTO;
 import no.anderska.wta.game.AdminHandler;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
+import com.google.gson.Gson;
 
 public class StatusServlet extends HttpServlet {
     private StatusGiver statusGiver;
@@ -52,7 +55,7 @@ public class StatusServlet extends HttpServlet {
         } else if ("resetCategories".equals(action)) {
             errormessage = adminHandler.resetCategories(password);
         } else if ("categoryEdit".equals(action)) {
-            errormessage = adminHandler.editCategories(password,req.getParameterValues("engines"));
+            errormessage = adminHandler.editCategories(password, Arrays.asList(req.getParameterValues("engines")));
         } else if ("looserBonus".equals(action)) {
             errormessage = adminHandler.toggleLoserBonus(password);
         } else {

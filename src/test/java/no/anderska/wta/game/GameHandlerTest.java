@@ -4,9 +4,7 @@ import static java.util.Arrays.asList;
 import static org.fest.assertions.Assertions.assertThat;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import no.anderska.wta.AnswerStatus;
 import no.anderska.wta.QuestionList;
@@ -22,7 +20,8 @@ public class GameHandlerTest {
 
     private final GameHandler gameHandler = new GameHandler();
     private final PlayerHandler playerHandler = gameHandler.getPlayerHandler();
-    private final DummyQuestionGenerator generator = new DummyQuestionGenerator();
+    private final DummyQuestionGenerator generator =
+            new DummyQuestionGenerator(Arrays.asList(new Question("q", "a")));
 
     @Test
     public void shouldGiveQuestions() throws Exception {
@@ -115,10 +114,26 @@ public class GameHandlerTest {
         assertThat(answered.get(1).getCategories()).containsExactly("one");
     }
 
+
+    @Test
+    public void shouldEditCategories() {
+        String playerid = playerHandler.createPlayer("Player One");
+
+        gameHandler.editCategories("secret", asList("FromRoman", "one"));
+        assertThat(gameHandler.questions(playerid, "one").isOk()).isTrue();
+        gameHandler.answer(playerid, Arrays.asList("a"));
+        assertThat(gameHandler.categoryStatus("one").getAnsweredBy()).isEqualTo("Player One");
+
+        gameHandler.editCategories("secret", asList("ToRoman", "one"));
+        assertThat(gameHandler.questions(playerid, "FromRoman").getErrormessage()).startsWith("Unknown category");
+        assertThat(gameHandler.questions(playerid, "ToRoman").isOk()).isTrue();
+        assertThat(gameHandler.questions(playerid, "one").isOk()).isTrue();
+        assertThat(gameHandler.categoryStatus("one").getAnsweredBy()).isEqualTo("Player One");
+    }
+
+
     @Before
     public void setup() {
-        Map<String, QuestionGenerator> generators = new HashMap<>();
-        generators.put("one", generator);
-        gameHandler.setGenerators(generators);
+        gameHandler.addQuestionCategory("one", generator);
     }
 }

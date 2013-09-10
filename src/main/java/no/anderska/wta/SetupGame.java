@@ -2,7 +2,6 @@ package no.anderska.wta;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import no.anderska.wta.game.GameHandler;
 import no.anderska.wta.game.QuestionGenerator;
@@ -41,27 +40,22 @@ public class SetupGame {
         allGenerators.put("Computation",ComputationQuestionGenerator.class);
         allGenerators.put("Equation",EquationQuestionGenerator.class);
 
-        gameHandler.setGenerators(createGenerators(allGenerators.keySet()));
+        for (String category : allGenerators.keySet()) {
+            gameHandler.addQuestionCategory(category, createGenerator(category));
+        }
 	}
 
-    public Map<String, QuestionGenerator> createGenerators(Set<String> categoryNames) {
-        Map<String,QuestionGenerator> generators = new HashMap<>();
-
-        for (String category : categoryNames) {
-            Class<? extends QuestionGenerator> generatorClass = allGenerators.get(category);
-            if (generatorClass == null) {
-                throw new IllegalArgumentException("Unknown category " + category);
-            }
-            try {
-                generators.put(category, generatorClass.newInstance());
-            } catch (InstantiationException | IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
+    public QuestionGenerator createGenerator(String category) {
+        Class<? extends QuestionGenerator> generatorClass = allGenerators.get(category);
+        if (generatorClass == null) {
+            throw new IllegalArgumentException("Unknown category " + category);
         }
-
-        return generators;
+        try {
+            return generatorClass.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
-
 
     public PlayerHandler getPlayerHandler() {
 		return gameHandler.getPlayerHandler();
