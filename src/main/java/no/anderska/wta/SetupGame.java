@@ -41,8 +41,7 @@ public class SetupGame {
         allGenerators.put("Computation",ComputationQuestionGenerator.class);
         allGenerators.put("Equation",EquationQuestionGenerator.class);
 
-        Map<String, QuestionGenerator> engines = createGenerators(allGenerators.keySet());
-        gameHandler.setGenerators(engines);
+        gameHandler.setGenerators(createGenerators(allGenerators.keySet()));
 	}
 
     public Map<String, QuestionGenerator> createGenerators(Set<String> categoryNames) {
