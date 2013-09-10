@@ -6,14 +6,15 @@ import no.anderska.wta.game.Question;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ComputationEngine implements QuestionGenerator {
-    private final int numQuestions = 25;
+public class EquationQuestionGenerator implements QuestionGenerator {
+
+    private int numQuestions = 15;
 
     @Override
     public List<Question> generateQuestions(String playerid) {
         List<Question> result = new ArrayList<>();
         for (int i=0;i<numQuestions;i++) {
-            String[] qanda = new CalculusGenerator().generateComputation();
+            String[] qanda = new CalculusGenerator().generateEquation();
             result.add(new Question(qanda[0],qanda[1]));
         }
         return result;
@@ -21,11 +22,11 @@ public class ComputationEngine implements QuestionGenerator {
 
     @Override
     public String description() {
-        return "Calculate the answer of the calculus. Multiplication takes precedence over addition and substraction hence '2+4*2' = '10'";
+        return "Solve for X. Multiplication takes precedence over addition and substraction hence '2+X*2 eq 10' = '4'";
     }
 
     @Override
     public int points() {
-        return 25;
+        return 45;
     }
 }

@@ -26,16 +26,16 @@ public class GameHandlerTest {
 
     private final GameHandler gameHandler = new GameHandler();
     private final PlayerHandler playerHandler = gameHandler.getPlayerHandler();
-    private final QuestionGenerator engine = mock(QuestionGenerator.class);
+    private final QuestionGenerator generator = mock(QuestionGenerator.class);
 
     @Test
     public void shouldGiveQuestions() throws Exception {
         String playerid = playerHandler.createPlayer("Player name");
 
-        when(engine.generateQuestions(anyString())).thenReturn(Arrays.asList(new Question("one", "factone"), new Question("two", "facttwo")));
+        when(generator.generateQuestions(anyString())).thenReturn(Arrays.asList(new Question("one", "factone"), new Question("two", "facttwo")));
 
         QuestionList questions = gameHandler.questions(playerid, "one");
-        verify(engine).generateQuestions(playerid);
+        verify(generator).generateQuestions(playerid);
         assertThat(questions.isOk()).isTrue();
     }
 
@@ -43,7 +43,7 @@ public class GameHandlerTest {
     public void shouldGiveErrorOnWrongPlayer() throws Exception {
         QuestionList questions = gameHandler.questions("playerone", "one");
 
-        verify(engine,never()).generateQuestions(anyString());
+        verify(generator,never()).generateQuestions(anyString());
         assertThat(questions.isOk()).isFalse();
         assertThat(questions.getErrormessage()).isEqualTo("Unknown player 'playerone'");
     }
@@ -53,7 +53,7 @@ public class GameHandlerTest {
         String playerid = playerHandler.createPlayer("Player");
         QuestionList questions = gameHandler.questions(playerid, "two");
 
-        verify(engine,never()).generateQuestions(anyString());
+        verify(generator,never()).generateQuestions(anyString());
         assertThat(questions.isOk()).isFalse();
         assertThat(questions.getErrormessage()).isEqualTo("Unknown category 'two'");
     }
@@ -62,7 +62,7 @@ public class GameHandlerTest {
     public void shouldHandleCorrectAnswer() throws Exception {
         String playerid = playerHandler.createPlayer("Player");
 
-        when(engine.generateQuestions(anyString())).thenReturn(Arrays.asList(new Question("one", "factone"), new Question("two", "facttwo")));
+        when(generator.generateQuestions(anyString())).thenReturn(Arrays.asList(new Question("one", "factone"), new Question("two", "facttwo")));
 
         gameHandler.questions(playerid, "one");
 
@@ -76,9 +76,9 @@ public class GameHandlerTest {
     public void shouldGiveCorrectStatus() throws Exception {
         String playerid = playerHandler.createPlayer("Player One");
 
-        when(engine.generateQuestions(anyString())).thenReturn(Arrays.asList(new Question("one", "factone"), new Question("two", "facttwo")));
-        when(engine.points()).thenReturn(4);
-        when(engine.description()).thenReturn("Category description");
+        when(generator.generateQuestions(anyString())).thenReturn(Arrays.asList(new Question("one", "factone"), new Question("two", "facttwo")));
+        when(generator.points()).thenReturn(4);
+        when(generator.description()).thenReturn("Category description");
 
         gameHandler.questions(playerid, "one");
 
@@ -107,7 +107,7 @@ public class GameHandlerTest {
 
         Question question1 = new Question("one", "factone");
         Question question2 = new Question("two", "facttwo");
-        when(engine.generateQuestions(anyString())).thenReturn(asList(question1, question2));
+        when(generator.generateQuestions(anyString())).thenReturn(asList(question1, question2));
 
         gameHandler.questions(playerid1, "one");
         gameHandler.answer(playerid1, asList(question1.getCorrectAnswer(), question2.getCorrectAnswer()));
@@ -125,9 +125,9 @@ public class GameHandlerTest {
 
     @Before
     public void setup() {
-        Map<String, QuestionGenerator> engines = new HashMap<>();
-        engines.put("one", engine);
-        gameHandler.setEngines(engines);
+        Map<String, QuestionGenerator> generators = new HashMap<>();
+        generators.put("one", generator);
+        gameHandler.setGenerators(generators);
     }
 
 

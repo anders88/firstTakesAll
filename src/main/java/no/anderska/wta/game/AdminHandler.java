@@ -9,7 +9,7 @@ public interface AdminHandler {
 
     String resetCategories(String password);
 
-    String editCategories(String password, String[] engineNames);
+    String editCategories(String password, String[] questionGeneratorNames);
 
     List<CategoriesAnsweredDTO> categoriesAnswered();
 

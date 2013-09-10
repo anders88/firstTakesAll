@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class ToRomanNumberEngine implements QuestionGenerator {
+public class ToRomanNumberQuestionGenerator implements QuestionGenerator {
     private RomanNumberSolver solver = new RomanNumberSolver();
 
-    private ToRomanNumberEngine(int maxNumber, int numberOfQuestions) {
+    private ToRomanNumberQuestionGenerator(int maxNumber, int numberOfQuestions) {
         if (maxNumber < 1 || maxNumber > 1000 || numberOfQuestions < 1) {
             throw new IllegalArgumentException("Wrong parameters");
         }
@@ -18,7 +18,7 @@ public class ToRomanNumberEngine implements QuestionGenerator {
         this.numberOfQuestions = numberOfQuestions;
     }
 
-    public ToRomanNumberEngine() {
+    public ToRomanNumberQuestionGenerator() {
         this(1000,30);
     }
 

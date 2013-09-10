@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class RomanNumberEngineTest {
+public class RomanNumberQuestionGeneratorTest {
 
     private final RomanNumberSolver solver = new RomanNumberSolver();
 

@@ -20,7 +20,7 @@ import no.anderska.wta.servlet.PlayerHandler;
 
 public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, AdminHandler {
     private final PlayerHandler playerHandler = new PlayerHandlerMemory();
-    private Map<String,QuestionGenerator> engines;
+    private Map<String,QuestionGenerator> generators;
     private Map<String,QuestionSet> askedQuestions = new HashMap<>();
     private final Map<String,String> takenCategories = new HashMap<>();
     private final Map<String,Set<String>> answered = new HashMap<>();
@@ -47,7 +47,7 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
         if (answerStatus == AnswerStatus.OK) {
             PointAwarded pointAwarded = claimCategory(questionSet.getCategoryName(),playerid);
             if (pointAwarded != PointAwarded.NONE) {
-                int points = questionSet.getEngine().points();
+                int points = questionSet.getGenerator().points();
                 if (pointAwarded == PointAwarded.HALF) {
                     points = points / 2;
                 }
@@ -92,23 +92,23 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
         if (!playerHandler.playerPlaying(playerid)) {
             return QuestionList.error("Unknown player '" + playerid + "'");
         }
-        QuestionGenerator engine = engines.get(categoryid);
-        if (engine == null) {
+        QuestionGenerator generator = generators.get(categoryid);
+        if (generator == null) {
             return QuestionList.error("Unknown category '" + categoryid + "'");
         }
-        List<Question> questions = engine.generateQuestions(playerid);
-        putQuestion(playerid, categoryid, engine, questions);
+        List<Question> questions = generator.generateQuestions(playerid);
+        putQuestion(playerid, categoryid, generator, questions);
         return QuestionList.createQuestion(questions);
     }
 
-    public void putQuestion(String playerid, String categoryid, QuestionGenerator engine, List<Question> questions) {
+    public void putQuestion(String playerid, String categoryid, QuestionGenerator generator, List<Question> questions) {
         synchronized (lockHolder) {
-            askedQuestions.put(playerid,new QuestionSet(questions, engine, categoryid));
+            askedQuestions.put(playerid,new QuestionSet(questions, generator, categoryid));
         }
     }
 
-    public void setEngines(Map<String, QuestionGenerator> engines) {
-        this.engines = engines;
+    public void setGenerators(Map<String, QuestionGenerator> generators) {
+        this.generators = generators;
     }
 
     public void setAskedQuestions(Map<String, QuestionSet> askedQuestions) {
@@ -118,7 +118,7 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
     @Override
     public List<CategoryDTO> categoryStatus() {
         List<CategoryDTO> result = new ArrayList<>();
-        for (Map.Entry<String, QuestionGenerator> entry : engines.entrySet()) {
+        for (Map.Entry<String, QuestionGenerator> entry : generators.entrySet()) {
 
             String answeredById = takenCategories.get(entry.getKey());
             String answeredBy = answeredById != null ? playerHandler.playerName(answeredById) : null;
@@ -160,37 +160,37 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
     }
 
     @Override
-    public String editCategories(String password, String[] engineNames) {
+    public String editCategories(String password, String[] generatorNames) {
         if (!checkPassword(password)) {
             return "Wrong password";
         }
         synchronized (lockHolder) {
-            Map<String, QuestionGenerator> newEngines = SetupGame.instance().createEngines(new HashSet<>(Arrays.asList(engineNames)));
+            Map<String, QuestionGenerator> newGenerators = SetupGame.instance().createGenerators(new HashSet<>(Arrays.asList(generatorNames)));
 
-            for (Map.Entry<String,QuestionGenerator> entry : newEngines.entrySet()) {
-                if (engines.containsKey(entry.getKey())) {
+            for (Map.Entry<String,QuestionGenerator> entry : newGenerators.entrySet()) {
+                if (generators.containsKey(entry.getKey())) {
                     continue;
                 }
-                engines.put(entry.getKey(),entry.getValue());
+                generators.put(entry.getKey(),entry.getValue());
             }
 
             Set<String> toRemove = new HashSet<>();
 
-            for (Map.Entry<String,QuestionGenerator> entry : engines.entrySet()) {
-                if (newEngines.containsKey(entry.getKey())) {
+            for (Map.Entry<String,QuestionGenerator> entry : generators.entrySet()) {
+                if (newGenerators.containsKey(entry.getKey())) {
                     continue;
                 }
                 toRemove.add(entry.getKey());
             }
 
             for (String remove : toRemove) {
-                engines.remove(remove);
+                generators.remove(remove);
                 takenCategories.remove(remove);
                 categoryPointAwarded.remove(remove);
             }
         }
 
-        return "Engines updated";
+        return "Generators updated";
     }
 
     @Override

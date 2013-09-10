@@ -7,7 +7,7 @@ import java.util.Random;
 import no.anderska.wta.game.QuestionGenerator;
 import no.anderska.wta.game.Question;
 
-public class AdditionEngine implements QuestionGenerator {
+public class AdditionQuestionGenerator implements QuestionGenerator {
 
     @Override
     public List<Question> generateQuestions(String playerid) {
@@ -45,7 +45,7 @@ public class AdditionEngine implements QuestionGenerator {
     private int numberOfQuestions;
     private final int maxFactors;
 
-    private AdditionEngine(int numberOfQuestions, int maxFactors) {
+    private AdditionQuestionGenerator(int numberOfQuestions, int maxFactors) {
         if (maxFactors < 2) {
             if (numberOfQuestions <= 0) {
                 throw new IllegalArgumentException("Number of questions must be positive");
@@ -58,7 +58,7 @@ public class AdditionEngine implements QuestionGenerator {
 		
 	}
 
-    public AdditionEngine() {
+    public AdditionQuestionGenerator() {
         this(25,4);
     }
 

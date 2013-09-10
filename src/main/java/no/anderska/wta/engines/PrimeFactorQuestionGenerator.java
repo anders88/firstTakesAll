@@ -8,13 +8,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class PrimeFactorEngine implements QuestionGenerator {
+public class PrimeFactorQuestionGenerator implements QuestionGenerator {
 
     private List<Integer> primeFactor = new ArrayList<>();
     private int maxPicks;
     private int numberOfQuestions;
 
-    private PrimeFactorEngine(int maxNumber,int maxPicks, int numberOfQuestions) {
+    private PrimeFactorQuestionGenerator(int maxNumber,int maxPicks, int numberOfQuestions) {
         this.maxPicks = maxPicks;
         this.numberOfQuestions = numberOfQuestions;
         if (maxNumber <= 2 || maxPicks <= 0 || numberOfQuestions < 1) {
@@ -35,7 +35,7 @@ public class PrimeFactorEngine implements QuestionGenerator {
         }
     }
 
-    public PrimeFactorEngine() {
+    public PrimeFactorQuestionGenerator() {
         this(130,4,15);
     }
 

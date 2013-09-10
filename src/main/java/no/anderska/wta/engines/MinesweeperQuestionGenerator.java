@@ -7,14 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class MinesweeperEngine implements QuestionGenerator {
+public class MinesweeperQuestionGenerator implements QuestionGenerator {
     int rows;
     int cols;
     private int percentMines;
     private int numberOfBoards;
 
 
-    private MinesweeperEngine(int rows, int cols, int percentMines, int numberOfBoards) {
+    private MinesweeperQuestionGenerator(int rows, int cols, int percentMines, int numberOfBoards) {
         if (rows < 1 || cols < 1 || numberOfBoards < 1 || percentMines < 0 || percentMines > 100) {
             throw new IllegalArgumentException("Wrong parameters");
         }
@@ -24,7 +24,7 @@ public class MinesweeperEngine implements QuestionGenerator {
         this.numberOfBoards = numberOfBoards;
     }
 
-    public MinesweeperEngine() {
+    public MinesweeperQuestionGenerator() {
         this(16,16,18,10);
     }
 

@@ -5,18 +5,18 @@ import no.anderska.wta.game.Question;
 
 import java.util.*;
 
-public class EchoEngine implements QuestionGenerator {
+public class EchoQuestionGenerator implements QuestionGenerator {
 
     private int numberOfQuestions;
 
-    private EchoEngine(int numberOfQuestions) {
+    private EchoQuestionGenerator(int numberOfQuestions) {
         this.numberOfQuestions = numberOfQuestions;
         if (numberOfQuestions <= 0) {
 			throw new IllegalArgumentException("Number of questions must be positive");
 		}
 	}
 
-    public EchoEngine() {
+    public EchoQuestionGenerator() {
         this(5);
     }
 

@@ -5,11 +5,11 @@ import java.util.Random;
 import no.anderska.wta.game.Question;
 import no.anderska.wta.game.QuestionGenerator;
 
-public class RomanNumberEngine extends AbstractQuestionGenerator implements QuestionGenerator {
+public class RomanQuestionGenerator extends AbstractQuestionGenerator implements QuestionGenerator {
 
     private final RomanNumberSolver solver = new RomanNumberSolver();
 
-    private RomanNumberEngine(int maxNumber, int numberOfQuestions) {
+    private RomanQuestionGenerator(int maxNumber, int numberOfQuestions) {
         super(numberOfQuestions,
                 "Compute the Roman number of a given number (max " + maxNumber + "). E.g. '3' = 'III' or '42'='XLII'",
                 40);
@@ -19,7 +19,7 @@ public class RomanNumberEngine extends AbstractQuestionGenerator implements Ques
         this.maxNumber = maxNumber;
     }
 
-    public RomanNumberEngine() {
+    public RomanQuestionGenerator() {
         this(1000,30);
     }
 

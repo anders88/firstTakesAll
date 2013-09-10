@@ -4,16 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import no.anderska.wta.engines.AdditionEngine;
-import no.anderska.wta.engines.ComputationEngine;
-import no.anderska.wta.engines.EchoEngine;
-import no.anderska.wta.engines.EquationEngine;
-import no.anderska.wta.engines.MinesweeperEngine;
-import no.anderska.wta.engines.PrimeFactorEngine;
-import no.anderska.wta.engines.RomanNumberEngine;
-import no.anderska.wta.engines.ToRomanNumberEngine;
-import no.anderska.wta.game.QuestionGenerator;
+import no.anderska.wta.engines.AdditionQuestionGenerator;
+import no.anderska.wta.engines.ComputationQuestionGenerator;
+import no.anderska.wta.engines.EchoQuestionGenerator;
+import no.anderska.wta.engines.EquationQuestionGenerator;
+import no.anderska.wta.engines.MinesweeperQuestionGenerator;
+import no.anderska.wta.engines.PrimeFactorQuestionGenerator;
+import no.anderska.wta.engines.RomanQuestionGenerator;
+import no.anderska.wta.engines.ToRomanNumberQuestionGenerator;
 import no.anderska.wta.game.GameHandler;
+import no.anderska.wta.game.QuestionGenerator;
 import no.anderska.wta.servlet.PlayerHandler;
 
 public class SetupGame {
@@ -29,39 +29,38 @@ public class SetupGame {
 	}
 
     private final GameHandler gameHandler = new GameHandler();
-    private final Map<String,Class<? extends QuestionGenerator>> allEngines = new HashMap<>();
+    private final Map<String,Class<? extends QuestionGenerator>> allGenerators = new HashMap<>();
 
 	private SetupGame() {
-        allEngines.put("Echo",EchoEngine.class);
-        allEngines.put("Addition",AdditionEngine.class);
-        allEngines.put("Minesweeper",MinesweeperEngine.class);
-        allEngines.put("PrimeFactor",PrimeFactorEngine.class);
-        allEngines.put("ToRoman",RomanNumberEngine.class);
-        allEngines.put("FromRoman",ToRomanNumberEngine.class);
-        allEngines.put("Computation",ComputationEngine.class);
-        allEngines.put("Equation",EquationEngine.class);
+        allGenerators.put("Echo",EchoQuestionGenerator.class);
+        allGenerators.put("Addition",AdditionQuestionGenerator.class);
+        allGenerators.put("Minesweeper",MinesweeperQuestionGenerator.class);
+        allGenerators.put("PrimeFactor",PrimeFactorQuestionGenerator.class);
+        allGenerators.put("ToRoman",RomanQuestionGenerator.class);
+        allGenerators.put("FromRoman",ToRomanNumberQuestionGenerator.class);
+        allGenerators.put("Computation",ComputationQuestionGenerator.class);
+        allGenerators.put("Equation",EquationQuestionGenerator.class);
 
-        Map<String, QuestionGenerator> engines = createEngines(allEngines.keySet());
-        gameHandler.setEngines(engines);
+        Map<String, QuestionGenerator> engines = createGenerators(allGenerators.keySet());
+        gameHandler.setGenerators(engines);
 	}
 
-    public Map<String, QuestionGenerator> createEngines(Set<String> categoryNames) {
-        Map<String,QuestionGenerator> engines = new HashMap<>();
+    public Map<String, QuestionGenerator> createGenerators(Set<String> categoryNames) {
+        Map<String,QuestionGenerator> generators = new HashMap<>();
 
         for (String category : categoryNames) {
-            Class<? extends QuestionGenerator> engineClass = allEngines.get(category);
-            if (engineClass == null) {
+            Class<? extends QuestionGenerator> generatorClass = allGenerators.get(category);
+            if (generatorClass == null) {
                 throw new IllegalArgumentException("Unknown category " + category);
             }
             try {
-                QuestionGenerator engine = engineClass.newInstance();
-                engines.put(category,engine);
+                generators.put(category, generatorClass.newInstance());
             } catch (InstantiationException | IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
         }
 
-        return engines;
+        return generators;
     }
 
 

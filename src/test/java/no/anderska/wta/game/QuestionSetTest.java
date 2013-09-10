@@ -13,10 +13,10 @@ import static org.fest.assertions.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 public class QuestionSetTest {
-    private QuestionGenerator engine = mock(QuestionGenerator.class);
+    private QuestionGenerator generator = mock(QuestionGenerator.class);
     @Test
     public void shouldHandleCorrectAnswer() throws Exception {
-        QuestionSet questionSet = new QuestionSet(Arrays.asList(new Question("one","factone"),new Question("two","facttwo")), engine, "dummyCategory");
+        QuestionSet questionSet = new QuestionSet(Arrays.asList(new Question("one","factone"),new Question("two","facttwo")), generator, "dummyCategory");
 
         AnswerStatus answerStatus = questionSet.validateAnswer(Arrays.asList("factone", "facttwo"));
         assertThat(answerStatus).isEqualTo(AnswerStatus.OK);
@@ -24,7 +24,7 @@ public class QuestionSetTest {
 
     @Test
     public void shouldHandleWrongAnswer() throws Exception {
-        QuestionSet questionSet = new QuestionSet(Arrays.asList(new Question("one","factone"),new Question("two","facttwo")), engine, "dummyCategory");
+        QuestionSet questionSet = new QuestionSet(Arrays.asList(new Question("one","factone"),new Question("two","facttwo")), generator, "dummyCategory");
 
         AnswerStatus answerStatus = questionSet.validateAnswer(Arrays.asList("factone", "wrong"));
         assertThat(answerStatus).isEqualTo(AnswerStatus.WRONG);
@@ -32,7 +32,7 @@ public class QuestionSetTest {
 
     @Test
     public void shouldHandleWrongNumberOfAnswers() throws Exception {
-        QuestionSet questionSet = new QuestionSet(Arrays.asList(new Question("one","factone"),new Question("two","facttwo")), engine, "dummyCategory");
+        QuestionSet questionSet = new QuestionSet(Arrays.asList(new Question("one","factone"),new Question("two","facttwo")), generator, "dummyCategory");
 
         AnswerStatus answerStatus = questionSet.validateAnswer(Arrays.asList("factone", "facttwo","factthree"));
         assertThat(answerStatus).isEqualTo(AnswerStatus.WRONG);
@@ -40,7 +40,7 @@ public class QuestionSetTest {
 
     @Test
     public void shouldHandleLateAnswer() throws Exception {
-        QuestionSet questionSet = new QuestionSet(Arrays.asList(new Question("one","factone"),new Question("two","facttwo")), engine, "dummyCategory");
+        QuestionSet questionSet = new QuestionSet(Arrays.asList(new Question("one","factone"),new Question("two","facttwo")), generator, "dummyCategory");
 
         DateTimeUtils.setCurrentMillisFixed(new DateTime().plusSeconds(10).getMillis());
 

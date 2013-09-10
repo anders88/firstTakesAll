@@ -1,19 +1,20 @@
 package no.anderska.wta.game;
 
-import no.anderska.wta.AnswerStatus;
-import org.joda.time.DateTime;
-
 import java.util.List;
 
-public class QuestionSet {
-    private List<Question> questions;
-    private QuestionGenerator engine;
-    private String categoryName;
-    private DateTime limit;
+import no.anderska.wta.AnswerStatus;
 
-    public QuestionSet(List<Question> questions, QuestionGenerator engine, String categoryName) {
+import org.joda.time.DateTime;
+
+public class QuestionSet {
+    private final List<Question> questions;
+    private final QuestionGenerator generator;
+    private final String categoryName;
+    private final DateTime limit;
+
+    public QuestionSet(List<Question> questions, QuestionGenerator generator, String categoryName) {
         this.questions = questions;
-        this.engine = engine;
+        this.generator = generator;
         this.categoryName = categoryName;
         this.limit = new DateTime().plusSeconds(8);
     }
@@ -38,8 +39,8 @@ public class QuestionSet {
         return AnswerStatus.OK;
     }
 
-    public QuestionGenerator getEngine() {
-        return engine;
+    public QuestionGenerator getGenerator() {
+        return generator;
     }
 
     public String getCategoryName() {
