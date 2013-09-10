@@ -2,12 +2,11 @@ package no.anderska.wta.game;
 
 import static java.util.Arrays.asList;
 import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 
 import no.anderska.wta.AnswerStatus;
+import no.anderska.wta.questions.DummyQuestionGenerator;
 import no.anderska.wta.servlet.PlayerHandler;
 
 import org.junit.Test;
@@ -17,7 +16,7 @@ public class ScoringTest {
     private final GameHandler gameHandler = new GameHandler();
     private final PlayerHandler playerHandler = gameHandler.getPlayerHandler();
     private final String playerId = playerHandler.createPlayer("Some name");
-    private final QuestionGenerator generators = createMockGenerator();
+    private final QuestionGenerator generators = new DummyQuestionGenerator();
 
     @Test
     public void shouldGivePointsOnCorrectAnswer() throws Exception {
@@ -59,12 +58,6 @@ public class ScoringTest {
         assertThat(status).isEqualTo(AnswerStatus.ERROR);
         assertThat(playerHandler.getPoints(playerId))
             .isEqualTo(0);
-    }
-
-    private QuestionGenerator createMockGenerator() {
-        QuestionGenerator generator = mock(QuestionGenerator.class);
-        when(generator.points()).thenReturn(5);
-        return generator;
     }
 
 }

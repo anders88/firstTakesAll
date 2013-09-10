@@ -2,11 +2,6 @@ package no.anderska.wta.game;
 
 import static java.util.Arrays.asList;
 import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -17,6 +12,7 @@ import no.anderska.wta.AnswerStatus;
 import no.anderska.wta.QuestionList;
 import no.anderska.wta.dto.CategoriesAnsweredDTO;
 import no.anderska.wta.dto.CategoryDTO;
+import no.anderska.wta.questions.DummyQuestionGenerator;
 import no.anderska.wta.servlet.PlayerHandler;
 
 import org.junit.Before;
@@ -26,24 +22,22 @@ public class GameHandlerTest {
 
     private final GameHandler gameHandler = new GameHandler();
     private final PlayerHandler playerHandler = gameHandler.getPlayerHandler();
-    private final QuestionGenerator generator = mock(QuestionGenerator.class);
+    private final DummyQuestionGenerator generator = new DummyQuestionGenerator();
 
     @Test
     public void shouldGiveQuestions() throws Exception {
         String playerid = playerHandler.createPlayer("Player name");
-
-        when(generator.generateQuestions(anyString())).thenReturn(Arrays.asList(new Question("one", "factone"), new Question("two", "facttwo")));
+        generator.addQuestionSet(asList(new Question("one", "factone"), new Question("two", "facttwo")));
 
         QuestionList questions = gameHandler.questions(playerid, "one");
-        verify(generator).generateQuestions(playerid);
         assertThat(questions.isOk()).isTrue();
+        assertThat(questions.getQuestions()).containsExactly("one", "two");
     }
 
     @Test
     public void shouldGiveErrorOnWrongPlayer() throws Exception {
         QuestionList questions = gameHandler.questions("playerone", "one");
 
-        verify(generator,never()).generateQuestions(anyString());
         assertThat(questions.isOk()).isFalse();
         assertThat(questions.getErrormessage()).isEqualTo("Unknown player 'playerone'");
     }
@@ -53,7 +47,6 @@ public class GameHandlerTest {
         String playerid = playerHandler.createPlayer("Player");
         QuestionList questions = gameHandler.questions(playerid, "two");
 
-        verify(generator,never()).generateQuestions(anyString());
         assertThat(questions.isOk()).isFalse();
         assertThat(questions.getErrormessage()).isEqualTo("Unknown category 'two'");
     }
@@ -62,7 +55,7 @@ public class GameHandlerTest {
     public void shouldHandleCorrectAnswer() throws Exception {
         String playerid = playerHandler.createPlayer("Player");
 
-        when(generator.generateQuestions(anyString())).thenReturn(Arrays.asList(new Question("one", "factone"), new Question("two", "facttwo")));
+        generator.addQuestionSet(asList(new Question("one", "factone"), new Question("two", "facttwo")));
 
         gameHandler.questions(playerid, "one");
 
@@ -76,9 +69,7 @@ public class GameHandlerTest {
     public void shouldGiveCorrectStatus() throws Exception {
         String playerid = playerHandler.createPlayer("Player One");
 
-        when(generator.generateQuestions(anyString())).thenReturn(Arrays.asList(new Question("one", "factone"), new Question("two", "facttwo")));
-        when(generator.points()).thenReturn(4);
-        when(generator.description()).thenReturn("Category description");
+        generator.addQuestionSet(asList(new Question("one", "factone"), new Question("two", "facttwo")));
 
         gameHandler.questions(playerid, "one");
 
@@ -90,7 +81,7 @@ public class GameHandlerTest {
         CategoryDTO categoryDTO = categoryDTOs.get(0);
 
         assertThat(categoryDTO.getId()).isEqualTo("one");
-        assertThat(categoryDTO.getName()).isEqualTo("Category description");
+        assertThat(categoryDTO.getName()).isEqualTo(generator.description());
         assertThat(categoryDTO.getAnsweredBy()).isEqualTo("Player One");
     }
 
@@ -107,11 +98,12 @@ public class GameHandlerTest {
 
         Question question1 = new Question("one", "factone");
         Question question2 = new Question("two", "facttwo");
-        when(generator.generateQuestions(anyString())).thenReturn(asList(question1, question2));
 
+        generator.addQuestionSet(asList(question1, question2));
         gameHandler.questions(playerid1, "one");
         gameHandler.answer(playerid1, asList(question1.getCorrectAnswer(), question2.getCorrectAnswer()));
 
+        generator.addQuestionSet(asList(question1, question2));
         gameHandler.questions(playerid2, "one");
         gameHandler.answer(playerid2, asList(question1.getCorrectAnswer(), question2.getCorrectAnswer()));
 
@@ -129,6 +121,4 @@ public class GameHandlerTest {
         generators.put("one", generator);
         gameHandler.setGenerators(generators);
     }
-
-
 }

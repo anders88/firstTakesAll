@@ -1,19 +1,21 @@
 package no.anderska.wta.game;
 
+import static org.fest.assertions.Assertions.assertThat;
+
+import java.util.Arrays;
+
 import no.anderska.wta.AnswerStatus;
+import no.anderska.wta.questions.DummyQuestionGenerator;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-
-import static org.fest.assertions.Assertions.*;
-import static org.mockito.Mockito.mock;
-
 public class QuestionSetTest {
-    private QuestionGenerator generator = mock(QuestionGenerator.class);
+    private final QuestionGenerator generator = new DummyQuestionGenerator();
+
     @Test
     public void shouldHandleCorrectAnswer() throws Exception {
         QuestionSet questionSet = new QuestionSet(Arrays.asList(new Question("one","factone"),new Question("two","facttwo")), generator, "dummyCategory");

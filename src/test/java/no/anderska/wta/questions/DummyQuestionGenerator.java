@@ -17,7 +17,7 @@ public class DummyQuestionGenerator implements QuestionGenerator {
 
     @Override
     public String description() {
-        return null;
+        return "Dummy category description";
     }
 
     @Override
