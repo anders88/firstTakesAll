@@ -35,7 +35,7 @@ public class StatusServlet extends HttpServlet {
             resp.getWriter().append(gson.toJson(categoriesAnsweredDTOs));
             return;
         }
-        List<CategoryDTO> categories = statusGiver.catergoryStatus();
+        List<CategoryDTO> categories = statusGiver.categoryStatus();
         List<PlayerDTO> players = playerHandler.playerList();
         GameStatusDTO gameStatusDTO = new GameStatusDTO(players, categories);
 

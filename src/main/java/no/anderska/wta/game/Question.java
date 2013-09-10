@@ -1,8 +1,8 @@
 package no.anderska.wta.game;
 
 public class Question {
-    private String question;
-    private String fact;
+    private final String question;
+    private final String fact;
 
     public Question(String question, String fact) {
         if (question == null || fact == null) {
@@ -14,6 +14,10 @@ public class Question {
 
     public String getQuestion() {
         return question;
+    }
+
+    public String getCorrectAnswer() {
+        return fact;
     }
 
     public boolean isCorrect(String answer) {

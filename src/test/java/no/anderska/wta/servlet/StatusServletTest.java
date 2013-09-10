@@ -40,7 +40,7 @@ public class StatusServletTest {
         when(req.getMethod()).thenReturn("GET");
 
         StatusGiver statusGiver = mock(StatusGiver.class);
-        when(statusGiver.catergoryStatus()).thenReturn(Arrays.asList(new CategoryDTO("1","one",1,null),new CategoryDTO("2","two",2,"Someone")));
+        when(statusGiver.categoryStatus()).thenReturn(Arrays.asList(new CategoryDTO("1","one",1,null),new CategoryDTO("2","two",2,"Someone")));
         servlet.setStatusGiver(statusGiver);
 
         PlayerHandler playerHandler = mock(PlayerHandler.class);

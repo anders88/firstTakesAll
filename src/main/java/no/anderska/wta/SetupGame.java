@@ -4,7 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import no.anderska.wta.engines.*;
+import no.anderska.wta.engines.AdditionEngine;
+import no.anderska.wta.engines.ComputationEngine;
+import no.anderska.wta.engines.EchoEngine;
+import no.anderska.wta.engines.EquationEngine;
+import no.anderska.wta.engines.MinesweeperEngine;
+import no.anderska.wta.engines.PrimeFactorEngine;
+import no.anderska.wta.engines.RomanNumberEngine;
+import no.anderska.wta.engines.ToRomanNumberEngine;
 import no.anderska.wta.game.Engine;
 import no.anderska.wta.game.GameHandler;
 import no.anderska.wta.servlet.PlayerHandler;
@@ -20,10 +27,9 @@ public class SetupGame {
 		SetupGame setup = new SetupGame();
 		return setup;
 	}
-	
-	private PlayerHandlerMemory playerHandler = new PlayerHandlerMemory();
-    private GameHandler gameHandler = new GameHandler();
-    private Map<String,Class<? extends Engine>> allEngines = new HashMap<>();
+
+    private final GameHandler gameHandler = new GameHandler();
+    private final Map<String,Class<? extends Engine>> allEngines = new HashMap<>();
 
 	private SetupGame() {
         allEngines.put("Echo",EchoEngine.class);
@@ -34,8 +40,6 @@ public class SetupGame {
         allEngines.put("FromRoman",ToRomanNumberEngine.class);
         allEngines.put("Computation",ComputationEngine.class);
         allEngines.put("Equation",EquationEngine.class);
-
-        gameHandler.setPlayerHandler(playerHandler);
 
         Map<String, Engine> engines = createEngines(allEngines.keySet());
         gameHandler.setEngines(engines);
@@ -62,7 +66,7 @@ public class SetupGame {
 
 
     public PlayerHandler getPlayerHandler() {
-		return playerHandler;
+		return gameHandler.getPlayerHandler();
 	}
 
     public GameHandler getGameHandler() {

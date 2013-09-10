@@ -5,5 +5,5 @@ import no.anderska.wta.dto.CategoryDTO;
 import java.util.List;
 
 public interface StatusGiver {
-    public List<CategoryDTO> catergoryStatus();
+    public List<CategoryDTO> categoryStatus();
 }

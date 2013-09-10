@@ -1,70 +1,70 @@
 package no.anderska.wta.game;
 
-import no.anderska.wta.AnswerStatus;
-import no.anderska.wta.servlet.PlayerHandler;
-import org.fest.assertions.Assertions;
-import org.junit.Before;
-import org.junit.Test;
+import static java.util.Arrays.asList;
+import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
-import static org.mockito.Mockito.*;
+import no.anderska.wta.AnswerStatus;
+import no.anderska.wta.servlet.PlayerHandler;
+
+import org.junit.Test;
 
 public class ScoringTest {
 
     private final GameHandler gameHandler = new GameHandler();
-
-    private final PlayerHandler playerHandler = mock(PlayerHandler.class);
-
-    private final QuestionSet questionSet = mock(QuestionSet.class);
+    private final PlayerHandler playerHandler = gameHandler.getPlayerHandler();
+    private final String playerId = playerHandler.createPlayer("Some name");
+    private final Engine engine = createMockEngine();
 
     @Test
     public void shouldGivePointsOnCorrectAnswer() throws Exception {
-        when(questionSet.validateAnswer(anyList())).thenReturn(AnswerStatus.OK);
+        Question question = new Question("a", "b");
+        gameHandler.putQuestion(playerId, "some category", engine, Arrays.asList(question));
 
-        gameHandler.answer("playerone", Arrays.asList("Dummy"));
-
-        verify(playerHandler).addPoints("playerone", 5);
+        AnswerStatus status = gameHandler.answer(playerId, asList(question.getCorrectAnswer()));
+        assertThat(status).isEqualTo(AnswerStatus.OK);
+        assertThat(playerHandler.getPoints(playerId))
+            .isEqualTo(engine.points());
     }
 
     @Test
     public void shouldOnlyGivePointsOnce() throws Exception {
-        when(questionSet.validateAnswer(anyList())).thenReturn(AnswerStatus.OK);
+        Question question = new Question("a", "b");
+        gameHandler.putQuestion(playerId, "some category", engine, Arrays.asList(question));
 
-        gameHandler.answer("playerone", Arrays.asList("Dummy"));
-        AnswerStatus answer = gameHandler.answer("playerone", Arrays.asList("Dummy"));
-
-        verify(playerHandler).addPoints("playerone", 5);
-
-        Assertions.assertThat(answer).isEqualTo(AnswerStatus.OK);
-
+        gameHandler.answer(playerId, asList(question.getCorrectAnswer()));
+        AnswerStatus status = gameHandler.answer(playerId, asList(question.getCorrectAnswer()));
+        assertThat(status).isEqualTo(AnswerStatus.OK);
+        assertThat(playerHandler.getPoints(playerId))
+            .isEqualTo(engine.points());
     }
 
     @Test
     public void shouldGiveNoPointsOnWrongAnswer() throws Exception {
-        when(questionSet.validateAnswer(anyList())).thenReturn(AnswerStatus.WRONG);
+        Question question = new Question("a", "b");
+        gameHandler.putQuestion(playerId, "some category", engine, Arrays.asList(question));
 
-        gameHandler.answer("playerone", Arrays.asList("Dummy"));
-
-        verify(playerHandler,never()).addPoints(anyString(),anyInt());
+        AnswerStatus status = gameHandler.answer(playerId, Arrays.asList("Wrong answer"));
+        assertThat(status).isEqualTo(AnswerStatus.WRONG);
+        assertThat(playerHandler.getPoints(playerId))
+            .isEqualTo(0);
     }
 
-    @Before
-    public void setup() {
-        Map<String,Engine> engines = new HashMap<>();
+    @Test
+    public void shouldGiveNoPointsOnUnaskedQuestion() {
+        AnswerStatus status = gameHandler.answer(playerId, Arrays.asList("Correct answer"));
+        assertThat(status).isEqualTo(AnswerStatus.ERROR);
+        assertThat(playerHandler.getPoints(playerId))
+            .isEqualTo(0);
+    }
+
+    private Engine createMockEngine() {
         Engine engine = mock(Engine.class);
-        Map<String,QuestionSet> askedQuestions = new HashMap<>();
-
-        engines.put("someCategory", engine);
-        gameHandler.setEngines(engines);
-        gameHandler.setPlayerHandler(playerHandler);
-        askedQuestions.put("playerone", questionSet);
-        gameHandler.setAskedQuestions(askedQuestions);
-
         when(engine.points()).thenReturn(5);
-        when(questionSet.getEngine()).thenReturn(engine);
-        when(questionSet.getCategoryName()).thenReturn("someCategory");
+        return engine;
     }
+
 }

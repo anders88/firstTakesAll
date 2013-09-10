@@ -1,8 +1,8 @@
 package no.anderska.wta.servlet;
 
-import no.anderska.wta.dto.PlayerDTO;
-
 import java.util.List;
+
+import no.anderska.wta.dto.PlayerDTO;
 
 public interface PlayerHandler {
 
@@ -13,4 +13,5 @@ public interface PlayerHandler {
     public String playerName(String playerid);
 
     void clear();
+    int getPoints(String playerid);
 }

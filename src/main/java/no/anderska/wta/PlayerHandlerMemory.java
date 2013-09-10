@@ -1,6 +1,10 @@
 package no.anderska.wta;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import no.anderska.wta.dto.PlayerDTO;
 import no.anderska.wta.servlet.PlayerHandler;
@@ -8,24 +12,22 @@ import no.anderska.wta.servlet.PlayerHandler;
 public class  PlayerHandlerMemory implements PlayerHandler {
 	private static class Player {
 		@SuppressWarnings("unused")
-		private String id;
-		@SuppressWarnings("unused")
-		private String name;
-		@SuppressWarnings("unused")
+		private final String id;
+		private final String name;
 		private int points = 0;
 
 		public Player(String id, String name) {
 			this.id = id;
 			this.name = name;
 		}
-		
+
 		public void addPoints(int givenPoints) {
 			points+=givenPoints;
 		}
 	}
-	
-	private Map<String,Player> players = new HashMap<>();
-	
+
+	private final Map<String,Player> players = new HashMap<>();
+
 	private long playerid = 0;
 
     private synchronized long nextId() {
@@ -79,6 +81,11 @@ public class  PlayerHandlerMemory implements PlayerHandler {
     @Override
     public void clear() {
         players.clear();
+    }
+
+    @Override
+    public int getPoints(String playerid) {
+        return players.get(playerid).points;
     }
 
 }

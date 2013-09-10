@@ -1,25 +1,40 @@
 package no.anderska.wta.game;
 
-import no.anderska.wta.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import no.anderska.wta.AnswerStatus;
+import no.anderska.wta.GameHandlerPlayerInterface;
+import no.anderska.wta.PlayerHandlerMemory;
+import no.anderska.wta.QuestionList;
+import no.anderska.wta.SetupGame;
+import no.anderska.wta.StatusGiver;
 import no.anderska.wta.dto.CategoriesAnsweredDTO;
 import no.anderska.wta.dto.CategoryDTO;
 import no.anderska.wta.servlet.PlayerHandler;
 
-import java.util.*;
-
 public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, AdminHandler {
-    private PlayerHandler playerHandler;
+    private final PlayerHandler playerHandler = new PlayerHandlerMemory();
     private Map<String,Engine> engines;
     private Map<String,QuestionSet> askedQuestions = new HashMap<>();
-    private Map<String,String> takenCategories = new HashMap<>();
-    private Map<String,Set<String>> answered = new HashMap<>();
+    private final Map<String,String> takenCategories = new HashMap<>();
+    private final Map<String,Set<String>> answered = new HashMap<>();
     private boolean looserBonus = false;
-    private Map<String,Set<String>> categoryPointAwarded = new HashMap<>();
+    private final Map<String,Set<String>> categoryPointAwarded = new HashMap<>();
 
-    private Integer lockHolder = new Integer(42);
+    private final Integer lockHolder = new Integer(42);
 
     private static enum PointAwarded {
         FULL,HALF,NONE;
+    }
+
+    public PlayerHandler getPlayerHandler() {
+        return playerHandler;
     }
 
     @Override
@@ -82,21 +97,14 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
             return QuestionList.error("Unknown category '" + categoryid + "'");
         }
         List<Question> questions = engine.generateQuestions(playerid);
-        List<String> questionList = new ArrayList<>();
-
-        for (Question question : questions) {
-            questionList.add(question.getQuestion());
-        }
-
-        synchronized (lockHolder) {
-            askedQuestions.put(playerid,new QuestionSet(questions,engine, categoryid));
-        }
-
-        return QuestionList.create(questionList);
+        putQuestion(playerid, categoryid, engine, questions);
+        return QuestionList.createQuestion(questions);
     }
 
-    public void setPlayerHandler(PlayerHandler playerHandler) {
-        this.playerHandler = playerHandler;
+    public void putQuestion(String playerid, String categoryid, Engine engine, List<Question> questions) {
+        synchronized (lockHolder) {
+            askedQuestions.put(playerid,new QuestionSet(questions, engine, categoryid));
+        }
     }
 
     public void setEngines(Map<String, Engine> engines) {
@@ -108,7 +116,7 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
     }
 
     @Override
-    public List<CategoryDTO> catergoryStatus() {
+    public List<CategoryDTO> categoryStatus() {
         List<CategoryDTO> result = new ArrayList<>();
         for (Map.Entry<String, Engine> entry : engines.entrySet()) {
 
