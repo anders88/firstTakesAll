@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import no.anderska.wta.game.Engine;
+import no.anderska.wta.game.QuestionGenerator;
 import no.anderska.wta.game.Question;
 
-public class AdditionEngine implements Engine {
+public class AdditionEngine implements QuestionGenerator {
 
     @Override
     public List<Question> generateQuestions(String playerid) {

@@ -1,6 +1,6 @@
 package no.anderska.wta.engines;
 
-import no.anderska.wta.game.Engine;
+import no.anderska.wta.game.QuestionGenerator;
 import no.anderska.wta.game.Question;
 
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class PrimeFactorEngine implements Engine {
+public class PrimeFactorEngine implements QuestionGenerator {
 
     private List<Integer> primeFactor = new ArrayList<>();
     private int maxPicks;

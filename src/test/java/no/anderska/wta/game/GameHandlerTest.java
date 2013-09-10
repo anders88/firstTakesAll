@@ -26,7 +26,7 @@ public class GameHandlerTest {
 
     private final GameHandler gameHandler = new GameHandler();
     private final PlayerHandler playerHandler = gameHandler.getPlayerHandler();
-    private final Engine engine = mock(Engine.class);
+    private final QuestionGenerator engine = mock(QuestionGenerator.class);
 
     @Test
     public void shouldGiveQuestions() throws Exception {
@@ -125,7 +125,7 @@ public class GameHandlerTest {
 
     @Before
     public void setup() {
-        Map<String, Engine> engines = new HashMap<>();
+        Map<String, QuestionGenerator> engines = new HashMap<>();
         engines.put("one", engine);
         gameHandler.setEngines(engines);
     }

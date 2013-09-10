@@ -7,11 +7,11 @@ import java.util.List;
 
 public class QuestionSet {
     private List<Question> questions;
-    private Engine engine;
+    private QuestionGenerator engine;
     private String categoryName;
     private DateTime limit;
 
-    public QuestionSet(List<Question> questions, Engine engine, String categoryName) {
+    public QuestionSet(List<Question> questions, QuestionGenerator engine, String categoryName) {
         this.questions = questions;
         this.engine = engine;
         this.categoryName = categoryName;
@@ -38,7 +38,7 @@ public class QuestionSet {
         return AnswerStatus.OK;
     }
 
-    public Engine getEngine() {
+    public QuestionGenerator getEngine() {
         return engine;
     }
 

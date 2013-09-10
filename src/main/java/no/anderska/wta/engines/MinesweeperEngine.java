@@ -1,13 +1,13 @@
 package no.anderska.wta.engines;
 
-import no.anderska.wta.game.Engine;
+import no.anderska.wta.game.QuestionGenerator;
 import no.anderska.wta.game.Question;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class MinesweeperEngine implements Engine {
+public class MinesweeperEngine implements QuestionGenerator {
     int rows;
     int cols;
     private int percentMines;

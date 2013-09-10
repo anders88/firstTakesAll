@@ -13,7 +13,7 @@ import static org.fest.assertions.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 public class QuestionSetTest {
-    private Engine engine = mock(Engine.class);
+    private QuestionGenerator engine = mock(QuestionGenerator.class);
     @Test
     public void shouldHandleCorrectAnswer() throws Exception {
         QuestionSet questionSet = new QuestionSet(Arrays.asList(new Question("one","factone"),new Question("two","facttwo")), engine, "dummyCategory");

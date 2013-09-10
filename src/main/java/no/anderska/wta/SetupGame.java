@@ -12,7 +12,7 @@ import no.anderska.wta.engines.MinesweeperEngine;
 import no.anderska.wta.engines.PrimeFactorEngine;
 import no.anderska.wta.engines.RomanNumberEngine;
 import no.anderska.wta.engines.ToRomanNumberEngine;
-import no.anderska.wta.game.Engine;
+import no.anderska.wta.game.QuestionGenerator;
 import no.anderska.wta.game.GameHandler;
 import no.anderska.wta.servlet.PlayerHandler;
 
@@ -29,7 +29,7 @@ public class SetupGame {
 	}
 
     private final GameHandler gameHandler = new GameHandler();
-    private final Map<String,Class<? extends Engine>> allEngines = new HashMap<>();
+    private final Map<String,Class<? extends QuestionGenerator>> allEngines = new HashMap<>();
 
 	private SetupGame() {
         allEngines.put("Echo",EchoEngine.class);
@@ -41,20 +41,20 @@ public class SetupGame {
         allEngines.put("Computation",ComputationEngine.class);
         allEngines.put("Equation",EquationEngine.class);
 
-        Map<String, Engine> engines = createEngines(allEngines.keySet());
+        Map<String, QuestionGenerator> engines = createEngines(allEngines.keySet());
         gameHandler.setEngines(engines);
 	}
 
-    public Map<String, Engine> createEngines(Set<String> categoryNames) {
-        Map<String,Engine> engines = new HashMap<>();
+    public Map<String, QuestionGenerator> createEngines(Set<String> categoryNames) {
+        Map<String,QuestionGenerator> engines = new HashMap<>();
 
         for (String category : categoryNames) {
-            Class<? extends Engine> engineClass = allEngines.get(category);
+            Class<? extends QuestionGenerator> engineClass = allEngines.get(category);
             if (engineClass == null) {
                 throw new IllegalArgumentException("Unknown category " + category);
             }
             try {
-                Engine engine = engineClass.newInstance();
+                QuestionGenerator engine = engineClass.newInstance();
                 engines.put(category,engine);
             } catch (InstantiationException | IllegalAccessException e) {
                 throw new RuntimeException(e);

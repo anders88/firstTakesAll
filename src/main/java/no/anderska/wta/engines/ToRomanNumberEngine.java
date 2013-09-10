@@ -1,13 +1,13 @@
 package no.anderska.wta.engines;
 
-import no.anderska.wta.game.Engine;
+import no.anderska.wta.game.QuestionGenerator;
 import no.anderska.wta.game.Question;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class ToRomanNumberEngine implements Engine {
+public class ToRomanNumberEngine implements QuestionGenerator {
     private RomanNumberSolver solver = new RomanNumberSolver();
 
     private ToRomanNumberEngine(int maxNumber, int numberOfQuestions) {

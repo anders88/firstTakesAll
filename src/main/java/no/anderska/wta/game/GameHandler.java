@@ -20,7 +20,7 @@ import no.anderska.wta.servlet.PlayerHandler;
 
 public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, AdminHandler {
     private final PlayerHandler playerHandler = new PlayerHandlerMemory();
-    private Map<String,Engine> engines;
+    private Map<String,QuestionGenerator> engines;
     private Map<String,QuestionSet> askedQuestions = new HashMap<>();
     private final Map<String,String> takenCategories = new HashMap<>();
     private final Map<String,Set<String>> answered = new HashMap<>();
@@ -92,7 +92,7 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
         if (!playerHandler.playerPlaying(playerid)) {
             return QuestionList.error("Unknown player '" + playerid + "'");
         }
-        Engine engine = engines.get(categoryid);
+        QuestionGenerator engine = engines.get(categoryid);
         if (engine == null) {
             return QuestionList.error("Unknown category '" + categoryid + "'");
         }
@@ -101,13 +101,13 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
         return QuestionList.createQuestion(questions);
     }
 
-    public void putQuestion(String playerid, String categoryid, Engine engine, List<Question> questions) {
+    public void putQuestion(String playerid, String categoryid, QuestionGenerator engine, List<Question> questions) {
         synchronized (lockHolder) {
             askedQuestions.put(playerid,new QuestionSet(questions, engine, categoryid));
         }
     }
 
-    public void setEngines(Map<String, Engine> engines) {
+    public void setEngines(Map<String, QuestionGenerator> engines) {
         this.engines = engines;
     }
 
@@ -118,7 +118,7 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
     @Override
     public List<CategoryDTO> categoryStatus() {
         List<CategoryDTO> result = new ArrayList<>();
-        for (Map.Entry<String, Engine> entry : engines.entrySet()) {
+        for (Map.Entry<String, QuestionGenerator> entry : engines.entrySet()) {
 
             String answeredById = takenCategories.get(entry.getKey());
             String answeredBy = answeredById != null ? playerHandler.playerName(answeredById) : null;
@@ -165,9 +165,9 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
             return "Wrong password";
         }
         synchronized (lockHolder) {
-            Map<String, Engine> newEngines = SetupGame.instance().createEngines(new HashSet<>(Arrays.asList(engineNames)));
+            Map<String, QuestionGenerator> newEngines = SetupGame.instance().createEngines(new HashSet<>(Arrays.asList(engineNames)));
 
-            for (Map.Entry<String,Engine> entry : newEngines.entrySet()) {
+            for (Map.Entry<String,QuestionGenerator> entry : newEngines.entrySet()) {
                 if (engines.containsKey(entry.getKey())) {
                     continue;
                 }
@@ -176,7 +176,7 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
 
             Set<String> toRemove = new HashSet<>();
 
-            for (Map.Entry<String,Engine> entry : engines.entrySet()) {
+            for (Map.Entry<String,QuestionGenerator> entry : engines.entrySet()) {
                 if (newEngines.containsKey(entry.getKey())) {
                     continue;
                 }

@@ -17,7 +17,7 @@ public class ScoringTest {
     private final GameHandler gameHandler = new GameHandler();
     private final PlayerHandler playerHandler = gameHandler.getPlayerHandler();
     private final String playerId = playerHandler.createPlayer("Some name");
-    private final Engine engine = createMockEngine();
+    private final QuestionGenerator engine = createMockEngine();
 
     @Test
     public void shouldGivePointsOnCorrectAnswer() throws Exception {
@@ -61,8 +61,8 @@ public class ScoringTest {
             .isEqualTo(0);
     }
 
-    private Engine createMockEngine() {
-        Engine engine = mock(Engine.class);
+    private QuestionGenerator createMockEngine() {
+        QuestionGenerator engine = mock(QuestionGenerator.class);
         when(engine.points()).thenReturn(5);
         return engine;
     }
