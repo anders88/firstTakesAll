@@ -4,16 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import no.anderska.wta.engines.AdditionQuestionGenerator;
-import no.anderska.wta.engines.ComputationQuestionGenerator;
-import no.anderska.wta.engines.EchoQuestionGenerator;
-import no.anderska.wta.engines.EquationQuestionGenerator;
-import no.anderska.wta.engines.MinesweeperQuestionGenerator;
-import no.anderska.wta.engines.PrimeFactorQuestionGenerator;
-import no.anderska.wta.engines.RomanQuestionGenerator;
-import no.anderska.wta.engines.ToRomanNumberQuestionGenerator;
 import no.anderska.wta.game.GameHandler;
 import no.anderska.wta.game.QuestionGenerator;
+import no.anderska.wta.questions.AdditionQuestionGenerator;
+import no.anderska.wta.questions.ComputationQuestionGenerator;
+import no.anderska.wta.questions.EchoQuestionGenerator;
+import no.anderska.wta.questions.EquationQuestionGenerator;
+import no.anderska.wta.questions.MinesweeperQuestionGenerator;
+import no.anderska.wta.questions.PrimeFactorQuestionGenerator;
+import no.anderska.wta.questions.RomanQuestionGenerator;
+import no.anderska.wta.questions.ToRomanNumberQuestionGenerator;
 import no.anderska.wta.servlet.PlayerHandler;
 
 public class SetupGame {

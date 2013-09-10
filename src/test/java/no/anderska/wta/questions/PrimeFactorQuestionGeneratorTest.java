@@ -1,10 +1,11 @@
-package no.anderska.wta.engines;
+package no.anderska.wta.questions;
 
 import static org.fest.assertions.Assertions.assertThat;
 
 import java.util.List;
 
 import no.anderska.wta.game.Question;
+import no.anderska.wta.questions.PrimeFactorQuestionGenerator;
 
 import org.junit.Test;
 

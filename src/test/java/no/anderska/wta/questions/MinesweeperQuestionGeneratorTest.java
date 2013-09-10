@@ -1,4 +1,6 @@
-package no.anderska.wta.engines;
+package no.anderska.wta.questions;
+
+import no.anderska.wta.questions.MinesweeperQuestionGenerator;
 
 import org.junit.Test;
 
