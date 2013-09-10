@@ -1,32 +1,19 @@
 package no.anderska.wta.questions;
 
-import no.anderska.wta.game.QuestionGenerator;
 import no.anderska.wta.game.Question;
 
-import java.util.ArrayList;
-import java.util.List;
+public class EquationQuestionGenerator extends AbstractQuestionGenerator {
 
-public class EquationQuestionGenerator implements QuestionGenerator {
+    private static final String DESCRIPTION = "Solve for X. Multiplication takes precedence over addition and substraction hence '2+X*2 eq 10' = '4'";
 
-    private int numQuestions = 15;
-
-    @Override
-    public List<Question> generateQuestions(String playerid) {
-        List<Question> result = new ArrayList<>();
-        for (int i=0;i<numQuestions;i++) {
-            String[] qanda = new CalculusGenerator().generateEquation();
-            result.add(new Question(qanda[0],qanda[1]));
-        }
-        return result;
+    public EquationQuestionGenerator() {
+        super(15, 45, DESCRIPTION);
     }
 
     @Override
-    public String description() {
-        return "Solve for X. Multiplication takes precedence over addition and substraction hence '2+X*2 eq 10' = '4'";
-    }
-
-    @Override
-    public int points() {
-        return 45;
+    protected Question createQuestion() {
+        String[] qanda = new CalculusGenerator().generateEquation();
+        Question question = new Question(qanda[0],qanda[1]);
+        return question;
     }
 }

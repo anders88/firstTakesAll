@@ -2,20 +2,21 @@ package no.anderska.wta.questions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import no.anderska.wta.game.Question;
 import no.anderska.wta.game.QuestionGenerator;
 
 public abstract class AbstractQuestionGenerator implements QuestionGenerator {
 
+    protected final Random random = new Random();
     private final int numberOfQuestions;
     private final String description;
     private final int points;
 
     protected abstract Question createQuestion();
 
-
-    public AbstractQuestionGenerator(int numberOfQuestions, String description, int points) {
+    public AbstractQuestionGenerator(int numberOfQuestions, int points, String description) {
         if (numberOfQuestions < 0) {
             throw new IllegalArgumentException("numberOfQuestions must be > 0, was " + numberOfQuestions);
         }
@@ -25,7 +26,7 @@ public abstract class AbstractQuestionGenerator implements QuestionGenerator {
     }
 
     @Override
-    public List<Question> generateQuestions(String playerid) {
+    public final List<Question> generateQuestions(String playerid) {
         List<Question> result = new ArrayList<>();
         for (int i=0;i<numberOfQuestions;i++) {
             result.add(createQuestion());
@@ -34,12 +35,12 @@ public abstract class AbstractQuestionGenerator implements QuestionGenerator {
     }
 
     @Override
-    public String description() {
+    public final String description() {
         return description;
     }
 
     @Override
-    public int points() {
+    public final int points() {
         return points;
     }
 }

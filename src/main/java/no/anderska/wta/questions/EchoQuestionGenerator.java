@@ -1,19 +1,15 @@
 package no.anderska.wta.questions;
 
-import no.anderska.wta.game.QuestionGenerator;
+import java.util.UUID;
+
 import no.anderska.wta.game.Question;
 
-import java.util.*;
+public class EchoQuestionGenerator extends AbstractQuestionGenerator {
 
-public class EchoQuestionGenerator implements QuestionGenerator {
-
-    private int numberOfQuestions;
+    private static final String DESCRIPTION = "The answer is the same as the question. Question: 'hello', Correct answer 'hello'";
 
     private EchoQuestionGenerator(int numberOfQuestions) {
-        this.numberOfQuestions = numberOfQuestions;
-        if (numberOfQuestions <= 0) {
-			throw new IllegalArgumentException("Number of questions must be positive");
-		}
+        super(numberOfQuestions, 2, DESCRIPTION);
 	}
 
     public EchoQuestionGenerator() {
@@ -21,23 +17,9 @@ public class EchoQuestionGenerator implements QuestionGenerator {
     }
 
     @Override
-    public List<Question> generateQuestions(String playerid) {
-
-        List<Question> questions = new ArrayList<>(numberOfQuestions);
-        for (int i=0;i<numberOfQuestions;i++) {
-            String rand = UUID.randomUUID().toString();
-            questions.add(new Question(rand,rand));
-        }
-        return questions;
+    protected Question createQuestion() {
+        String rand = UUID.randomUUID().toString();
+        return new Question(rand,rand);
     }
 
-    @Override
-    public String description() {
-        return "The answer is the same as the question. Question: 'hello', Correct answer 'hello'";
-    }
-
-    @Override
-    public int points() {
-        return 2;
-    }
 }
