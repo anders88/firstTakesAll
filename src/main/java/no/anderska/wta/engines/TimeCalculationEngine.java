@@ -7,6 +7,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimePrinter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TimeCalculationEngine implements Engine {
@@ -16,20 +17,24 @@ public class TimeCalculationEngine implements Engine {
 
     @Override
     public List<Question> generateQuestions(String playerid) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        List<Question> result = new ArrayList<>();
+        for (int i=0;i<30;i++) {
+            result.add(makeRandomTrip());
+        }
+        return result;
     }
 
     @Override
     public String description() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return "A plane travels to and from a place. Calculate the local time when it lands on format 'yyyy-mm-dd at hh:mm' eg. '2013-09-03 at 16:34'";
     }
 
     @Override
     public int points() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return 30;
     }
 
-    public Question sameDaySameZoneoneQuestion() {
+    public Question makeRandomTrip() {
         City from = random.pickRandomCity();
         City to = random.pickRandomCity();
 
@@ -48,7 +53,7 @@ public class TimeCalculationEngine implements Engine {
         int minutes = durationMinutes % 60;
         quesText.append(". Flighttime " + hours + "h " + minutes + "m");
 
-        DateTime landing = starting.plusMinutes(durationMinutes);
+        DateTime landing = starting.plusMinutes(durationMinutes).withZone(to.getTimeZone());
 
         return new Question(quesText.toString(),dateFormat.print(landing));
     }

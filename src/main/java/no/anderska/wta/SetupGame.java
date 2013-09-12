@@ -27,6 +27,7 @@ public class SetupGame {
 		return setup;
 	}
 
+<<<<<<< HEAD
     private final GameHandler gameHandler = new GameHandler();
     private final Map<String,Class<? extends QuestionGenerator>> allGenerators = new HashMap<>();
 
@@ -39,6 +40,7 @@ public class SetupGame {
         allGenerators.put("FromRoman",ToRomanNumberQuestionGenerator.class);
         allGenerators.put("Computation",ComputationQuestionGenerator.class);
         allGenerators.put("Equation",EquationQuestionGenerator.class);
+        allGenerators.put("TimeCalc",TimeCalculationEngine.class);
 
         for (String category : allGenerators.keySet()) {
             gameHandler.addQuestionCategory(category, createGenerator(category));
