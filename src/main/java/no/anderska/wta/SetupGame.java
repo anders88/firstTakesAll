@@ -34,6 +34,7 @@ public class SetupGame {
         allEngines.put("FromRoman",ToRomanNumberEngine.class);
         allEngines.put("Computation",ComputationEngine.class);
         allEngines.put("Equation",EquationEngine.class);
+        allEngines.put("TimeCalc",TimeCalculationEngine.class);
 
         gameHandler.setPlayerHandler(playerHandler);
 
