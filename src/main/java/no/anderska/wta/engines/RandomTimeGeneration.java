@@ -5,7 +5,7 @@ public class RandomTimeGeneration {
         return null;  //To change body of created methods use File | Settings | File Templates.
     }
 
-    public int pickMinutes(int min,int max) {
+    public int pickMinutes() {
         return 0;  //To change body of created methods use File | Settings | File Templates.
     }
 }

@@ -33,8 +33,8 @@ public class TimeCalculationEngine implements Engine {
         City from = random.pickRandomCity();
         City to = random.pickRandomCity();
 
-        DateTime starting = new DateTime(2013, 9, 12, 0, 0, from.getTimeZone()).plusMinutes(random.pickMinutes(1,720));
-        int durationMinutes=random.pickMinutes(60,240);
+        DateTime starting = new DateTime(2013, 9, 12, 0, 0, from.getTimeZone()).plusMinutes(random.pickMinutes());
+        int durationMinutes=random.pickMinutes();
 
         StringBuilder quesText=new StringBuilder("From ");
         quesText.append(from.getName());
@@ -46,9 +46,11 @@ public class TimeCalculationEngine implements Engine {
         quesText.append(to.getName());
         int hours = durationMinutes / 60;
         int minutes = durationMinutes % 60;
-        quesText.append(". Flighttime is " + hours + "h " + minutes + "m");
+        quesText.append(". Flighttime " + hours + "h " + minutes + "m");
 
-        return new Question(quesText.toString(),"");
+        DateTime landing = starting.plusMinutes(durationMinutes);
+
+        return new Question(quesText.toString(),dateFormat.print(landing));
     }
 
     public void setRandom(RandomTimeGeneration random) {
