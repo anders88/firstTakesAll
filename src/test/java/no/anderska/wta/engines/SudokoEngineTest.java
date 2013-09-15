@@ -1,5 +1,6 @@
 package no.anderska.wta.engines;
 
+import no.anderska.wta.questions.SudokoEngine;
 import org.junit.Test;
 
 import java.util.List;

@@ -5,14 +5,7 @@ import java.util.Map;
 
 import no.anderska.wta.game.GameHandler;
 import no.anderska.wta.game.QuestionGenerator;
-import no.anderska.wta.questions.AdditionQuestionGenerator;
-import no.anderska.wta.questions.ComputationQuestionGenerator;
-import no.anderska.wta.questions.EchoQuestionGenerator;
-import no.anderska.wta.questions.EquationQuestionGenerator;
-import no.anderska.wta.questions.MinesweeperQuestionGenerator;
-import no.anderska.wta.questions.PrimeFactorQuestionGenerator;
-import no.anderska.wta.questions.RomanQuestionGenerator;
-import no.anderska.wta.questions.ToRomanNumberQuestionGenerator;
+import no.anderska.wta.questions.*;
 import no.anderska.wta.servlet.PlayerHandler;
 
 public class SetupGame {
@@ -27,7 +20,6 @@ public class SetupGame {
 		return setup;
 	}
 
-<<<<<<< HEAD
     private final GameHandler gameHandler = new GameHandler();
     private final Map<String,Class<? extends QuestionGenerator>> allGenerators = new HashMap<>();
 
@@ -40,7 +32,7 @@ public class SetupGame {
         allGenerators.put("FromRoman",ToRomanNumberQuestionGenerator.class);
         allGenerators.put("Computation",ComputationQuestionGenerator.class);
         allGenerators.put("Equation",EquationQuestionGenerator.class);
-        allGenerators.put("TimeCalc",TimeCalculationEngine.class);
+        allGenerators.put("TimeCalc",TimeCalculationGenerator.class);
 
         for (String category : allGenerators.keySet()) {
             gameHandler.addQuestionCategory(category, createGenerator(category));

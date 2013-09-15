@@ -1,6 +1,9 @@
 package no.anderska.wta.engines;
 
 import no.anderska.wta.game.Question;
+import no.anderska.wta.questions.TimeCalculationGenerator;
+import no.anderska.wta.questions.timegen.City;
+import no.anderska.wta.questions.timegen.RandomTimeGeneration;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -18,7 +21,7 @@ public class TimeCalculatorEngineTest {
     @Test
     public void shouldHaveCorrectWithinTimezones() {
         DateTimeZone timeZone = DateTimeZone.forID("Europe/Paris");
-        TimeCalculationEngine engine = new TimeCalculationEngine();
+        TimeCalculationGenerator engine = new TimeCalculationGenerator();
         RandomTimeGeneration randomTimeGeneration = mock(RandomTimeGeneration.class);
         engine.setRandom(randomTimeGeneration);
 
@@ -37,7 +40,7 @@ public class TimeCalculatorEngineTest {
     public void shouldGenereateDifferentZones() throws Exception {
         DateTimeZone tcParis = DateTimeZone.forID("Europe/Paris");
         DateTimeZone tcLondon = DateTimeZone.forID("Europe/London");
-        TimeCalculationEngine engine = new TimeCalculationEngine();
+        TimeCalculationGenerator engine = new TimeCalculationGenerator();
         RandomTimeGeneration randomTimeGeneration = mock(RandomTimeGeneration.class);
         engine.setRandom(randomTimeGeneration);
 

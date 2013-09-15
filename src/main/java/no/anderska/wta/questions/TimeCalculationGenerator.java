@@ -1,37 +1,17 @@
-package no.anderska.wta.engines;
+package no.anderska.wta.questions;
 
-import no.anderska.wta.game.Engine;
 import no.anderska.wta.game.Question;
+import no.anderska.wta.questions.timegen.City;
+import no.anderska.wta.questions.timegen.RandomTimeGeneration;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.DateTimePrinter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class TimeCalculationEngine implements Engine {
+public class TimeCalculationGenerator extends AbstractQuestionGenerator {
     private RandomTimeGeneration random = new RandomTimeGeneration();
 
-
-
-    @Override
-    public List<Question> generateQuestions(String playerid) {
-        List<Question> result = new ArrayList<>();
-        for (int i=0;i<30;i++) {
-            result.add(makeRandomTrip());
-        }
-        return result;
-    }
-
-    @Override
-    public String description() {
-        return "A plane travels to and from a place. Calculate the local time when it lands on format 'yyyy-mm-dd at hh:mm' eg. '2013-09-03 at 16:34'";
-    }
-
-    @Override
-    public int points() {
-        return 30;
+    public TimeCalculationGenerator() {
+        super(30, 30, "A plane travels to and from a place. Calculate the local time when it lands on format 'yyyy-mm-dd at hh:mm' eg. '2013-09-03 at 16:34'");
     }
 
     public Question makeRandomTrip() {
@@ -60,5 +40,10 @@ public class TimeCalculationEngine implements Engine {
 
     public void setRandom(RandomTimeGeneration random) {
         this.random = random;
+    }
+
+    @Override
+    protected Question createQuestion() {
+        return makeRandomTrip();
     }
 }

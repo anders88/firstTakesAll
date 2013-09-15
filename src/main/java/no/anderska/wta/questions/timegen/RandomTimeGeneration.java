@@ -1,4 +1,4 @@
-package no.anderska.wta.engines;
+package no.anderska.wta.questions.timegen;
 
 import org.joda.time.DateTimeZone;
 
@@ -11,7 +11,7 @@ public class RandomTimeGeneration {
     private List<City> cities;
 
     public RandomTimeGeneration() {
-        cities = new ArrayList<City>();
+        cities = new ArrayList<>();
 
         cities.add(new City("Oslo", DateTimeZone.forID("Europe/Oslo")));
         cities.add(new City("Paris", DateTimeZone.forID("Europe/Paris")));

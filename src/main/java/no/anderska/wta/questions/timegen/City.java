@@ -1,4 +1,4 @@
-package no.anderska.wta.engines;
+package no.anderska.wta.questions.timegen;
 
 import org.joda.time.DateTimeZone;
 
