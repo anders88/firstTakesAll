@@ -6,6 +6,11 @@ public class CalculusGenerator {
     private final static int stopWhenNodes = 12;
     private final static int maxNum = 43;
 
+
+    public void setRandom(Random random) {
+        this.random = random;
+    }
+
     private Random random = new Random();
     private int numberOfNumbers=0;
     private int xpick;
@@ -29,31 +34,56 @@ public class CalculusGenerator {
         Part left;
         Part right;
         boolean isX = false;
+
+        private String equasion() {
+            if (operator == null) {
+                return "" + value;
+            }
+            StringBuilder res = new StringBuilder();
+            res.append(left.equasion());
+            res.append(operator.sign);
+            res.append(right.equasion());
+            return res.toString();
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder res = new StringBuilder();
+            res.append(equasion());
+            res.append("->");
+            res.append(value);
+            return res.toString();
+        }
     }
 
+
+    public static final int TYPE_NUMBER = 0;
+    public static final int TYPE_ADD = 1;
+    public static final int TYPE_SUBSTR = 2;
+    public static final int TYPE_MULT = 3;
 
     private Part generate(boolean forcenum) {
         Part part = new Part();
         int type = random.nextInt(4);
-        if (forcenum || leftpicks <= 0 || type==0) {
+        if (forcenum || leftpicks <= 0 || type==TYPE_NUMBER) {
             this.numberOfNumbers=this.numberOfNumbers+1;
             part.value = random.nextInt(maxNum)+1;
             return part;
         }
         switch (type) {
-            case 1:
+            case TYPE_ADD:
                 part.operator = Operator.ADD;
                 part.left = generate(false);
                 part.right = generate(false);
                 part.value = part.left.value+part.right.value;
                 return part;
-            case 2:
+            case TYPE_SUBSTR:
                 part.operator = Operator.SUBSTRACT;
-                part.left = generate(false);
-                part.right = generate(false);
+                part.left = generate(true);
+                part.right = generate(true);
                 part.value = part.left.value-part.right.value;
                 return part;
-            case 3:
+            case TYPE_MULT:
                 part.operator = Operator.MULTIPLY;
                 part.left = generate(true);
                 part.right = generate(true);
