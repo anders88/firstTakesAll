@@ -62,15 +62,20 @@ public class CalculusGenerator {
     public static final int TYPE_SUBSTR = 2;
     public static final int TYPE_MULT = 3;
 
+    private int pickType(boolean forcenum,int leftpicks) {
+        if (forcenum || leftpicks <= 0) {
+            return TYPE_NUMBER;
+        }
+        return random.nextInt(4);
+    }
+
     private Part generate(boolean forcenum) {
         Part part = new Part();
-        int type = random.nextInt(4);
-        if (forcenum || leftpicks <= 0 || type==TYPE_NUMBER) {
-            this.numberOfNumbers=this.numberOfNumbers+1;
-            part.value = random.nextInt(maxNum)+1;
-            return part;
-        }
-        switch (type) {
+        switch (pickType(forcenum,leftpicks)) {
+            case TYPE_NUMBER:
+                this.numberOfNumbers=this.numberOfNumbers+1;
+                part.value = random.nextInt(maxNum)+1;
+                return part;
             case TYPE_ADD:
                 part.operator = Operator.ADD;
                 part.left = generate(false);
