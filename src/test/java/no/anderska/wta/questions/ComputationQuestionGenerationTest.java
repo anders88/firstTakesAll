@@ -22,20 +22,32 @@ public class ComputationQuestionGenerationTest {
 
 
     @Test
+    public void shouldHandleSimple() throws Exception {
+        when(random.nextInt(anyInt())).thenReturn(0, 41);
+        checkEqAndAnswer("42", "42");
+    }
+
+    @Test
+    public void basicAddition() throws Exception {
+        when(random.nextInt(anyInt())).thenReturn(TYPE_ADD, TYPE_NUMBER, 3, TYPE_NUMBER, 2);
+        checkEqAndAnswer("4+3", "7");
+    }
+
+    @Test
     public void basicMultplication() throws Exception {
-        when(random.nextInt(anyInt())).thenReturn(TYPE_MULT-1, 3, 2);
+        when(random.nextInt(anyInt())).thenReturn(TYPE_MULT, 3, 2);
         checkEqAndAnswer("4*3", "12");
     }
 
     @Test
     public void basicSubstraction() throws Exception {
-        when(random.nextInt(anyInt())).thenReturn(TYPE_SUBSTR-1, 3, 2);
+        when(random.nextInt(anyInt())).thenReturn(TYPE_SUBSTR, 3, 2);
         checkEqAndAnswer("4-3", "1");
     }
 
     @Test
     public void complexComputation() throws Exception {
-        when(random.nextInt(anyInt())).thenReturn(TYPE_ADD-1, TYPE_MULT-1, 3, 2, TYPE_SUBSTR-1, 4, 3);
+        when(random.nextInt(anyInt())).thenReturn(TYPE_ADD, TYPE_MULT, 3, 2, TYPE_SUBSTR, 4, 3);
         checkEqAndAnswer("4*3+5-4", "13");
     }
 

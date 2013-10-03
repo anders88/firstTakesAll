@@ -66,7 +66,7 @@ public class CalculusGenerator {
         if (forcenum || leftpicks <= 0) {
             return TYPE_NUMBER;
         }
-        return random.nextInt(3)+1;
+        return random.nextInt(4);
     }
 
     private Part generate(boolean forcenum) {
