@@ -7,6 +7,7 @@ import no.anderska.wta.GameHandlerPlayerInterface;
 import no.anderska.wta.QuestionList;
 import no.anderska.wta.SetupGame;
 import no.anderska.wta.dto.PlayerAnswerDto;
+import no.anderska.wta.game.GameLogger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +21,7 @@ public class GameServlet extends HttpServlet {
 
 
     private GameHandlerPlayerInterface gameHandlerPlayerInterface;
+    private GameLogger gameLogger;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -32,6 +34,7 @@ public class GameServlet extends HttpServlet {
             playerAnswerDto = gson.fromJson(content, PlayerAnswerDto.class);
         } catch (JsonSyntaxException e) {
             answer(resp,AnswerStatus.ERROR);
+            gameLogger.error(content);
             return;
         }
 
@@ -93,5 +96,9 @@ public class GameServlet extends HttpServlet {
 
     public void setGameHandlerPlayerInterface(GameHandlerPlayerInterface gameHandlerPlayerInterface) {
         this.gameHandlerPlayerInterface = gameHandlerPlayerInterface;
+    }
+
+    public void setGameLogger(GameLogger gameLogger) {
+        this.gameLogger = gameLogger;
     }
 }

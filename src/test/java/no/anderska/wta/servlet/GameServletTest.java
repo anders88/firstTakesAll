@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import no.anderska.wta.dto.PlayerAnswerDto;
 import no.anderska.wta.game.GameHandler;
+import no.anderska.wta.game.GameLogger;
 import no.anderska.wta.game.Question;
 import no.anderska.wta.game.QuestionGenerator;
 import no.anderska.wta.questions.DummyQuestionGenerator;
@@ -43,6 +44,7 @@ public class GameServletTest {
     private final Question q2 = new Question("q2", "two");
     private final Question q3 = new Question("q3", "three");
     private final DummyQuestionGenerator questionGenerator = new DummyQuestionGenerator();
+    private final GameLogger gameLogger = mock(GameLogger.class);
 
     @Test
     public void shouldHandleAnswer() throws Exception {
@@ -72,6 +74,7 @@ public class GameServletTest {
         servlet.service(req, resp);
 
         assertThat(htmlSource.toString()).isEqualTo("{\"status\" : \"ERROR\"}");
+        verify(gameLogger).error("xxx");
     }
 
     @Test
@@ -124,5 +127,6 @@ public class GameServletTest {
     public void setup() throws IOException {
         when(resp.getWriter()).thenReturn(new PrintWriter(htmlSource));
         servlet.setGameHandlerPlayerInterface(gameHandler);
+        servlet.setGameLogger(gameLogger);
     }
 }
