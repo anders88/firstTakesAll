@@ -1,5 +1,6 @@
 package no.anderska.wta.game;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import no.anderska.wta.AnswerStatus;
@@ -45,5 +46,13 @@ public class QuestionSet {
 
     public String getCategoryName() {
         return categoryName;
+    }
+
+    public List<String> expectedAnswers() {
+        List<String> result = new ArrayList<>();
+        for (Question question : questions) {
+            result.add(question.getFact());
+        }
+        return result;
     }
 }

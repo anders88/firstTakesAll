@@ -27,6 +27,11 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
     private final Map<String,Set<String>> categoryPointAwarded = new HashMap<>();
 
     private final Integer lockHolder = new Integer(42);
+    private GameLogger gameLogger;
+
+    public void setGameLogger(GameLogger gameLogger) {
+        this.gameLogger = gameLogger;
+    }
 
     private static enum PointAwarded {
         FULL,HALF,NONE;
@@ -51,6 +56,8 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
                     points = points / 2;
                 }
                 playerHandler.addPoints(playerid, points);
+                gameLogger.answer(playerid,answers,questionSet.expectedAnswers(),AnswerStatus.OK,points);
+
             }
         }
         return answerStatus;

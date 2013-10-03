@@ -2,6 +2,9 @@ package no.anderska.wta.game;
 
 import static java.util.Arrays.asList;
 import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +18,7 @@ import no.anderska.wta.servlet.PlayerHandler;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
 public class GameHandlerTest {
 
@@ -22,6 +26,7 @@ public class GameHandlerTest {
     private final PlayerHandler playerHandler = gameHandler.getPlayerHandler();
     private final DummyQuestionGenerator generator =
             new DummyQuestionGenerator(Arrays.asList(new Question("q", "a")));
+    private final GameLogger gameLogger = mock(GameLogger.class);
 
     @Test
     public void shouldGiveQuestions() throws Exception {
@@ -55,13 +60,24 @@ public class GameHandlerTest {
         String playerid = playerHandler.createPlayer("Player");
 
         generator.addQuestionSet(asList(new Question("one", "factone"), new Question("two", "facttwo")));
+        gameHandler.setGameLogger(gameLogger);
 
         gameHandler.questions(playerid, "one");
 
         AnswerStatus answerStatus = gameHandler.answer(playerid, Arrays.asList("factone", "facttwo"));
 
         assertThat(answerStatus).isEqualTo(AnswerStatus.OK);
+        Class<List<String>> stringListClass = (Class<List<String>>)(Class)List.class;
 
+        ArgumentCaptor<List<String>> answerCaptor = ArgumentCaptor.forClass(stringListClass);
+        ArgumentCaptor<List<String>> expectedCaptor = ArgumentCaptor.forClass(stringListClass);
+
+        verify(gameLogger).answer(eq(playerid),answerCaptor.capture(),expectedCaptor.capture(),eq(AnswerStatus.OK),eq(110));
+
+        assertThat(answerCaptor.getAllValues()).hasSize(1);
+        assertThat(expectedCaptor.getAllValues()).hasSize(1);
+        assertThat(answerCaptor.getValue()).containsExactly("factone","facttwo");
+        assertThat(expectedCaptor.getValue()).containsExactly("factone","facttwo");
     }
 
     @Test

@@ -24,6 +24,10 @@ public class Question {
         return fact.equals(answer);
     }
 
+    public String getFact() {
+        return fact;
+    }
+
     @Override
     public String toString() {
         return "Question<'" + question + "'|'" + fact + "'>";
