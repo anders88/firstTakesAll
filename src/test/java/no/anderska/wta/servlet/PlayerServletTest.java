@@ -126,7 +126,7 @@ public class PlayerServletTest {
 
 
 
-        @Before
+    @Before
     public void setup() throws IOException {
         servlet.setPlayerHandler(playerHandler);
         when(resp.getWriter()).thenReturn(new PrintWriter(htmlDoc));
