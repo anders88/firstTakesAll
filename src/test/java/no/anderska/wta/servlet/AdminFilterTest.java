@@ -42,6 +42,6 @@ public class AdminFilterTest {
         adminFilter.doFilter(req, resp, filterChain);
 
         verify(filterChain, never()).doFilter(req, resp);
-        verify(resp).sendRedirect("login");
+        verify(resp).sendRedirect("../login");
     }
 }

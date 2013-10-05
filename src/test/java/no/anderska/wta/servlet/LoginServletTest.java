@@ -41,8 +41,8 @@ public class LoginServletTest {
         verify(resp).setContentType("text/html");
         assertThat(htmlDoc.toString()) //
                 .contains("<form method='POST' action='login'") //
-                .contains("<intput type='password' placeholder='password' name='password' value=''") //
-                .contains("<intput type='submit' name='loggInn' value='Logg inn'") //
+                .contains("<input type='password' placeholder='password' name='password' value=''") //
+                .contains("<input type='submit' name='loggInn' value='Login'") //
         ;
 
         DocumentHelper.parseText(htmlDoc.toString());

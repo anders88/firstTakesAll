@@ -16,10 +16,13 @@ public class LoginServlet extends HttpServlet {
         PrintWriter writer = resp.getWriter();
 
         writer
+                .append("<html><body>")
                 .append("<form method='POST' action='login'>") //
-                .append("<intput type='password' placeholder='password' name='password' value=''/>") //
-                .append("<intput type='submit' name='loggInn' value='Logg inn'/>") //
+                .append("Login") //
+                .append("<input type='password' placeholder='password' name='password' value=''/>") //
+                .append("<input type='submit' name='loggInn' value='Login'/>") //
                 .append("</form>") //
+                .append("</body></html>") //
         ;
 
     }

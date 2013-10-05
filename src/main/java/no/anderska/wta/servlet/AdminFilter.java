@@ -20,7 +20,7 @@ public class AdminFilter implements Filter {
             chain.doFilter(request, response);
         } else {
             HttpServletResponse resp = (HttpServletResponse) response;
-            resp.sendRedirect("login");
+            resp.sendRedirect("../login");
         }
     }
 
