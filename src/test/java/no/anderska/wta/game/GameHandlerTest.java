@@ -60,7 +60,7 @@ public class GameHandlerTest {
         String playerid = playerHandler.createPlayer("Player");
 
         generator.addQuestionSet(asList(new Question("one", "factone"), new Question("two", "facttwo")));
-        gameHandler.setGameLogger(gameLogger);
+
 
         gameHandler.questions(playerid, "one");
 
@@ -151,5 +151,6 @@ public class GameHandlerTest {
     @Before
     public void setup() {
         gameHandler.addQuestionCategory("one", generator);
+        gameHandler.setGameLogger(gameLogger);
     }
 }

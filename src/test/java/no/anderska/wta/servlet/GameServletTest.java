@@ -51,6 +51,7 @@ public class GameServletTest {
         String playerid = gameHandler.getPlayerHandler().createPlayer("Some name");
         gameHandler.putQuestion(playerid, "Some id", questionGenerator, asList(q1, q2, q3));
 
+
         PlayerAnswerDto playerAnswerDto = new PlayerAnswerDto();
         playerAnswerDto.setPlayerId(playerid);
         playerAnswerDto.setAnswers(asList(q1.getCorrectAnswer(), q2.getCorrectAnswer(), q3.getCorrectAnswer()));
@@ -128,5 +129,6 @@ public class GameServletTest {
         when(resp.getWriter()).thenReturn(new PrintWriter(htmlSource));
         servlet.setGameHandlerPlayerInterface(gameHandler);
         servlet.setGameLogger(gameLogger);
+        gameHandler.setGameLogger(gameLogger);
     }
 }
