@@ -12,7 +12,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -34,7 +33,7 @@ public class RuleUpdaterServletTest {
         servlet.service(req, resp);
 
         verify(resp).setContentType("text/html");
-        verify(adminHandler).restartGame("secret");
+        verify(adminHandler).restartGame();
         assertThat(htmlSource.toString()).contains("Action performed");
 
         DocumentHelper.parseText(htmlSource.toString());
@@ -47,7 +46,7 @@ public class RuleUpdaterServletTest {
         when(req.getMethod()).thenReturn("POST");
         when(req.getParameter("action")).thenReturn("resetAll");
 
-        when(adminHandler.restartGame(anyString())).thenReturn("Wrong password");
+        when(adminHandler.restartGame()).thenReturn("Wrong password");
 
         servlet.service(req, resp);
 

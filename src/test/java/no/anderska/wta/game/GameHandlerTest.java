@@ -135,12 +135,12 @@ public class GameHandlerTest {
     public void shouldEditCategories() {
         String playerid = playerHandler.createPlayer("Player One");
 
-        gameHandler.editCategories("secret", asList("FromRoman", "one"));
+        gameHandler.editCategories(asList("FromRoman", "one"));
         assertThat(gameHandler.questions(playerid, "one").isOk()).isTrue();
         gameHandler.answer(playerid, Arrays.asList("a"));
         assertThat(gameHandler.categoryStatus("one").getAnsweredBy()).isEqualTo("Player One");
 
-        gameHandler.editCategories("secret", asList("ToRoman", "one"));
+        gameHandler.editCategories(asList("ToRoman", "one"));
         assertThat(gameHandler.questions(playerid, "FromRoman").getErrormessage()).startsWith("Unknown category");
         assertThat(gameHandler.questions(playerid, "ToRoman").isOk()).isTrue();
         assertThat(gameHandler.questions(playerid, "one").isOk()).isTrue();

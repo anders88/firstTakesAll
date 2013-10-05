@@ -142,10 +142,7 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
     }
 
     @Override
-    public String restartGame(String password) {
-        if (!checkPassword(password)) {
-            return "Wrong password";
-        }
+    public String restartGame() {
         synchronized (lockHolder) {
             askedQuestions.clear();
             takenCategories.clear();
@@ -156,15 +153,8 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
         return null;
     }
 
-    private boolean checkPassword(String password) {
-        return "secret".equals(password);
-    }
-
     @Override
-    public String resetCategories(String password) {
-        if (!checkPassword(password)) {
-            return "Wrong password";
-        }
+    public String resetCategories() {
         synchronized (lockHolder) {
             takenCategories.clear();
             categoryPointAwarded.clear();
@@ -173,10 +163,7 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
     }
 
     @Override
-    public String editCategories(String password, List<String> generatorNames) {
-        if (!checkPassword(password)) {
-            return "Wrong password";
-        }
+    public String editCategories(List<String> generatorNames) {
         synchronized (lockHolder) {
             for (String category : generatorNames) {
                 if (!generators.containsKey(category)) {
@@ -215,10 +202,7 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
     }
 
     @Override
-    public String toggleLoserBonus(String password) {
-        if (!checkPassword(password)) {
-            return "Wrong password";
-        }
+    public String toggleLoserBonus() {
 
         synchronized (lockHolder) {
             looserBonus = !looserBonus;

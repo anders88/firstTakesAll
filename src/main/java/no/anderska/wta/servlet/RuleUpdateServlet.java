@@ -20,13 +20,13 @@ public class RuleUpdateServlet extends HttpServlet {
         String errormessage = null;
         String password = req.getParameter("password");
         if ("resetAll".equals(action)) {
-            errormessage = adminHandler.restartGame(password);
+            errormessage = adminHandler.restartGame();
         } else if ("resetCategories".equals(action)) {
-            errormessage = adminHandler.resetCategories(password);
+            errormessage = adminHandler.resetCategories();
         } else if ("categoryEdit".equals(action)) {
-            errormessage = adminHandler.editCategories(password, Arrays.asList(req.getParameterValues("engines")));
+            errormessage = adminHandler.editCategories(Arrays.asList(req.getParameterValues("engines")));
         } else if ("looserBonus".equals(action)) {
-            errormessage = adminHandler.toggleLoserBonus(password);
+            errormessage = adminHandler.toggleLoserBonus();
         } else {
             errormessage = "Unknown action";
         }
