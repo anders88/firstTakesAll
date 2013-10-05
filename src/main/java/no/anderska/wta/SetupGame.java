@@ -4,13 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import no.anderska.wta.game.GameHandler;
+import no.anderska.wta.game.GameLogger;
 import no.anderska.wta.game.QuestionGenerator;
+import no.anderska.wta.logging.MemoryGameLogger;
 import no.anderska.wta.questions.*;
 import no.anderska.wta.servlet.PlayerHandler;
 
 public class SetupGame {
 	private static final SetupGame inst = setup();
-
     public static SetupGame instance() {
         return inst;
     }
@@ -20,10 +21,16 @@ public class SetupGame {
 		return setup;
 	}
 
-    private final GameHandler gameHandler = new GameHandler();
+    private final GameHandler gameHandler;
+    private final GameLogger gameLogger;
+
     private final Map<String,Class<? extends QuestionGenerator>> allGenerators = new HashMap<>();
 
 	private SetupGame() {
+        gameHandler = new GameHandler();
+        gameLogger = new MemoryGameLogger();
+        gameHandler.setGameLogger(gameLogger);
+
         allGenerators.put("Echo",EchoQuestionGenerator.class);
         allGenerators.put("Addition",AdditionQuestionGenerator.class);
         allGenerators.put("Minesweeper",MinesweeperQuestionGenerator.class);
@@ -37,6 +44,9 @@ public class SetupGame {
         for (String category : allGenerators.keySet()) {
             gameHandler.addQuestionCategory(category, createGenerator(category));
         }
+
+
+
 	}
 
     public QuestionGenerator createGenerator(String category) {
@@ -57,5 +67,9 @@ public class SetupGame {
 
     public GameHandler getGameHandler() {
         return gameHandler;
+    }
+
+    public GameLogger getGameLogger() {
+        return gameLogger;
     }
 }
