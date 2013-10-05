@@ -50,15 +50,19 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
         AnswerStatus answerStatus = questionSet.validateAnswer(answers);
         if (answerStatus == AnswerStatus.OK) {
             PointAwarded pointAwarded = claimCategory(questionSet.getCategoryName(),playerid);
+            int points = 0;
             if (pointAwarded != PointAwarded.NONE) {
-                int points = questionSet.getGenerator().points();
+                points = questionSet.getGenerator().points();
                 if (pointAwarded == PointAwarded.HALF) {
                     points = points / 2;
                 }
-                playerHandler.addPoints(playerid, points);
-                gameLogger.answer(playerid,answers,questionSet.expectedAnswers(),AnswerStatus.OK,points);
 
             }
+            playerHandler.addPoints(playerid, points);
+            gameLogger.answer(playerid,answers,questionSet.expectedAnswers(),AnswerStatus.OK,points);
+
+        } else {
+            gameLogger.answer(playerid,answers,questionSet.expectedAnswers(),answerStatus,0);
         }
         return answerStatus;
     }
