@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class LoginServlet extends HttpServlet {
+    private SecurityHandler securityHandler;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
@@ -20,5 +22,15 @@ public class LoginServlet extends HttpServlet {
                 .append("</form>") //
         ;
 
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        securityHandler.login(req.getParameter("password"),req.getSession());
+        resp.sendRedirect("admin.html");
+    }
+
+    public void setSecurityHandler(SecurityHandler securityHandler) {
+        this.securityHandler = securityHandler;
     }
 }

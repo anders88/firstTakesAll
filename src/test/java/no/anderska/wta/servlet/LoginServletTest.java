@@ -1,12 +1,12 @@
 package no.anderska.wta.servlet;
 
 import org.dom4j.DocumentHelper;
-import org.fest.assertions.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -42,6 +42,20 @@ public class LoginServletTest {
         ;
 
         DocumentHelper.parseText(htmlDoc.toString());
+    }
 
+    @Test
+    public void shouldHandleLogin() throws Exception {
+        when(req.getMethod()).thenReturn("POST");
+        when(req.getParameter("password")).thenReturn("mypass");
+        HttpSession session = mock(HttpSession.class);
+        when(req.getSession()).thenReturn(session);
+
+        SecurityHandler securityHandler = mock(SecurityHandler.class);
+        servlet.setSecurityHandler(securityHandler);
+        servlet.service(req, resp);
+
+        verify(securityHandler).login("mypass",session);
+        verify(resp).sendRedirect("admin.html");
     }
 }
