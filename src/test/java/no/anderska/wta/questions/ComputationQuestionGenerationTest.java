@@ -12,8 +12,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class ComputationQuestionGenerationTest {
-    CalculusGenerator generator = new CalculusGenerator();
-    Random random = mock(Random.class);
+    private CalculusGenerator generator = new CalculusGenerator();
+    private Random random = mock(Random.class);
 
     @Before
     public void setUp() throws Exception {

@@ -12,18 +12,17 @@ public class CalculusGenerator {
     }
 
     private Random random = new Random();
-    private int numberOfNumbers=0;
+    private int numberOfNumbers = 0;
     private int xpick;
-
-    private int leftpicks = stopWhenNodes;
 
 
     private static enum Operator {
-        ADD("+"),SUBSTRACT("-"),MULTIPLY("*");
+        ADD("+"), SUBSTRACT("-"), MULTIPLY("*");
 
         private Operator(String sign) {
             this.sign = sign;
         }
+
         public final String sign;
     }
 
@@ -62,7 +61,7 @@ public class CalculusGenerator {
     public static final int TYPE_SUBSTR = 2;
     public static final int TYPE_MULT = 3;
 
-    private int pickType(boolean forcenum,int leftpicks) {
+    private int pickType(boolean forcenum, int leftpicks) {
         if (forcenum || leftpicks <= 0) {
             return TYPE_NUMBER;
         }
@@ -71,34 +70,35 @@ public class CalculusGenerator {
 
     private Part generate(boolean forcenum) {
         Part part = new Part();
-        switch (pickType(forcenum,leftpicks)) {
+        int leftpicks = stopWhenNodes;
+        switch (pickType(forcenum, leftpicks)) {
             case TYPE_NUMBER:
-                this.numberOfNumbers=this.numberOfNumbers+1;
-                part.value = random.nextInt(maxNum)+1;
+                this.numberOfNumbers = this.numberOfNumbers + 1;
+                part.value = random.nextInt(maxNum) + 1;
                 return part;
             case TYPE_ADD:
                 part.operator = Operator.ADD;
                 part.left = generate(false);
                 part.right = generate(false);
-                part.value = part.left.value+part.right.value;
+                part.value = part.left.value + part.right.value;
                 return part;
             case TYPE_SUBSTR:
                 part.operator = Operator.SUBSTRACT;
                 part.left = generate(true);
                 part.right = generate(true);
-                part.value = part.left.value-part.right.value;
+                part.value = part.left.value - part.right.value;
                 return part;
             case TYPE_MULT:
                 part.operator = Operator.MULTIPLY;
                 part.left = generate(true);
                 part.right = generate(true);
-                part.value = part.left.value*part.right.value;
+                part.value = part.left.value * part.right.value;
                 return part;
         }
         throw new RuntimeException("Should not be here");
     }
 
-    private void partToStr(StringBuilder res,Part part) {
+    private void partToStr(StringBuilder res, Part part) {
         if (part.operator == null) {
             res.append(part.isX ? "X" : part.value);
             return;
@@ -111,9 +111,9 @@ public class CalculusGenerator {
     public String[] generateComputation() {
         Part part = generate(false);
         StringBuilder res = new StringBuilder();
-        partToStr(res,part);
+        partToStr(res, part);
 
-        String [] resarr = new String[2];
+        String[] resarr = new String[2];
         resarr[0] = res.toString();
         resarr[1] = "" + part.value;
         return resarr;
@@ -128,9 +128,9 @@ public class CalculusGenerator {
         Part xp = setX(part);
 
         StringBuilder res = new StringBuilder();
-        partToStr(res,part);
+        partToStr(res, part);
 
-        String [] resarr = new String[2];
+        String[] resarr = new String[2];
         resarr[0] = res.toString() + " eq " + part.value;
         resarr[1] = "" + xp.value;
         return resarr;
@@ -147,7 +147,7 @@ public class CalculusGenerator {
         }
         Part res = setX(part.left);
         if (res == null) {
-            res=setX(part.right);
+            res = setX(part.right);
         }
         return res;
     }

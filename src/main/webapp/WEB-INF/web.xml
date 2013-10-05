@@ -5,25 +5,25 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          metadata-complete="false">
 
-	<servlet>
-		<servlet-name>gameServlet</servlet-name>
-		<servlet-class>no.anderska.wta.servlet.GameServlet</servlet-class>
-	</servlet>
+    <servlet>
+        <servlet-name>gameServlet</servlet-name>
+        <servlet-class>no.anderska.wta.servlet.GameServlet</servlet-class>
+    </servlet>
 
-	<servlet-mapping>
-		<servlet-name>gameServlet</servlet-name>
-		<url-pattern>/game/*</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>gameServlet</servlet-name>
+        <url-pattern>/game/*</url-pattern>
+    </servlet-mapping>
 
-	<servlet>
-		<servlet-name>playerServlet</servlet-name>
-		<servlet-class>no.anderska.wta.servlet.PlayerServlet</servlet-class>
-	</servlet>
+    <servlet>
+        <servlet-name>playerServlet</servlet-name>
+        <servlet-class>no.anderska.wta.servlet.PlayerServlet</servlet-class>
+    </servlet>
 
-	<servlet-mapping>
-		<servlet-name>playerServlet</servlet-name>
-		<url-pattern>/player/*</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>playerServlet</servlet-name>
+        <url-pattern>/player/*</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>ruleUpdateServlet</servlet-name>
@@ -49,13 +49,14 @@
     <servlet>
         <!-- Override init parameter to avoid nasty -->
         <!-- file locking issue on windows.         -->
+        <!--suppress ServletWithoutMappingInspection -->
         <servlet-name>default</servlet-name>
         <init-param>
             <param-name>useFileMappedBuffer</param-name>
             <param-value>false</param-value>
         </init-param>
     </servlet>
-    
+
     <filter>
         <filter-name>adminFilter</filter-name>
         <filter-class>no.anderska.wta.servlet.AdminFilter</filter-class>
@@ -64,5 +65,5 @@
         <filter-name>adminFilter</filter-name>
         <url-pattern>/admin/*</url-pattern>
     </filter-mapping>
-	
+
 </web-app>
