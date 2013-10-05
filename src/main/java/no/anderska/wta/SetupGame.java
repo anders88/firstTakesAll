@@ -6,6 +6,7 @@ import java.util.Map;
 import no.anderska.wta.game.GameHandler;
 import no.anderska.wta.game.GameLogger;
 import no.anderska.wta.game.QuestionGenerator;
+import no.anderska.wta.logging.LogReader;
 import no.anderska.wta.logging.MemoryGameLogger;
 import no.anderska.wta.questions.*;
 import no.anderska.wta.servlet.PlayerHandler;
@@ -22,14 +23,15 @@ public class SetupGame {
 	}
 
     private final GameHandler gameHandler;
-    private final GameLogger gameLogger;
+    private final MemoryGameLogger memoryGameLogger;
 
     private final Map<String,Class<? extends QuestionGenerator>> allGenerators = new HashMap<>();
 
 	private SetupGame() {
         gameHandler = new GameHandler();
-        gameLogger = new MemoryGameLogger();
-        gameHandler.setGameLogger(gameLogger);
+        memoryGameLogger = new MemoryGameLogger();
+        gameHandler.setGameLogger(memoryGameLogger);
+        memoryGameLogger.setPlayerHandler(gameHandler.getPlayerHandler());
 
         allGenerators.put("Echo",EchoQuestionGenerator.class);
         allGenerators.put("Addition",AdditionQuestionGenerator.class);
@@ -70,6 +72,10 @@ public class SetupGame {
     }
 
     public GameLogger getGameLogger() {
-        return gameLogger;
+        return memoryGameLogger;
+    }
+
+    public LogReader getLogReader() {
+        return memoryGameLogger;
     }
 }

@@ -55,6 +55,16 @@
         <url-pattern>/login/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>logReaderServlet</servlet-name>
+        <servlet-class>no.anderska.wta.servlet.LogReaderServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>logReaderServlet</servlet-name>
+        <url-pattern>/admin/logreader/*</url-pattern>
+    </servlet-mapping>
+
 
     <servlet>
         <!-- Override init parameter to avoid nasty -->
