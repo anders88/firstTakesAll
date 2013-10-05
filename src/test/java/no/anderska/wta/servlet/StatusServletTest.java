@@ -1,31 +1,25 @@
 package no.anderska.wta.servlet;
 
-import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import com.google.gson.Gson;
+import no.anderska.wta.StatusGiver;
+import no.anderska.wta.dto.CategoryDTO;
+import no.anderska.wta.dto.GameStatusDTO;
+import no.anderska.wta.dto.PlayerDTO;
+import no.anderska.wta.game.AdminHandler;
+import org.junit.Before;
+import org.junit.Test;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import no.anderska.wta.StatusGiver;
-import no.anderska.wta.dto.CategoryDTO;
-import no.anderska.wta.dto.GameStatusDTO;
-import no.anderska.wta.dto.PlayerDTO;
-
-import no.anderska.wta.game.AdminHandler;
-import org.dom4j.DocumentHelper;
-import org.junit.Before;
-import org.junit.Test;
-
-import com.google.gson.Gson;
+import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class StatusServletTest {
 
@@ -66,37 +60,6 @@ public class StatusServletTest {
         assertThat(players).hasSize(2);
     }
 
-    @Test
-    public void shouldRestartGame() throws Exception {
-        when(req.getMethod()).thenReturn("POST");
-        when(req.getParameter("password")).thenReturn("secret");
-        when(req.getParameter("action")).thenReturn("resetAll");
-
-        servlet.service(req, resp);
-
-        verify(resp).setContentType("text/html");
-        verify(adminHandler).restartGame("secret");
-        assertThat(htmlSource.toString()).contains("Action performed");
-
-        DocumentHelper.parseText(htmlSource.toString());
-
-    }
-
-
-    @Test
-    public void sholdGiveIndicationOnWrongPassword() throws Exception {
-        when(req.getMethod()).thenReturn("POST");
-        when(req.getParameter("action")).thenReturn("resetAll");
-
-        when(adminHandler.restartGame(anyString())).thenReturn("Wrong password");
-
-        servlet.service(req, resp);
-
-        assertThat(htmlSource.toString()).contains("Wrong password");
-
-        DocumentHelper.parseText(htmlSource.toString());
-
-    }
 
     @Before
     public void setup() throws IOException {

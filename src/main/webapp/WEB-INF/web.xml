@@ -26,6 +26,16 @@
 	</servlet-mapping>
 
     <servlet>
+        <servlet-name>ruleUpdateServlet</servlet-name>
+        <servlet-class>no.anderska.wta.servlet.RuleUpdateServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ruleUpdateServlet</servlet-name>
+        <url-pattern>/admin/update/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>statusServlet</servlet-name>
         <servlet-class>no.anderska.wta.servlet.StatusServlet</servlet-class>
     </servlet>

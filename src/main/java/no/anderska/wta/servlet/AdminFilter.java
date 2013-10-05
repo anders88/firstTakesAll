@@ -10,8 +10,7 @@ public class AdminFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        //response.setContentType("text/html");
-        //response.getWriter().append("Haha got you");
+        System.out.println("Here is filter");
         chain.doFilter(request,response);
     }
 
