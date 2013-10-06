@@ -35,6 +35,7 @@ public class SetupGame {
 
         allGenerators.put("Echo",EchoQuestionGenerator.class);
         allGenerators.put("Addition",AdditionQuestionGenerator.class);
+        allGenerators.put("MaxOccurence",MaxLetterOccurenceQuestionGenerator.class);
         allGenerators.put("Minesweeper",MinesweeperQuestionGenerator.class);
         allGenerators.put("PrimeFactor",PrimeFactorQuestionGenerator.class);
         allGenerators.put("ToRoman",RomanQuestionGenerator.class);
