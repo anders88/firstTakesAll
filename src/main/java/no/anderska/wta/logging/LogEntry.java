@@ -2,6 +2,7 @@ package no.anderska.wta.logging;
 
 import no.anderska.wta.AnswerStatus;
 import no.anderska.wta.dto.AnswerLogEntryDTO;
+import no.anderska.wta.dto.LogEntryDetailDTO;
 import no.anderska.wta.servlet.PlayerHandler;
 import org.apache.commons.lang.mutable.MutableLong;
 import org.joda.time.DateTime;
@@ -15,6 +16,7 @@ public class LogEntry {
 
     private List<String> answer;
     private List<String> expected;
+    private List<String> questions;
     private final long id;
     private final DateTime time;
     private String playerId;
@@ -39,11 +41,12 @@ public class LogEntry {
         return entry;
     }
 
-    public static LogEntry answer(String playerid, List<String> answer, List<String> expected, AnswerStatus answerStatus, int points) {
+    public static LogEntry answer(String playerid, List<String> answer, List<String> expected, List<String> questions, AnswerStatus answerStatus, int points) {
         LogEntry entry = new LogEntry(playerid, answerStatus);
         entry.expected = expected;
         entry.answer = answer;
         entry.points = points;
+        entry.questions = questions;
         return entry;
     }
 
@@ -58,5 +61,13 @@ public class LogEntry {
                 points
         );
         return dto;
+    }
+
+    public LogEntryDetailDTO detail() {
+        return new LogEntryDetailDTO(answer,expected,questions);
+    }
+
+    public long getId() {
+        return id;
     }
 }

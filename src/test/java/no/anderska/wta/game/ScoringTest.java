@@ -26,6 +26,7 @@ public class ScoringTest {
     private final GameLogger gameLogger = mock(GameLogger.class);
     private ArgumentCaptor<List<String>> answerCaptor;
     private ArgumentCaptor<List<String>> expectedCaptor;
+    private ArgumentCaptor<List<String>> questionCaptor;
 
     @Before
     public void setUp() throws Exception {
@@ -35,6 +36,7 @@ public class ScoringTest {
 
         answerCaptor = ArgumentCaptor.forClass(stringListClass);
         expectedCaptor = ArgumentCaptor.forClass(stringListClass);
+        questionCaptor = ArgumentCaptor.forClass(stringListClass);
 
 
     }
@@ -49,12 +51,14 @@ public class ScoringTest {
         assertThat(playerHandler.getPoints(playerId))
             .isEqualTo(generators.points());
 
-        verify(gameLogger).answer(eq(playerId), answerCaptor.capture(), expectedCaptor.capture(),eq(AnswerStatus.OK),eq(110));
+        verify(gameLogger).answer(eq(playerId), answerCaptor.capture(), expectedCaptor.capture(),questionCaptor.capture(),eq(AnswerStatus.OK),eq(110));
 
         assertThat(answerCaptor.getAllValues()).hasSize(1);
         assertThat(expectedCaptor.getAllValues()).hasSize(1);
+        assertThat(questionCaptor.getAllValues()).hasSize(1);
         assertThat(answerCaptor.getValue()).containsExactly("b");
         assertThat(expectedCaptor.getValue()).containsExactly("b");
+        assertThat(questionCaptor.getValue()).containsExactly("a");
 
     }
 
@@ -80,7 +84,7 @@ public class ScoringTest {
         assertThat(playerHandler.getPoints(playerId))
             .isEqualTo(0);
 
-        verify(gameLogger).answer(eq(playerId), answerCaptor.capture(), expectedCaptor.capture(),eq(AnswerStatus.WRONG),eq(0));
+        verify(gameLogger).answer(eq(playerId), answerCaptor.capture(), expectedCaptor.capture(),questionCaptor.capture(),eq(AnswerStatus.WRONG),eq(0));
 
         assertThat(answerCaptor.getAllValues()).hasSize(1);
         assertThat(expectedCaptor.getAllValues()).hasSize(1);

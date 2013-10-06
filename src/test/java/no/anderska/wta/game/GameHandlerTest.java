@@ -71,13 +71,16 @@ public class GameHandlerTest {
 
         ArgumentCaptor<List<String>> answerCaptor = ArgumentCaptor.forClass(stringListClass);
         ArgumentCaptor<List<String>> expectedCaptor = ArgumentCaptor.forClass(stringListClass);
+        ArgumentCaptor<List<String>> questionCaptor = ArgumentCaptor.forClass(stringListClass);
 
-        verify(gameLogger).answer(eq(playerid),answerCaptor.capture(),expectedCaptor.capture(),eq(AnswerStatus.OK),eq(110));
+        verify(gameLogger).answer(eq(playerid),answerCaptor.capture(),expectedCaptor.capture(),questionCaptor.capture(),eq(AnswerStatus.OK),eq(110));
 
         assertThat(answerCaptor.getAllValues()).hasSize(1);
         assertThat(expectedCaptor.getAllValues()).hasSize(1);
+        assertThat(questionCaptor.getAllValues()).hasSize(1);
         assertThat(answerCaptor.getValue()).containsExactly("factone","facttwo");
         assertThat(expectedCaptor.getValue()).containsExactly("factone","facttwo");
+        assertThat(questionCaptor.getValue()).containsExactly("one","two");
     }
 
     @Test

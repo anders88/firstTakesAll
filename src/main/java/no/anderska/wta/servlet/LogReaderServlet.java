@@ -3,6 +3,7 @@ package no.anderska.wta.servlet;
 import com.google.gson.Gson;
 import no.anderska.wta.SetupGame;
 import no.anderska.wta.dto.AnswerLogEntryDTO;
+import no.anderska.wta.dto.LogEntryDetailDTO;
 import no.anderska.wta.game.GameLogger;
 import no.anderska.wta.logging.LogReader;
 
@@ -27,9 +28,31 @@ public class LogReaderServlet extends HttpServlet {
         resp.setContentType("text/json");
         PrintWriter writer = resp.getWriter();
 
-        List<AnswerLogEntryDTO> logEntries = logReader.getLogEntries();
-
         Gson gson = new Gson();
-        writer.append(gson.toJson(logEntries));
+        if ("/detail".equals(req.getPathInfo())) {
+            String idstr = req.getParameter("id");
+            if (idstr == null) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"Must supply numeric id");
+                return;
+            }
+
+            try {
+                long id = Long.parseLong(idstr);
+                LogEntryDetailDTO detail = logReader.getDetail(id);
+                if (detail == null) {
+                    resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"Did not find entry with id " + id);
+                    return;
+                }
+                writer.append(gson.toJson(detail));
+                return;
+            } catch (NumberFormatException e) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"Must supply numeric id");
+                return;
+            }
+        } else {
+            List<AnswerLogEntryDTO> logEntries = logReader.getLogEntries();
+
+            writer.append(gson.toJson(logEntries));
+        }
     }
 }

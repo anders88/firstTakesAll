@@ -59,10 +59,10 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
 
             }
             playerHandler.addPoints(playerid, points);
-            gameLogger.answer(playerid,answers,questionSet.expectedAnswers(),AnswerStatus.OK,points);
+            gameLogger.answer(playerid,answers,questionSet.expectedAnswers(),questionSet.questions(),AnswerStatus.OK,points);
 
         } else {
-            gameLogger.answer(playerid,answers,questionSet.expectedAnswers(),answerStatus,0);
+            gameLogger.answer(playerid,answers,questionSet.expectedAnswers(),questionSet.questions(),answerStatus,0);
         }
         return answerStatus;
     }

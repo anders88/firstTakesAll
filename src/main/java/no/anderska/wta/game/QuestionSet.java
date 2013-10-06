@@ -55,4 +55,12 @@ public class QuestionSet {
         }
         return result;
     }
+
+    public List<String> questions() {
+        List<String> result = new ArrayList<>();
+        for (Question question : questions) {
+            result.add(question.getQuestion());
+        }
+        return result;
+    }
 }

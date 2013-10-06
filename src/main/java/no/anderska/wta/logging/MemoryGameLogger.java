@@ -2,6 +2,7 @@ package no.anderska.wta.logging;
 
 import no.anderska.wta.AnswerStatus;
 import no.anderska.wta.dto.AnswerLogEntryDTO;
+import no.anderska.wta.dto.LogEntryDetailDTO;
 import no.anderska.wta.game.GameLogger;
 import no.anderska.wta.servlet.PlayerHandler;
 
@@ -20,9 +21,10 @@ public class MemoryGameLogger implements GameLogger, LogReader {
         }
     }
 
+
     @Override
-    public void answer(String playerid, List<String> answer, List<String> expected, AnswerStatus answerStatus, int points) {
-        LogEntry entry = LogEntry.answer(playerid,answer,expected,answerStatus,points);
+    public void answer(String playerid, List<String> answer, List<String> expected, List<String> questions, AnswerStatus answerStatus, int points) {
+        LogEntry entry = LogEntry.answer(playerid,answer,expected,questions,answerStatus,points);
         synchronized (entries) {
             entries.add(entry);
         }
@@ -41,6 +43,18 @@ public class MemoryGameLogger implements GameLogger, LogReader {
             }
             return result;
         }
+    }
+
+    @Override
+    public LogEntryDetailDTO getDetail(long id) {
+        synchronized (entries) {
+            for (LogEntry entry : entries) {
+                if (entry.getId() == id) {
+                    return entry.detail();
+                }
+            }
+        }
+        return null;
     }
 
     public void setPlayerHandler(PlayerHandler playerHandler) {
