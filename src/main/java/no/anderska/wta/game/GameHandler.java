@@ -148,6 +148,7 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
             takenCategories.clear();
             playerHandler.clear();
             categoryPointAwarded.clear();
+            gameLogger.clear();
         }
 
         return null;

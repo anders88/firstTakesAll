@@ -35,6 +35,13 @@ public class MemoryGameLogger implements GameLogger, LogReader {
     }
 
     @Override
+    public void clear() {
+        synchronized (entries) {
+            entries.clear();
+        }
+    }
+
+    @Override
     public List<AnswerLogEntryDTO> getLogEntries() {
         synchronized (entries) {
             List<AnswerLogEntryDTO> result = new ArrayList<>();

@@ -2,6 +2,7 @@ package no.anderska.wta.servlet;
 
 import no.anderska.wta.SetupGame;
 import no.anderska.wta.game.AdminHandler;
+import no.anderska.wta.game.GameLogger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,12 +14,12 @@ import java.util.Arrays;
 
 public class RuleUpdateServlet extends HttpServlet {
     private AdminHandler adminHandler;
+    private GameLogger gameLogger;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
         String errormessage = null;
-        String password = req.getParameter("password");
         if ("resetAll".equals(action)) {
             errormessage = adminHandler.restartGame();
         } else if ("resetCategories".equals(action)) {
@@ -27,6 +28,9 @@ public class RuleUpdateServlet extends HttpServlet {
             errormessage = adminHandler.editCategories(Arrays.asList(req.getParameterValues("engines")));
         } else if ("looserBonus".equals(action)) {
             errormessage = adminHandler.toggleLoserBonus();
+        } else if ("clerLog".equals(action)) {
+            gameLogger.clear();
+            errormessage = null;
         } else {
             errormessage = "Unknown action";
         }
@@ -47,6 +51,7 @@ public class RuleUpdateServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         this.adminHandler = SetupGame.instance().getGameHandler();
+        this.gameLogger = SetupGame.instance().getGameLogger();
     }
 
 
