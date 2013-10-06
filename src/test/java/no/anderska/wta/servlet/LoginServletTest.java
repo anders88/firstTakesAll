@@ -57,7 +57,7 @@ public class LoginServletTest {
         servlet.service(req, resp);
 
         verify(securityHandler).login("mypass", session);
-        verify(resp).sendRedirect("admin/admin.html");
+        verify(resp).sendRedirect("admin/index.html");
     }
 
     @Test

@@ -31,7 +31,7 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         boolean result = securityHandler.login(req.getParameter("password"), req.getSession());
         if (result) {
-            resp.sendRedirect("admin/admin.html");
+            resp.sendRedirect("admin/index.html");
         } else {
             resp.setContentType("text/html");
             resp.getWriter().append("<html><body>Wrong password</body></html>");
