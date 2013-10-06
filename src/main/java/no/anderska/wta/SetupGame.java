@@ -42,6 +42,7 @@ public class SetupGame {
         allGenerators.put("Computation",ComputationQuestionGenerator.class);
         allGenerators.put("Equation",EquationQuestionGenerator.class);
         allGenerators.put("TimeCalc",TimeCalculationGenerator.class);
+        allGenerators.put("Sudoku",FixedSudokoGenerator.class);
 
         for (String category : allGenerators.keySet()) {
             gameHandler.addQuestionCategory(category, createGenerator(category));
