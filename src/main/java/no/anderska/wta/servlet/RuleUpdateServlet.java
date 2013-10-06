@@ -28,7 +28,7 @@ public class RuleUpdateServlet extends HttpServlet {
             errormessage = adminHandler.editCategories(Arrays.asList(req.getParameterValues("engines")));
         } else if ("looserBonus".equals(action)) {
             errormessage = adminHandler.toggleLoserBonus();
-        } else if ("clerLog".equals(action)) {
+        } else if ("clearLog".equals(action)) {
             gameLogger.clear();
             errormessage = null;
         } else {

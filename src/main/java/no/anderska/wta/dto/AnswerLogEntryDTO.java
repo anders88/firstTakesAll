@@ -12,8 +12,9 @@ public class AnswerLogEntryDTO {
     private final AnswerStatus answerStatus;
     private final String message;
     private final int points;
+    private final String category;
 
-    public AnswerLogEntryDTO(long id, String playerId, String playerName, String time, AnswerStatus answerStatus, String message, int points) {
+    public AnswerLogEntryDTO(long id, String playerId, String playerName, String time, String category, AnswerStatus answerStatus, String message, int points) {
         this.id = id;
         this.playerId = playerId;
         this.playerName = playerName;
@@ -21,6 +22,7 @@ public class AnswerLogEntryDTO {
         this.answerStatus = answerStatus;
         this.message = message;
         this.points = points;
+        this.category = category;
     }
 
     public long getId() {
@@ -49,5 +51,9 @@ public class AnswerLogEntryDTO {
 
     public int getPoints() {
         return points;
+    }
+
+    public String getCategory() {
+        return category;
     }
 }

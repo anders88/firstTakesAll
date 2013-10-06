@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface LogReader {
     List<AnswerLogEntryDTO> getLogEntries();
-    LogEntryDetailDTO getDetail(long id);
+    List<LogEntryDetailDTO> getDetail(long id);
 }

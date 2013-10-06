@@ -21,10 +21,9 @@ public class MemoryGameLogger implements GameLogger, LogReader {
         }
     }
 
-
     @Override
-    public void answer(String playerid, List<String> answer, List<String> expected, List<String> questions, AnswerStatus answerStatus, int points) {
-        LogEntry entry = LogEntry.answer(playerid,answer,expected,questions,answerStatus,points);
+    public void answer(String playerid, String category, List<String> answer, List<String> expected, List<String> questions, AnswerStatus answerStatus, int points) {
+        LogEntry entry = LogEntry.answer(playerid,category,answer,expected,questions,answerStatus,points);
         synchronized (entries) {
             entries.add(entry);
         }
@@ -53,7 +52,7 @@ public class MemoryGameLogger implements GameLogger, LogReader {
     }
 
     @Override
-    public LogEntryDetailDTO getDetail(long id) {
+    public List<LogEntryDetailDTO> getDetail(long id) {
         synchronized (entries) {
             for (LogEntry entry : entries) {
                 if (entry.getId() == id) {

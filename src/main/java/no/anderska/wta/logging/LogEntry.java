@@ -9,12 +9,13 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LogEntry {
     private static MutableLong givenId = new MutableLong(0);
 
-    private List<String> answer;
+    private List<String> givenAnswers;
     private List<String> expected;
     private List<String> questions;
     private final long id;
@@ -24,6 +25,7 @@ public class LogEntry {
     private String message;
     private int points;
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("HH:mm:ss.SSS");
+    private String category;
 
     private LogEntry(String playerId, AnswerStatus answerStatus) {
         this.playerId = playerId;
@@ -41,12 +43,13 @@ public class LogEntry {
         return entry;
     }
 
-    public static LogEntry answer(String playerid, List<String> answer, List<String> expected, List<String> questions, AnswerStatus answerStatus, int points) {
+    public static LogEntry answer(String playerid, String category,List<String> answer, List<String> expected, List<String> questions, AnswerStatus answerStatus, int points) {
         LogEntry entry = new LogEntry(playerid, answerStatus);
         entry.expected = expected;
-        entry.answer = answer;
+        entry.givenAnswers = answer;
         entry.points = points;
         entry.questions = questions;
+        entry.category = category;
         return entry;
     }
 
@@ -56,6 +59,7 @@ public class LogEntry {
                 playerId,
                 playerHandler.playerName(playerId),
                 dateTimeFormatter.print(time),
+                category,
                 answerStatus,
                 message,
                 points
@@ -63,8 +67,15 @@ public class LogEntry {
         return dto;
     }
 
-    public LogEntryDetailDTO detail() {
-        return new LogEntryDetailDTO(answer,expected,questions);
+    public List<LogEntryDetailDTO> detail() {
+        List<LogEntryDetailDTO> result = new ArrayList<>();
+
+        for (int i=0;i<questions.size();i++) {
+           String givenAnswer = i < givenAnswers.size() ? givenAnswers.get(i) : "";
+           result.add(new LogEntryDetailDTO(givenAnswer,expected.get(i),questions.get(i)));
+        }
+
+        return result;
     }
 
     public long getId() {

@@ -3,25 +3,31 @@ package no.anderska.wta.dto;
 import java.util.List;
 
 public class LogEntryDetailDTO {
-    private final List<String> answer;
-    private final List<String> expected;
-    private final List<String> questions;
+    private String answer;
+    private String expected;
+    private String question;
+    private String status;
 
-    public LogEntryDetailDTO(List<String> answer, List<String> expected, List<String> questions) {
+    public LogEntryDetailDTO(String answer, String expected, String question) {
         this.answer = answer;
         this.expected = expected;
-        this.questions = questions;
+        this.question = question;
+        this.status = expected.equals(answer) ? "OK" : "WRONG";
     }
 
-    public List<String> getAnswer() {
+    public String getAnswer() {
         return answer;
     }
 
-    public List<String> getExpected() {
+    public String getExpected() {
         return expected;
     }
 
-    public List<String> getQuestions() {
-        return questions;
+    public String getQuestion() {
+        return question;
+    }
+
+    public String getStatus() {
+        return status;
     }
 }

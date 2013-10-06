@@ -51,7 +51,7 @@ public class ScoringTest {
         assertThat(playerHandler.getPoints(playerId))
             .isEqualTo(generators.points());
 
-        verify(gameLogger).answer(eq(playerId), answerCaptor.capture(), expectedCaptor.capture(),questionCaptor.capture(),eq(AnswerStatus.OK),eq(110));
+        verify(gameLogger).answer(eq(playerId), eq("some category"),answerCaptor.capture(), expectedCaptor.capture(),questionCaptor.capture(),eq(AnswerStatus.OK),eq(110));
 
         assertThat(answerCaptor.getAllValues()).hasSize(1);
         assertThat(expectedCaptor.getAllValues()).hasSize(1);
@@ -84,7 +84,7 @@ public class ScoringTest {
         assertThat(playerHandler.getPoints(playerId))
             .isEqualTo(0);
 
-        verify(gameLogger).answer(eq(playerId), answerCaptor.capture(), expectedCaptor.capture(),questionCaptor.capture(),eq(AnswerStatus.WRONG),eq(0));
+        verify(gameLogger).answer(eq(playerId), eq("some category"),answerCaptor.capture(), expectedCaptor.capture(),questionCaptor.capture(),eq(AnswerStatus.WRONG),eq(0));
 
         assertThat(answerCaptor.getAllValues()).hasSize(1);
         assertThat(expectedCaptor.getAllValues()).hasSize(1);

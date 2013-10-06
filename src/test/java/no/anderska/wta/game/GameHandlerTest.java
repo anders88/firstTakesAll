@@ -73,7 +73,7 @@ public class GameHandlerTest {
         ArgumentCaptor<List<String>> expectedCaptor = ArgumentCaptor.forClass(stringListClass);
         ArgumentCaptor<List<String>> questionCaptor = ArgumentCaptor.forClass(stringListClass);
 
-        verify(gameLogger).answer(eq(playerid),answerCaptor.capture(),expectedCaptor.capture(),questionCaptor.capture(),eq(AnswerStatus.OK),eq(110));
+        verify(gameLogger).answer(eq(playerid),eq("one"),answerCaptor.capture(),expectedCaptor.capture(),questionCaptor.capture(),eq(AnswerStatus.OK),eq(110));
 
         assertThat(answerCaptor.getAllValues()).hasSize(1);
         assertThat(expectedCaptor.getAllValues()).hasSize(1);

@@ -38,7 +38,7 @@ public class LogReaderServlet extends HttpServlet {
 
             try {
                 long id = Long.parseLong(idstr);
-                LogEntryDetailDTO detail = logReader.getDetail(id);
+                List<LogEntryDetailDTO> detail = logReader.getDetail(id);
                 if (detail == null) {
                     resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"Did not find entry with id " + id);
                     return;
