@@ -22,8 +22,13 @@ public class MaxLetterOccurenceQuestionGenerator extends AbstractQuestionGenerat
     @Override
     protected Question createQuestion() {
         String question = randomString(50);
+        String answer = findMaxOccurence(question);
+        return new Question(question,answer);
+    }
+
+    public String findMaxOccurence(String text) {
         Map<Character,Integer> occurences = new HashMap<>();
-        for (Character c : question.toCharArray()) {
+        for (Character c : text.toCharArray()) {
             Integer occ = occurences.get(c);
             if (occ == null) {
                 occ = 0;
@@ -41,8 +46,7 @@ public class MaxLetterOccurenceQuestionGenerator extends AbstractQuestionGenerat
                 max = entry;
             }
         }
-        String answer = "" + max.getKey();
-        return new Question(question,answer);
+        return "" + max.getKey();
     }
 
 }
