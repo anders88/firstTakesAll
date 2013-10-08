@@ -10,15 +10,6 @@ public class MaxLetterOccurenceQuestionGenerator extends AbstractQuestionGenerat
         super(25, 15, "Return the letter with most occurenses. If equal return first in alphabet' I.e 'abbc' => 'b' and 'accee' => 'c'");
     }
 
-    private String randomString(int length) {
-        StringBuilder res = new StringBuilder();
-        for (int i=0;i<length;i++) {
-            char c = (char) ('a' + random.nextInt(26));
-            res.append(c);
-        }
-        return res.toString();
-    }
-
     @Override
     protected Question createQuestion() {
         String question = randomString(50);

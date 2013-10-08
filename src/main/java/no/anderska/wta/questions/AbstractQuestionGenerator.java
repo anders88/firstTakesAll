@@ -43,4 +43,13 @@ public abstract class AbstractQuestionGenerator implements QuestionGenerator {
     public final int points() {
         return points;
     }
+
+    protected String randomString(int length) {
+        StringBuilder res = new StringBuilder();
+        for (int i=0;i<length;i++) {
+            char c = (char) ('a' + random.nextInt(26));
+            res.append(c);
+        }
+        return res.toString();
+    }
 }
