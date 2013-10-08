@@ -48,6 +48,6 @@ public class FixedSudokoGenerator implements QuestionGenerator {
 
     @Override
     public int points() {
-        return 50;
+        return 65;
     }
 }
