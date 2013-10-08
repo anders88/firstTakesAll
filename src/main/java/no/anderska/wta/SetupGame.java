@@ -37,6 +37,7 @@ public class SetupGame {
         allGenerators.put("Addition",AdditionQuestionGenerator.class);
         allGenerators.put("Reverse",ReverseStringQuestionGenerator.class);
         allGenerators.put("MaxOccurence",MaxLetterOccurenceQuestionGenerator.class);
+        allGenerators.put("Fibonacci",FibonacciQuestionGenerator.class);
         allGenerators.put("Minesweeper",MinesweeperQuestionGenerator.class);
         allGenerators.put("PrimeFactor",PrimeFactorQuestionGenerator.class);
         allGenerators.put("ToRoman",RomanQuestionGenerator.class);
