@@ -1,10 +1,8 @@
 package no.anderska.wta.questions;
 
-import no.anderska.wta.questions.MaxLetterOccurenceQuestionGenerator;
-import org.fest.assertions.Assertions;
-import org.junit.Test;
-
 import static org.fest.assertions.Assertions.assertThat;
+
+import org.junit.Test;
 
 public class MaxLetterOccurenceQuestionGeneratorTest {
 

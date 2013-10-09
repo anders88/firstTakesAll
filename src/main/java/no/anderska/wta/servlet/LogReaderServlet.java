@@ -1,19 +1,20 @@
 package no.anderska.wta.servlet;
 
-import com.google.gson.Gson;
-import no.anderska.wta.SetupGame;
-import no.anderska.wta.dto.AnswerLogEntryDTO;
-import no.anderska.wta.dto.LogEntryDetailDTO;
-import no.anderska.wta.game.GameLogger;
-import no.anderska.wta.logging.LogReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
+
+import no.anderska.wta.SetupGame;
+import no.anderska.wta.dto.AnswerLogEntryDTO;
+import no.anderska.wta.dto.LogEntryDetailDTO;
+import no.anderska.wta.logging.LogReader;
+
+import com.google.gson.Gson;
 
 public class LogReaderServlet extends HttpServlet {
     private LogReader logReader;

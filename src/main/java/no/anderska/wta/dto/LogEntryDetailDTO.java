@@ -1,12 +1,11 @@
 package no.anderska.wta.dto;
 
-import java.util.List;
 
 public class LogEntryDetailDTO {
-    private String answer;
-    private String expected;
-    private String question;
-    private String status;
+    private final String answer;
+    private final String expected;
+    private final String question;
+    private final String status;
 
     public LogEntryDetailDTO(String answer, String expected, String question) {
         this.answer = answer;

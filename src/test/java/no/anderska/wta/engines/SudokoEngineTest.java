@@ -1,11 +1,9 @@
 package no.anderska.wta.engines;
 
-import no.anderska.wta.questions.SudokoEngine;
-import org.junit.Test;
-
-import java.util.List;
-
 import static org.fest.assertions.Assertions.assertThat;
+import no.anderska.wta.questions.SudokoEngine;
+
+import org.junit.Test;
 
 public class SudokoEngineTest {
 
@@ -75,17 +73,6 @@ public class SudokoEngineTest {
                         "345678912\n";
 
         assertThat(sudokoEngine.readBoard(boardStr,"\n")).isNull();
-
-    }
-
-    @Test
-    public void shouldGetBoard() throws Exception {
-        List<Integer[][]> boards = sudokoEngine.readBoardsFromResource("sudokoTestBoards.txt");
-        assertThat(boards).hasSize(3);
-
-        assertThat(sudokoEngine.isLegal(boards.get(0))).isTrue();
-        assertThat(sudokoEngine.isLegal(boards.get(1))).isFalse();
-        assertThat(sudokoEngine.isLegal(boards.get(2))).isTrue();
 
     }
 }

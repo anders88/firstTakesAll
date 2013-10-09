@@ -2,18 +2,13 @@ package no.anderska.wta.questions;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class SudokoEngine {
 
     private final int size = 9;
-    private final int boxsize = 3;
-
 
     public Integer[][] readBoard(String boardStr, String delimeter) {
         if (boardStr == null) {
@@ -76,53 +71,4 @@ public class SudokoEngine {
         }
     }
 
-    private boolean checkPart(int strow,int stcol,Integer[][] board) {
-        Set<Integer> numbers = new HashSet<>();
-        for (int row = stcol; row < boxsize; row++) {
-            for (int col = 0; col < boxsize; col++) {
-                if (isPresent(numbers,board[row][col])) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    private boolean isPresent(Set<Integer> numbers,Integer n) {
-        if (n == null) {
-            return false;
-        }
-        return !numbers.add(n);
-    }
-
-    public boolean isLegal(Integer[][] board) {
-
-        for (int row = 0; row < size; row++) {
-            Set<Integer> numbers = new HashSet<>();
-            for (int col = 0; col < size; col++) {
-                if (isPresent(numbers,board[row][col])) {
-                    return false;
-                }
-            }
-        }
-
-        for (int col = 0; col < size; col++) {
-            for (int row = 0; row < size; row++) {
-                Set<Integer> numbers = new HashSet<>();
-                if (isPresent(numbers,board[row][col])) {
-                    return false;
-                }
-            }
-        }
-
-        for (int row = 0; row < size; row+=boxsize) {
-            for (int col = 0; col < size; col+=boxsize) {
-                if (!checkPart(row,col,board)) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
 }

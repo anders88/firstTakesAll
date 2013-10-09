@@ -32,7 +32,8 @@ public class ScoringTest {
     public void setUp() throws Exception {
         gameHandler.setGameLogger(gameLogger);
 
-        Class<List<String>> stringListClass = (Class<List<String>>)(Class)List.class;
+        @SuppressWarnings({ "unchecked", "rawtypes" })
+        Class<List<String>> stringListClass = (Class)List.class;
 
         answerCaptor = ArgumentCaptor.forClass(stringListClass);
         expectedCaptor = ArgumentCaptor.forClass(stringListClass);
