@@ -2,23 +2,22 @@ package no.anderska.wta.game;
 
 import static java.util.Arrays.asList;
 import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
 import java.util.List;
 
 import no.anderska.wta.AnswerStatus;
 import no.anderska.wta.QuestionList;
+import no.anderska.wta.dto.AnswerLogEntryDTO;
 import no.anderska.wta.dto.CategoriesAnsweredDTO;
 import no.anderska.wta.dto.CategoryDTO;
+import no.anderska.wta.dto.LogEntryDetailDTO;
+import no.anderska.wta.logging.MemoryGameLogger;
 import no.anderska.wta.questions.DummyQuestionGenerator;
 import no.anderska.wta.servlet.PlayerHandler;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 
 public class GameHandlerTest {
 
@@ -26,11 +25,13 @@ public class GameHandlerTest {
     private final PlayerHandler playerHandler = gameHandler.getPlayerHandler();
     private final DummyQuestionGenerator generator =
             new DummyQuestionGenerator(Arrays.asList(new Question("q", "a")));
-    private final GameLogger gameLogger = mock(GameLogger.class);
+    private final MemoryGameLogger gameLogger = new MemoryGameLogger(playerHandler);
+
+    private final String playerName = "Player";
+    private final String playerid = playerHandler.createPlayer(playerName);
 
     @Test
     public void shouldGiveQuestions() throws Exception {
-        String playerid = playerHandler.createPlayer("Player name");
         generator.addQuestionSet(asList(new Question("one", "factone"), new Question("two", "facttwo")));
 
         QuestionList questions = gameHandler.questions(playerid, "one");
@@ -48,7 +49,6 @@ public class GameHandlerTest {
 
     @Test
     public void shouldGiveErrorOnWrongCategory() throws Exception {
-        String playerid = playerHandler.createPlayer("Player");
         QuestionList questions = gameHandler.questions(playerid, "two");
 
         assertThat(questions.isOk()).isFalse();
@@ -56,42 +56,36 @@ public class GameHandlerTest {
     }
 
     @Test
-    public void shouldHandleCorrectAnswer() throws Exception {
-        String playerid = playerHandler.createPlayer("Player");
-
+    public void shouldRespondToCorrectAnswer() throws Exception {
         generator.addQuestionSet(asList(new Question("one", "factone"), new Question("two", "facttwo")));
-
-
         gameHandler.questions(playerid, "one");
 
         AnswerStatus answerStatus = gameHandler.answer(playerid, Arrays.asList("factone", "facttwo"));
+        assertThat(answerStatus).isEqualTo(AnswerStatus.OK);
+    }
+
+    @Test
+    public void shouldLogAnswers() throws Exception {
+        generator.addQuestionSet(asList(new Question("one", "factone"), new Question("two", "facttwo")));
+        gameHandler.questions(playerid, "one");
+        AnswerStatus answerStatus = gameHandler.answer(playerid, Arrays.asList("factone", "facttwo"));
 
         assertThat(answerStatus).isEqualTo(AnswerStatus.OK);
-        Class<List<String>> stringListClass = (Class<List<String>>)(Class)List.class;
 
-        ArgumentCaptor<List<String>> answerCaptor = ArgumentCaptor.forClass(stringListClass);
-        ArgumentCaptor<List<String>> expectedCaptor = ArgumentCaptor.forClass(stringListClass);
-        ArgumentCaptor<List<String>> questionCaptor = ArgumentCaptor.forClass(stringListClass);
+        assertThat(gameLogger.getLogEntries()).hasSize(1);
+        AnswerLogEntryDTO logEntry = gameLogger.getLogEntries().get(0);
+        assertThat(logEntry.getCategory()).isEqualTo("one");
 
-        verify(gameLogger).answer(eq(playerid),eq("one"),answerCaptor.capture(),expectedCaptor.capture(),questionCaptor.capture(),eq(AnswerStatus.OK),eq(110));
-
-        assertThat(answerCaptor.getAllValues()).hasSize(1);
-        assertThat(expectedCaptor.getAllValues()).hasSize(1);
-        assertThat(questionCaptor.getAllValues()).hasSize(1);
-        assertThat(answerCaptor.getValue()).containsExactly("factone","facttwo");
-        assertThat(expectedCaptor.getValue()).containsExactly("factone","facttwo");
-        assertThat(questionCaptor.getValue()).containsExactly("one","two");
+        List<LogEntryDetailDTO> answers = gameLogger.getDetail(logEntry.getId());
+        assertThat(answers).onProperty("answer").containsExactly("factone", "facttwo");
+        assertThat(answers).onProperty("question").containsExactly("one", "two");
+        assertThat(answers).onProperty("status").containsExactly("OK", "OK");
     }
 
     @Test
     public void shouldGiveCorrectStatus() throws Exception {
-        String playerid = playerHandler.createPlayer("Player One");
-
         generator.addQuestionSet(asList(new Question("one", "factone"), new Question("two", "facttwo")));
-
         gameHandler.questions(playerid, "one");
-
-
         gameHandler.answer(playerid, Arrays.asList("factone", "facttwo"));
 
         List<CategoryDTO> categoryDTOs = gameHandler.categoryStatus();
@@ -100,7 +94,7 @@ public class GameHandlerTest {
 
         assertThat(categoryDTO.getId()).isEqualTo("one");
         assertThat(categoryDTO.getName()).isEqualTo(generator.description());
-        assertThat(categoryDTO.getAnsweredBy()).isEqualTo("Player One");
+        assertThat(categoryDTO.getAnsweredBy()).isEqualTo(playerName);
     }
 
     @Test
@@ -111,15 +105,14 @@ public class GameHandlerTest {
 
     @Test
     public void shouldRegisterCorrectAnswers() throws Exception {
-        String playerid1 = playerHandler.createPlayer("Player One");
         String playerid2 = playerHandler.createPlayer("Player Two");
 
         Question question1 = new Question("one", "factone");
         Question question2 = new Question("two", "facttwo");
 
         generator.addQuestionSet(asList(question1, question2));
-        gameHandler.questions(playerid1, "one");
-        gameHandler.answer(playerid1, asList(question1.getCorrectAnswer(), question2.getCorrectAnswer()));
+        gameHandler.questions(playerid, "one");
+        gameHandler.answer(playerid, asList(question1.getCorrectAnswer(), question2.getCorrectAnswer()));
 
         generator.addQuestionSet(asList(question1, question2));
         gameHandler.questions(playerid2, "one");
@@ -128,26 +121,23 @@ public class GameHandlerTest {
         List<CategoriesAnsweredDTO> answered = gameHandler.categoriesAnswered();
 
         assertThat(answered).onProperty("playerName")
-            .containsOnly("Player One", "Player Two");
+            .containsOnly(playerName, "Player Two");
         assertThat(answered.get(0).getCategories()).containsExactly("one");
         assertThat(answered.get(1).getCategories()).containsExactly("one");
     }
 
-
     @Test
     public void shouldEditCategories() {
-        String playerid = playerHandler.createPlayer("Player One");
-
         gameHandler.editCategories(asList("FromRoman", "one"));
         assertThat(gameHandler.questions(playerid, "one").isOk()).isTrue();
         gameHandler.answer(playerid, Arrays.asList("a"));
-        assertThat(gameHandler.categoryStatus("one").getAnsweredBy()).isEqualTo("Player One");
+        assertThat(gameHandler.categoryStatus("one").getAnsweredBy()).isEqualTo(playerName);
 
         gameHandler.editCategories(asList("ToRoman", "one"));
         assertThat(gameHandler.questions(playerid, "FromRoman").getErrormessage()).startsWith("Unknown category");
         assertThat(gameHandler.questions(playerid, "ToRoman").isOk()).isTrue();
         assertThat(gameHandler.questions(playerid, "one").isOk()).isTrue();
-        assertThat(gameHandler.categoryStatus("one").getAnsweredBy()).isEqualTo("Player One");
+        assertThat(gameHandler.categoryStatus("one").getAnsweredBy()).isEqualTo(playerName);
     }
 
 

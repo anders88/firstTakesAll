@@ -8,19 +8,27 @@ import no.anderska.wta.game.GameLogger;
 import no.anderska.wta.game.QuestionGenerator;
 import no.anderska.wta.logging.LogReader;
 import no.anderska.wta.logging.MemoryGameLogger;
-import no.anderska.wta.questions.*;
+import no.anderska.wta.questions.AdditionQuestionGenerator;
+import no.anderska.wta.questions.ComputationQuestionGenerator;
+import no.anderska.wta.questions.EchoQuestionGenerator;
+import no.anderska.wta.questions.EquationQuestionGenerator;
+import no.anderska.wta.questions.FibonacciQuestionGenerator;
+import no.anderska.wta.questions.FixedSudokoGenerator;
+import no.anderska.wta.questions.MaxLetterOccurenceQuestionGenerator;
+import no.anderska.wta.questions.MinesweeperQuestionGenerator;
+import no.anderska.wta.questions.PrimeFactorQuestionGenerator;
+import no.anderska.wta.questions.ReverseStringQuestionGenerator;
+import no.anderska.wta.questions.RomanQuestionGenerator;
+import no.anderska.wta.questions.TimeCalculationGenerator;
+import no.anderska.wta.questions.ToRomanNumberQuestionGenerator;
 import no.anderska.wta.servlet.PlayerHandler;
 
 public class SetupGame {
-	private static final SetupGame inst = setup();
-    public static SetupGame instance() {
+	private static final SetupGame inst = new SetupGame();
+
+	public static SetupGame instance() {
         return inst;
     }
-
-    private static SetupGame setup() {
-		SetupGame setup = new SetupGame();
-		return setup;
-	}
 
     private final GameHandler gameHandler;
     private final MemoryGameLogger memoryGameLogger;
@@ -29,7 +37,7 @@ public class SetupGame {
 
 	private SetupGame() {
         gameHandler = new GameHandler();
-        memoryGameLogger = new MemoryGameLogger();
+        memoryGameLogger = new MemoryGameLogger(gameHandler.getPlayerHandler());
         gameHandler.setGameLogger(memoryGameLogger);
         memoryGameLogger.setPlayerHandler(gameHandler.getPlayerHandler());
 

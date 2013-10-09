@@ -1,17 +1,21 @@
 package no.anderska.wta.logging;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import no.anderska.wta.AnswerStatus;
 import no.anderska.wta.dto.AnswerLogEntryDTO;
 import no.anderska.wta.dto.LogEntryDetailDTO;
 import no.anderska.wta.game.GameLogger;
 import no.anderska.wta.servlet.PlayerHandler;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MemoryGameLogger implements GameLogger, LogReader {
-    private List<LogEntry> entries = new ArrayList<>();
+    private final List<LogEntry> entries = new ArrayList<>();
     private PlayerHandler playerHandler;
+
+    public MemoryGameLogger(PlayerHandler playerHandler) {
+        this.playerHandler = playerHandler;
+    }
 
     @Override
     public void errorAnswer(String playerid, String messsage) {
