@@ -2,7 +2,7 @@ package no.anderska.wta.questions;
 
 import no.anderska.wta.game.Question;
 
-public class EquationQuestionGenerator extends AbstractQuestionGenerator {
+class EquationQuestionGenerator extends AbstractQuestionGenerator {
 
     private static final String DESCRIPTION = "Solve for X. Multiplication takes precedence over addition and substraction hence '2+X*2 eq 10' = '4'";
 

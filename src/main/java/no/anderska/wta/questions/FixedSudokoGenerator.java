@@ -1,13 +1,13 @@
 package no.anderska.wta.questions;
 
-import no.anderska.wta.game.Question;
-import no.anderska.wta.game.QuestionGenerator;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class FixedSudokoGenerator implements QuestionGenerator {
+import no.anderska.wta.game.Question;
+import no.anderska.wta.game.QuestionGenerator;
+
+class FixedSudokoGenerator implements QuestionGenerator {
     private final List<Question> questions;
 
     public FixedSudokoGenerator() {

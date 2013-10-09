@@ -11,15 +11,15 @@ import no.anderska.wta.AnswerStatus;
 import no.anderska.wta.GameHandlerPlayerInterface;
 import no.anderska.wta.PlayerHandlerMemory;
 import no.anderska.wta.QuestionList;
-import no.anderska.wta.SetupGame;
 import no.anderska.wta.StatusGiver;
 import no.anderska.wta.dto.CategoriesAnsweredDTO;
 import no.anderska.wta.dto.CategoryDTO;
+import no.anderska.wta.questions.QuestionGeneratorFactory;
 import no.anderska.wta.servlet.PlayerHandler;
 
 public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, AdminHandler {
     private final PlayerHandler playerHandler = new PlayerHandlerMemory();
-    private Map<String,QuestionGenerator> generators = new HashMap<>();
+    private Map<String,QuestionGenerator> activeGenerators = new HashMap<>();
     private Map<String,QuestionSet> askedQuestions = new HashMap<>();
     private final Map<String,String> takenCategories = new HashMap<>();
     private final Map<String,Set<String>> answered = new HashMap<>();
@@ -28,6 +28,7 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
 
     private final Integer lockHolder = new Integer(42);
     private GameLogger gameLogger;
+    private QuestionGeneratorFactory questionFactory;
 
     public void setGameLogger(GameLogger gameLogger) {
         this.gameLogger = gameLogger;
@@ -102,7 +103,7 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
         if (!playerHandler.playerPlaying(playerid)) {
             return QuestionList.error("Unknown player '" + playerid + "'");
         }
-        QuestionGenerator generator = generators.get(categoryid);
+        QuestionGenerator generator = activeGenerators.get(categoryid);
         if (generator == null) {
             return QuestionList.error("Unknown category '" + categoryid + "'");
         }
@@ -117,8 +118,8 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
         }
     }
 
-    public void setGenerators(Map<String, QuestionGenerator> generators) {
-        this.generators = generators;
+    public void setActiveGenerators(Map<String, QuestionGenerator> generators) {
+        this.activeGenerators = generators;
     }
 
     public void setAskedQuestions(Map<String, QuestionSet> askedQuestions) {
@@ -128,14 +129,14 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
     @Override
     public List<CategoryDTO> categoryStatus() {
         List<CategoryDTO> result = new ArrayList<>();
-        for (String category : generators.keySet()) {
+        for (String category : activeGenerators.keySet()) {
             result.add(categoryStatus(category));
         }
         return result;
     }
 
     CategoryDTO categoryStatus(String category) {
-        QuestionGenerator generator = generators.get(category);
+        QuestionGenerator generator = activeGenerators.get(category);
         String answeredById = takenCategories.get(category);
         String answeredBy = answeredById != null ? playerHandler.playerName(answeredById) : null;
         return new CategoryDTO(category, generator.description(), generator.points(), answeredBy);
@@ -167,11 +168,11 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
     public String editCategories(List<String> generatorNames) {
         synchronized (lockHolder) {
             for (String category : generatorNames) {
-                if (!generators.containsKey(category)) {
-                    addQuestionCategory(category, SetupGame.instance().createGenerator(category));
+                if (!activeGenerators.containsKey(category)) {
+                    addQuestionCategory(category, questionFactory.createGenerator(category));
                 }
             }
-            for (String entry : new ArrayList<>(generators.keySet())) {
+            for (String entry : new ArrayList<>(activeGenerators.keySet())) {
                 if (!generatorNames.contains(entry)) {
                     removeQuestionCategory(entry);
                 }
@@ -181,11 +182,11 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
     }
 
     public QuestionGenerator addQuestionCategory(String category, QuestionGenerator generator) {
-        return generators.put(category, generator);
+        return activeGenerators.put(category, generator);
     }
 
     private void removeQuestionCategory(String entry) {
-        generators.remove(entry);
+        activeGenerators.remove(entry);
         takenCategories.remove(entry);
         categoryPointAwarded.remove(entry);
     }
@@ -210,5 +211,12 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
             categoryPointAwarded.clear();
         }
         return "Looser bonus is now " + looserBonus;
+    }
+
+    public void setQuestionGeneratorFactory(QuestionGeneratorFactory questionFactory) {
+        this.questionFactory = questionFactory;
+        for (String category : questionFactory.getAllCategoryNames()) {
+            addQuestionCategory(category, questionFactory.createGenerator(category));
+        }
     }
 }

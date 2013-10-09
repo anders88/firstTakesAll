@@ -6,7 +6,7 @@ import java.util.List;
 
 import no.anderska.wta.game.Question;
 
-public class PrimeFactorQuestionGenerator extends AbstractQuestionGenerator {
+class PrimeFactorQuestionGenerator extends AbstractQuestionGenerator {
 
     private static final String DESCRIPTION = "Return the prime factors of the number in ascending order. '7'='7', '14'='2*7' (not '7*2'), 12'='2*2*3'";
     private final List<Integer> primeFactor = new ArrayList<>();

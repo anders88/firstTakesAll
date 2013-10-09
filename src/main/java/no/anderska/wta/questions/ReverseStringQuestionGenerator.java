@@ -2,7 +2,7 @@ package no.anderska.wta.questions;
 
 import no.anderska.wta.game.Question;
 
-public class ReverseStringQuestionGenerator extends AbstractQuestionGenerator {
+class ReverseStringQuestionGenerator extends AbstractQuestionGenerator {
     public ReverseStringQuestionGenerator() {
         super(20, 10, "Reverse the text. 'abc' => 'cba'");
     }

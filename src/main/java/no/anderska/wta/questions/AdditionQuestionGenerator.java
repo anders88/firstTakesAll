@@ -2,7 +2,7 @@ package no.anderska.wta.questions;
 
 import no.anderska.wta.game.Question;
 
-public class AdditionQuestionGenerator extends AbstractQuestionGenerator {
+class AdditionQuestionGenerator extends AbstractQuestionGenerator {
 
     private static final String DESCRIPTION = "The answer is the sum. Question: '4+2+7', Correct answer '13'";
     private final int maxFactors;

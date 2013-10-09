@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import no.anderska.wta.game.Question;
 
-public class EchoQuestionGenerator extends AbstractQuestionGenerator {
+class EchoQuestionGenerator extends AbstractQuestionGenerator {
 
     private static final String DESCRIPTION = "The answer is the same as the question. Question: 'hello', Correct answer 'hello'";
 

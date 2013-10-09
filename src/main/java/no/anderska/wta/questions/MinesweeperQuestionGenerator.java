@@ -7,7 +7,7 @@ import java.util.Random;
 import no.anderska.wta.game.Question;
 import no.anderska.wta.game.QuestionGenerator;
 
-public class MinesweeperQuestionGenerator implements QuestionGenerator {
+class MinesweeperQuestionGenerator implements QuestionGenerator {
     private final int rows;
     private final int cols;
     private final int percentMines;

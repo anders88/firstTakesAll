@@ -1,12 +1,12 @@
 package no.anderska.wta.questions;
 
-import no.anderska.wta.game.Question;
-import no.anderska.wta.game.QuestionGenerator;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class ComputationQuestionGenerator implements QuestionGenerator {
+import no.anderska.wta.game.Question;
+import no.anderska.wta.game.QuestionGenerator;
+
+class ComputationQuestionGenerator implements QuestionGenerator {
     private final static int NUM_QUESTIONS = 25;
 
     @Override

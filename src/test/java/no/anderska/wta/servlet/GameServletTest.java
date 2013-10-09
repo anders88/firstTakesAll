@@ -82,7 +82,7 @@ public class GameServletTest {
     public void shouldGiveQuestions() throws Exception {
         Map<String, QuestionGenerator> generators = new HashMap<>();
         generators.put("catid", questionGenerator);
-        gameHandler.setGenerators(generators);
+        gameHandler.setActiveGenerators(generators);
 
         String playerid = gameHandler.getPlayerHandler().createPlayer("Some name");
 

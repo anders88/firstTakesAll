@@ -14,6 +14,7 @@ import no.anderska.wta.dto.CategoryDTO;
 import no.anderska.wta.dto.LogEntryDetailDTO;
 import no.anderska.wta.logging.MemoryGameLogger;
 import no.anderska.wta.questions.DummyQuestionGenerator;
+import no.anderska.wta.questions.QuestionGeneratorFactory;
 import no.anderska.wta.servlet.PlayerHandler;
 
 import org.junit.Before;
@@ -128,6 +129,7 @@ public class GameHandlerTest {
 
     @Test
     public void shouldEditCategories() {
+        gameHandler.setQuestionGeneratorFactory(QuestionGeneratorFactory.withAllQuestions());
         gameHandler.editCategories(asList("FromRoman", "one"));
         assertThat(gameHandler.questions(playerid, "one").isOk()).isTrue();
         gameHandler.answer(playerid, Arrays.asList("a"));

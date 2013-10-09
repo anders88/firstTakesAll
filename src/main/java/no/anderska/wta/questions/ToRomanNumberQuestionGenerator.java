@@ -2,7 +2,7 @@ package no.anderska.wta.questions;
 
 import no.anderska.wta.game.Question;
 
-public class ToRomanNumberQuestionGenerator extends AbstractQuestionGenerator {
+class ToRomanNumberQuestionGenerator extends AbstractQuestionGenerator {
     private static final String DESCRIPTION = "Compute the Number of a given Roman number. E.g. 'III' = '3' or 'XLII'='42'";
     private final RomanNumberSolver solver = new RomanNumberSolver();
 

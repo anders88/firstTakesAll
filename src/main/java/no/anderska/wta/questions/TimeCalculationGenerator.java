@@ -8,7 +8,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-public class TimeCalculationGenerator extends AbstractQuestionGenerator {
+class TimeCalculationGenerator extends AbstractQuestionGenerator {
     private RandomTimeGeneration random = new RandomTimeGeneration();
 
     public TimeCalculationGenerator() {

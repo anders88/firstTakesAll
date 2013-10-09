@@ -5,7 +5,7 @@ import java.util.Map;
 
 import no.anderska.wta.game.Question;
 
-public class MaxLetterOccurenceQuestionGenerator extends AbstractQuestionGenerator {
+class MaxLetterOccurenceQuestionGenerator extends AbstractQuestionGenerator {
     public MaxLetterOccurenceQuestionGenerator() {
         super(25, 15, "Return the letter with most occurenses. If equal return first in alphabet' I.e 'abbc' => 'b' and 'accee' => 'c'");
     }
