@@ -18,14 +18,6 @@ public class MemoryGameLogger implements GameLogger, LogReader {
     }
 
     @Override
-    public void errorAnswer(String playerid, String messsage) {
-        LogEntry error = LogEntry.error(playerid, messsage);
-        synchronized (entries) {
-            entries.add(error);
-        }
-    }
-
-    @Override
     public void answer(String playerid, String category, List<String> answer, List<String> expected, List<String> questions, AnswerStatus answerStatus, int points) {
         LogEntry entry = LogEntry.answer(playerid,category,answer,expected,questions,answerStatus,points);
         synchronized (entries) {

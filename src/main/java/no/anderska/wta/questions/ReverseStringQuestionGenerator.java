@@ -14,7 +14,7 @@ public class ReverseStringQuestionGenerator extends AbstractQuestionGenerator {
         return new Question(question,fact);
     }
 
-    public String revrseText(String text) {
+    String revrseText(String text) {
         return new StringBuilder(text).reverse().toString();
     }
 }

@@ -7,7 +7,7 @@ import java.util.Random;
 import no.anderska.wta.game.Question;
 import no.anderska.wta.game.QuestionGenerator;
 
-public abstract class AbstractQuestionGenerator implements QuestionGenerator {
+abstract class AbstractQuestionGenerator implements QuestionGenerator {
 
     protected final Random random = new Random();
     private final int numberOfQuestions;
@@ -16,7 +16,7 @@ public abstract class AbstractQuestionGenerator implements QuestionGenerator {
 
     protected abstract Question createQuestion();
 
-    public AbstractQuestionGenerator(int numberOfQuestions, int points, String description) {
+    AbstractQuestionGenerator(int numberOfQuestions, int points, String description) {
         if (numberOfQuestions < 0) {
             throw new IllegalArgumentException("numberOfQuestions must be > 0, was " + numberOfQuestions);
         }

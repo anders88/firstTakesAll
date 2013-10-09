@@ -56,10 +56,10 @@ public class CalculusGenerator {
     }
 
 
-    public static final int TYPE_NUMBER = 0;
-    public static final int TYPE_ADD = 1;
-    public static final int TYPE_SUBSTR = 2;
-    public static final int TYPE_MULT = 3;
+    static final int TYPE_NUMBER = 0;
+    static final int TYPE_ADD = 1;
+    static final int TYPE_SUBSTR = 2;
+    static final int TYPE_MULT = 3;
 
     private int pickType(boolean forcenum, int leftpicks) {
         if (forcenum || leftpicks <= 0) {
@@ -108,7 +108,7 @@ public class CalculusGenerator {
         partToStr(res, part.right);
     }
 
-    public String[] generateComputation() {
+    String[] generateComputation() {
         Part part = generate(false);
         StringBuilder res = new StringBuilder();
         partToStr(res, part);
@@ -120,7 +120,7 @@ public class CalculusGenerator {
     }
 
 
-    public String[] generateEquation() {
+    String[] generateEquation() {
         Part part = generate(false);
 
         xpick = random.nextInt(numberOfNumbers);

@@ -3,6 +3,7 @@ package no.anderska.wta.questions;
 import no.anderska.wta.game.Question;
 import no.anderska.wta.questions.timegen.City;
 import no.anderska.wta.questions.timegen.RandomTimeGeneration;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -14,7 +15,7 @@ public class TimeCalculationGenerator extends AbstractQuestionGenerator {
         super(30, 30, "A plane travels to and from a place. Calculate the local time when it lands on format 'yyyy-mm-dd at hh:mm' eg. '2013-09-03 at 16:34'");
     }
 
-    public Question makeRandomTrip() {
+    Question makeRandomTrip() {
         City from = random.pickRandomCity();
         City to = random.pickRandomCity();
 

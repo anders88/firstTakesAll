@@ -39,7 +39,7 @@ public class SudokoEngine {
         return board;
     }
 
-    public List<Integer[][]> readBoardsFromResource(String resourceName) {
+    List<Integer[][]> readBoardsFromResource(String resourceName) {
         try (BufferedReader reader =
                      new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(resourceName)))) {
             List<Integer[][]> res = new ArrayList<>();

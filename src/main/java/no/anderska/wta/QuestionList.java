@@ -9,7 +9,7 @@ public class QuestionList {
     private List<String> questions;
     private String errormessage;
 
-    public static QuestionList create(List<String> questions)  {
+    private static QuestionList create(List<String> questions)  {
         return new QuestionList(questions);
     }
 

@@ -1,9 +1,9 @@
 package no.anderska.wta.questions;
 
-import no.anderska.wta.game.Question;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import no.anderska.wta.game.Question;
 
 public class MaxLetterOccurenceQuestionGenerator extends AbstractQuestionGenerator {
     public MaxLetterOccurenceQuestionGenerator() {
@@ -17,7 +17,7 @@ public class MaxLetterOccurenceQuestionGenerator extends AbstractQuestionGenerat
         return new Question(question,answer);
     }
 
-    public String findMaxOccurence(String text) {
+    String findMaxOccurence(String text) {
         Map<Character,Integer> occurences = new HashMap<>();
         for (Character c : text.toCharArray()) {
             Integer occ = occurences.get(c);

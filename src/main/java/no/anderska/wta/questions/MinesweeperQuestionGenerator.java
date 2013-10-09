@@ -1,17 +1,17 @@
 package no.anderska.wta.questions;
 
-import no.anderska.wta.game.QuestionGenerator;
-import no.anderska.wta.game.Question;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import no.anderska.wta.game.Question;
+import no.anderska.wta.game.QuestionGenerator;
+
 public class MinesweeperQuestionGenerator implements QuestionGenerator {
-    int rows;
-    int cols;
-    private int percentMines;
-    private int numberOfBoards;
+    private final int rows;
+    private final int cols;
+    private final int percentMines;
+    private final int numberOfBoards;
 
 
     private MinesweeperQuestionGenerator(int rows, int cols, int percentMines, int numberOfBoards) {

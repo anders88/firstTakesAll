@@ -1,18 +1,19 @@
 package no.anderska.wta.logging;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import no.anderska.wta.AnswerStatus;
 import no.anderska.wta.dto.AnswerLogEntryDTO;
 import no.anderska.wta.dto.LogEntryDetailDTO;
 import no.anderska.wta.servlet.PlayerHandler;
+
 import org.apache.commons.lang.mutable.MutableLong;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class LogEntry {
+class LogEntry {
     private static MutableLong givenId = new MutableLong(0);
 
     private List<String> givenAnswers;
@@ -20,8 +21,8 @@ public class LogEntry {
     private List<String> questions;
     private final long id;
     private final DateTime time;
-    private String playerId;
-    private AnswerStatus answerStatus;
+    private final String playerId;
+    private final AnswerStatus answerStatus;
     private String message;
     private int points;
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("HH:mm:ss.SSS");
@@ -37,13 +38,7 @@ public class LogEntry {
         this.time = new DateTime();
     }
 
-    public static LogEntry error(String playerid, String message) {
-        LogEntry entry = new LogEntry(playerid,AnswerStatus.ERROR);
-        entry.message = message;
-        return entry;
-    }
-
-    public static LogEntry answer(String playerid, String category,List<String> answer, List<String> expected, List<String> questions, AnswerStatus answerStatus, int points) {
+    static LogEntry answer(String playerid, String category,List<String> answer, List<String> expected, List<String> questions, AnswerStatus answerStatus, int points) {
         LogEntry entry = new LogEntry(playerid, answerStatus);
         entry.expected = expected;
         entry.givenAnswers = answer;
@@ -53,7 +48,7 @@ public class LogEntry {
         return entry;
     }
 
-    public AnswerLogEntryDTO logEntry(PlayerHandler playerHandler) {
+    AnswerLogEntryDTO logEntry(PlayerHandler playerHandler) {
         AnswerLogEntryDTO dto = new AnswerLogEntryDTO(
                 id,
                 playerId,
@@ -67,7 +62,7 @@ public class LogEntry {
         return dto;
     }
 
-    public List<LogEntryDetailDTO> detail() {
+    List<LogEntryDetailDTO> detail() {
         List<LogEntryDetailDTO> result = new ArrayList<>();
 
         for (int i=0;i<questions.size();i++) {

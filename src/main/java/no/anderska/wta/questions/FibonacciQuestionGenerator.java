@@ -8,7 +8,7 @@ public class FibonacciQuestionGenerator extends  AbstractQuestionGenerator {
         super(20, 20, "Compute the Fibonacci number. Fib(n)=Fib(n-1)+Fib(n-2), where Fib(0) = 0 and Fib(1)=1. E.g. '4'=>'3'");
     }
 
-    public long fibonacci(int num) {
+    long fibonacci(int num) {
         if (num == 0) return 0;
         if (num == 1) return 1;
 
