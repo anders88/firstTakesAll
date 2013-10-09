@@ -181,6 +181,10 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
         return "Generators updated";
     }
 
+    public QuestionGeneratorFactory getQuestionFactory() {
+        return questionFactory;
+    }
+
     public QuestionGenerator addQuestionCategory(String category, QuestionGenerator generator) {
         return activeGenerators.put(category, generator);
     }
@@ -218,5 +222,9 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
         for (String category : questionFactory.getAllCategoryNames()) {
             addQuestionCategory(category, questionFactory.createGenerator(category));
         }
+    }
+
+    public boolean hasCategory(String category) {
+        return activeGenerators.containsKey(category);
     }
 }

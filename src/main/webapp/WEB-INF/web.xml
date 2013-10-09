@@ -26,6 +26,16 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>categoriesServlet</servlet-name>
+        <servlet-class>no.anderska.wta.servlet.CategoriesServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>categoriesServlet</servlet-name>
+        <url-pattern>/categories/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>ruleUpdateServlet</servlet-name>
         <servlet-class>no.anderska.wta.servlet.RuleUpdateServlet</servlet-class>
     </servlet>
