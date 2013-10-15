@@ -8,33 +8,39 @@ import no.anderska.wta.AnswerStatus;
 import org.joda.time.DateTime;
 
 public class QuestionSet {
-    private final List<Question> questions;
+    private final List<String> questionTexts = new ArrayList<>();
+    private final List<String> answers = new ArrayList<>();
     private final QuestionGenerator generator;
     private final String categoryName;
     private final DateTime limit;
 
+    public QuestionSet(List<?> questions, List<?> answers, QuestionGenerator generator, String categoryName) {
+        for (Object question : questions) {
+            this.questionTexts.add(question.toString());
+        }
+        for (Object answer : answers) {
+            this.answers.add(answer.toString());
+        }
+        this.generator = generator;
+        this.categoryName = categoryName;
+        this.limit = new DateTime().plusSeconds(8);
+    }
+
     public QuestionSet(List<Question> questions, QuestionGenerator generator, String categoryName) {
-        this.questions = questions;
+        for (Question question : questions) {
+            questionTexts.add(question.getQuestion());
+            answers.add(question.getCorrectAnswer());
+        }
         this.generator = generator;
         this.categoryName = categoryName;
         this.limit = new DateTime().plusSeconds(8);
     }
 
     AnswerStatus validateAnswer(List<String> answers) {
-        DateTime answered = new DateTime();
-
-        if (answers == null) {
-            return AnswerStatus.ERROR;
-        }
-        if (questions.size() != answers.size()) {
+        if (!this.answers.equals(answers)) {
             return AnswerStatus.WRONG;
         }
-        for (int i=0;i<answers.size();i++) {
-            if (!questions.get(i).isCorrect(answers.get(i))) {
-                return AnswerStatus.WRONG;
-            }
-        }
-        if (answered.isAfter(limit)) {
+        if (new DateTime().isAfter(limit)) {
             return AnswerStatus.LATE;
         }
         return AnswerStatus.OK;
@@ -49,18 +55,10 @@ public class QuestionSet {
     }
 
     public List<String> expectedAnswers() {
-        List<String> result = new ArrayList<>();
-        for (Question question : questions) {
-            result.add(question.getFact());
-        }
-        return result;
+        return answers;
     }
 
     public List<String> questions() {
-        List<String> result = new ArrayList<>();
-        for (Question question : questions) {
-            result.add(question.getQuestion());
-        }
-        return result;
+        return questionTexts;
     }
 }

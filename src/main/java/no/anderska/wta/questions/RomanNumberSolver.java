@@ -23,8 +23,8 @@ class RomanNumberSolver {
         }
     }
 
-    String romanNumber(int num) {
-        Number n = new Number(num);
+    String romanNumber(int number) {
+        Number n = new Number(number);
         while (
                 n.match(1000, "M") ||
                         n.match(900, "CM") ||

@@ -39,6 +39,9 @@ public class QuestionGeneratorFactory {
         questionFactory.put("Last", LastCharacterQuestionGenerator.class);
         questionFactory.put("Reverse", ReverseStringQuestionGenerator.class);
         questionFactory.put("HtmlEscape", HtmlEscapeQuestionGenerator.class);
+        questionFactory.put("Sort", SortQuestionGenerator.class);
+        questionFactory.put("NumberSort", SortNumericQuestionGenerator.class);
+        questionFactory.put("RomanSort", SortRomanQuestionGenerator.class);
         questionFactory.put("Addition", AdditionQuestionGenerator.class);
         questionFactory.put("MaxOccurence", MaxLetterOccurenceQuestionGenerator.class);
         questionFactory.put("Fibonacci", FibonacciQuestionGenerator.class);
