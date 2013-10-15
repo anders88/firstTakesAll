@@ -9,7 +9,7 @@ import no.anderska.wta.game.QuestionGenerator;
 
 abstract class AbstractQuestionGenerator implements QuestionGenerator {
 
-    protected final Random random = new Random();
+    protected static final Random random = new Random();
     private final int numberOfQuestions;
     private final String description;
     private final int points;
@@ -44,7 +44,7 @@ abstract class AbstractQuestionGenerator implements QuestionGenerator {
         return points;
     }
 
-    protected String randomString(int length) {
+    protected static String randomString(int length) {
         StringBuilder res = new StringBuilder();
         for (int i=0;i<length;i++) {
             char c = (char) ('a' + random.nextInt(26));
