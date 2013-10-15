@@ -1,10 +1,7 @@
 package no.anderska.wta.questions;
 
-import java.util.UUID;
 
-import no.anderska.wta.game.Question;
-
-class EchoQuestionGenerator extends AbstractQuestionGenerator {
+class EchoQuestionGenerator extends AbstractWordQuestionGenerator {
 
     private static final String DESCRIPTION = "The answer is the same as the question. Question: 'hello', Correct answer 'hello'";
 
@@ -17,9 +14,8 @@ class EchoQuestionGenerator extends AbstractQuestionGenerator {
     }
 
     @Override
-    protected Question createQuestion() {
-        String rand = UUID.randomUUID().toString();
-        return new Question(rand,rand);
+    protected String createAnswer(String question) {
+        return question;
     }
 
 }

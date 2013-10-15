@@ -185,7 +185,7 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
         return questionFactory;
     }
 
-    public QuestionGenerator addQuestionCategory(String category, QuestionGenerator generator) {
+    QuestionGenerator addQuestionCategory(String category, QuestionGenerator generator) {
         return activeGenerators.put(category, generator);
     }
 

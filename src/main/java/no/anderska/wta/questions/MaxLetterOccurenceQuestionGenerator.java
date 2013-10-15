@@ -1,43 +1,45 @@
 package no.anderska.wta.questions;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 
-import no.anderska.wta.game.Question;
-
-class MaxLetterOccurenceQuestionGenerator extends AbstractQuestionGenerator {
+class MaxLetterOccurenceQuestionGenerator extends AbstractWordQuestionGenerator {
     public MaxLetterOccurenceQuestionGenerator() {
         super(25, 15, "Return the letter with most occurenses. If equal return first in alphabet' I.e 'abbc' => 'b' and 'accee' => 'c'");
     }
 
     @Override
-    protected Question createQuestion() {
-        String question = randomString(50);
-        String answer = findMaxOccurence(question);
-        return new Question(question,answer);
+    protected String createAnswer(String question) {
+        return newImpl(question);
     }
 
-    String findMaxOccurence(String text) {
-        Map<Character,Integer> occurences = new HashMap<>();
-        for (Character c : text.toCharArray()) {
-            Integer occ = occurences.get(c);
-            if (occ == null) {
-                occ = 0;
+    private String newImpl(String question) {
+        char[] charArray = question.toCharArray();
+        Arrays.sort(charArray);
+
+        char result = 'a';
+        int count = 0;
+
+        char currentChar = 'a';
+        int currentCount = 0;
+
+        for (char c : charArray) {
+            if (c == currentChar) {
+                currentCount++;
+            } else {
+                if (currentCount > count) {
+                    result = currentChar;
+                    count = currentCount;
+                }
+                currentChar = c;
+                currentCount = 1;
             }
-            occ++;
-            occurences.put(c,occ);
         }
-        Map.Entry<Character,Integer> max = null;
-        for (Map.Entry<Character,Integer> entry : occurences.entrySet()) {
-            if (max == null) {
-                max = entry;
-                continue;
-            }
-            if (entry.getValue() > max.getValue() || (entry.getValue() == max.getValue() && entry.getKey() < max.getKey())) {
-                max = entry;
-            }
+        if (currentCount > count) {
+            result = currentChar;
+            count = currentCount;
         }
-        return "" + max.getKey();
+
+        return String.valueOf(result);
     }
 
 }

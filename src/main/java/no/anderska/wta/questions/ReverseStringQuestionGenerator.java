@@ -1,20 +1,14 @@
 package no.anderska.wta.questions;
 
-import no.anderska.wta.game.Question;
 
-class ReverseStringQuestionGenerator extends AbstractQuestionGenerator {
+class ReverseStringQuestionGenerator extends AbstractWordQuestionGenerator {
+
     public ReverseStringQuestionGenerator() {
         super(20, 10, "Reverse the text. 'abc' => 'cba'");
     }
 
     @Override
-    protected Question createQuestion() {
-        String question = randomString(20);
-        String fact = revrseText(question);
-        return new Question(question,fact);
-    }
-
-    String revrseText(String text) {
+    protected String createAnswer(String text) {
         return new StringBuilder(text).reverse().toString();
     }
 }
