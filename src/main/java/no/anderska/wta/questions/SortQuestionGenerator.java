@@ -19,7 +19,7 @@ public class SortQuestionGenerator implements QuestionGenerator {
 
     @Override
     public int points() {
-        return 25;
+        return 15;
     }
 
     @Override

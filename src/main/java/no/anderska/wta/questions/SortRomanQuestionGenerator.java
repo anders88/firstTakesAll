@@ -18,7 +18,7 @@ public class SortRomanQuestionGenerator implements QuestionGenerator {
 
     @Override
     public int points() {
-        return 35;
+        return 50;
     }
 
     @Override
