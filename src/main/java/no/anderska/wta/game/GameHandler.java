@@ -20,7 +20,7 @@ import no.anderska.wta.servlet.PlayerHandler;
 public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, AdminHandler {
     private final PlayerHandler playerHandler = new PlayerHandlerMemory();
     private Map<String,QuestionGenerator> activeGenerators = new HashMap<>();
-    private Map<String,QuestionSet> askedQuestions = new HashMap<>();
+    private final Map<String,QuestionSet> askedQuestions = new HashMap<>();
     private final Map<String,String> takenCategories = new HashMap<>();
     private final Map<String,Set<String>> answered = new HashMap<>();
     private boolean looserBonus = false;
@@ -57,11 +57,9 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
                 if (pointAwarded == PointAwarded.HALF) {
                     points = points / 2;
                 }
-
             }
             playerHandler.addPoints(playerid, points);
             gameLogger.answer(playerid,questionSet.getCategoryName(),answers,questionSet.expectedAnswers(),questionSet.questions(),AnswerStatus.OK,points);
-
         } else {
             gameLogger.answer(playerid,questionSet.getCategoryName(),answers,questionSet.expectedAnswers(),questionSet.questions(),answerStatus,0);
         }
@@ -107,23 +105,19 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
         if (generator == null) {
             return QuestionList.error("Unknown category '" + categoryid + "'");
         }
-        List<Question> questions = generator.generateQuestions(playerid);
-        putQuestion(playerid, categoryid, generator, questions);
+        QuestionSet questions = generator.generateQuestionSet(playerid, categoryid);
+        putQuestion(playerid, questions);
         return QuestionList.createQuestion(questions);
     }
 
-    public void putQuestion(String playerid, String categoryid, QuestionGenerator generator, List<Question> questions) {
+    public void putQuestion(String playerid, QuestionSet questionSet) {
         synchronized (lockHolder) {
-            askedQuestions.put(playerid,new QuestionSet(questions, generator, categoryid));
+            askedQuestions.put(playerid,questionSet);
         }
     }
 
     public void setActiveGenerators(Map<String, QuestionGenerator> generators) {
         this.activeGenerators = generators;
-    }
-
-    public void setAskedQuestions(Map<String, QuestionSet> askedQuestions) {
-        this.askedQuestions = askedQuestions;
     }
 
     @Override

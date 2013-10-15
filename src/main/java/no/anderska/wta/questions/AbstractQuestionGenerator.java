@@ -6,6 +6,7 @@ import java.util.Random;
 
 import no.anderska.wta.game.Question;
 import no.anderska.wta.game.QuestionGenerator;
+import no.anderska.wta.game.QuestionSet;
 
 abstract class AbstractQuestionGenerator implements QuestionGenerator {
 
@@ -26,12 +27,12 @@ abstract class AbstractQuestionGenerator implements QuestionGenerator {
     }
 
     @Override
-    public final List<Question> generateQuestions(String playerid) {
+    public QuestionSet generateQuestionSet(String playerid, String categoryid) {
         List<Question> result = new ArrayList<>();
         for (int i=0;i<numberOfQuestions;i++) {
             result.add(createQuestion());
         }
-        return result;
+        return new QuestionSet(result, this, categoryid);
     }
 
     @Override

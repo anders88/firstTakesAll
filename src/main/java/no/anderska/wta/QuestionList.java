@@ -3,7 +3,7 @@ package no.anderska.wta;
 import java.util.ArrayList;
 import java.util.List;
 
-import no.anderska.wta.game.Question;
+import no.anderska.wta.game.QuestionSet;
 
 public class QuestionList {
     private List<String> questions;
@@ -37,10 +37,10 @@ public class QuestionList {
         return errormessage == null;
     }
 
-    public static QuestionList createQuestion(List<Question> questions) {
+    public static QuestionList createQuestion(QuestionSet questionsSet) {
         List<String> questionList = new ArrayList<>();
-        for (Question question : questions) {
-            questionList.add(question.getQuestion());
+        for (String question : questionsSet.questions()) {
+            questionList.add(question);
         }
         return create(questionList);
     }

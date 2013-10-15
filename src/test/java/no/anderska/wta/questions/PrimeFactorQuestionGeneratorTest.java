@@ -2,11 +2,6 @@ package no.anderska.wta.questions;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.util.List;
-
-import no.anderska.wta.game.Question;
-import no.anderska.wta.questions.PrimeFactorQuestionGenerator;
-
 import org.junit.Test;
 
 public class PrimeFactorQuestionGeneratorTest {
@@ -17,7 +12,7 @@ public class PrimeFactorQuestionGeneratorTest {
 
     @Test
     public void shouldReturnQuestion() throws Exception {
-        List<Question> questions = new PrimeFactorQuestionGenerator().generateQuestions("playerone");
-        assertThat(questions).hasSize(15);
+        PrimeFactorQuestionGenerator r = new PrimeFactorQuestionGenerator();
+        assertThat(r.generateQuestionSet("", "").questions()).hasSize(15);
     }
 }

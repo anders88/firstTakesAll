@@ -6,6 +6,7 @@ import java.util.Random;
 
 import no.anderska.wta.game.Question;
 import no.anderska.wta.game.QuestionGenerator;
+import no.anderska.wta.game.QuestionSet;
 
 class MinesweeperQuestionGenerator implements QuestionGenerator {
     private final int rows;
@@ -91,13 +92,13 @@ class MinesweeperQuestionGenerator implements QuestionGenerator {
     }
 
     @Override
-    public List<Question> generateQuestions(String playerid) {
+    public QuestionSet generateQuestionSet(String playerid, String categoryid) {
         List<Question> questions = new ArrayList<>();
         for (int i=0;i<numberOfBoards;i++) {
             String genboard = generateBoard();
             questions.add(new Question(genboard,solve(genboard)));
         }
-        return questions;
+        return new QuestionSet(questions, this, categoryid);
     }
 
     @Override

@@ -7,13 +7,13 @@ import no.anderska.wta.AnswerStatus;
 
 import org.joda.time.DateTime;
 
-class QuestionSet {
+public class QuestionSet {
     private final List<Question> questions;
     private final QuestionGenerator generator;
     private final String categoryName;
     private final DateTime limit;
 
-    QuestionSet(List<Question> questions, QuestionGenerator generator, String categoryName) {
+    public QuestionSet(List<Question> questions, QuestionGenerator generator, String categoryName) {
         this.questions = questions;
         this.generator = generator;
         this.categoryName = categoryName;
@@ -56,7 +56,7 @@ class QuestionSet {
         return result;
     }
 
-    List<String> questions() {
+    public List<String> questions() {
         List<String> result = new ArrayList<>();
         for (Question question : questions) {
             result.add(question.getQuestion());

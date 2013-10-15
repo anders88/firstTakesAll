@@ -5,18 +5,19 @@ import java.util.List;
 
 import no.anderska.wta.game.Question;
 import no.anderska.wta.game.QuestionGenerator;
+import no.anderska.wta.game.QuestionSet;
 
 class ComputationQuestionGenerator implements QuestionGenerator {
     private final static int NUM_QUESTIONS = 25;
 
     @Override
-    public List<Question> generateQuestions(String playerid) {
+    public QuestionSet generateQuestionSet(String playerid, String categoryid) {
         List<Question> result = new ArrayList<>();
         for (int i = 0; i < NUM_QUESTIONS; i++) {
             String[] qanda = new CalculusGenerator().generateComputation();
             result.add(new Question(qanda[0], qanda[1]));
         }
-        return result;
+        return new QuestionSet(result, this, categoryid);
     }
 
     @Override

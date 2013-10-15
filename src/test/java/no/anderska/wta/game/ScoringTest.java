@@ -45,7 +45,7 @@ public class ScoringTest {
     @Test
     public void shouldGivePointsOnCorrectAnswer() throws Exception {
         Question question = new Question("a", "b");
-        gameHandler.putQuestion(playerId, "some category", generators, Arrays.asList(question));
+        gameHandler.putQuestion(playerId, new QuestionSet(Arrays.asList(question), generators, "some category"));
 
         AnswerStatus status = gameHandler.answer(playerId, asList(question.getCorrectAnswer()));
         assertThat(status).isEqualTo(AnswerStatus.OK);
@@ -66,7 +66,7 @@ public class ScoringTest {
     @Test
     public void shouldOnlyGivePointsOnce() throws Exception {
         Question question = new Question("a", "b");
-        gameHandler.putQuestion(playerId, "some category", generators, Arrays.asList(question));
+        gameHandler.putQuestion(playerId, new QuestionSet(Arrays.asList(question), generators, "some category"));
 
         gameHandler.answer(playerId, asList(question.getCorrectAnswer()));
         AnswerStatus status = gameHandler.answer(playerId, asList(question.getCorrectAnswer()));
@@ -78,7 +78,7 @@ public class ScoringTest {
     @Test
     public void shouldGiveNoPointsOnWrongAnswer() throws Exception {
         Question question = new Question("a", "b");
-        gameHandler.putQuestion(playerId, "some category", generators, Arrays.asList(question));
+        gameHandler.putQuestion(playerId, new QuestionSet(Arrays.asList(question), generators, "some category"));
 
         AnswerStatus status = gameHandler.answer(playerId, Arrays.asList("Wrong answer"));
         assertThat(status).isEqualTo(AnswerStatus.WRONG);

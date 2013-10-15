@@ -6,6 +6,7 @@ import java.util.List;
 
 import no.anderska.wta.game.Question;
 import no.anderska.wta.game.QuestionGenerator;
+import no.anderska.wta.game.QuestionSet;
 
 class FixedSudokoGenerator implements QuestionGenerator {
     private final List<Question> questions;
@@ -35,10 +36,10 @@ class FixedSudokoGenerator implements QuestionGenerator {
     }
 
     @Override
-    public List<Question> generateQuestions(String playerid) {
+    public QuestionSet generateQuestionSet(String playerid, String categoryid) {
         ArrayList<Question> result = new ArrayList<>(questions);
         Collections.shuffle(result);
-        return result;
+        return new QuestionSet(result, this, categoryid);
     }
 
     @Override

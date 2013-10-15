@@ -25,6 +25,7 @@ import no.anderska.wta.game.GameHandler;
 import no.anderska.wta.game.GameLogger;
 import no.anderska.wta.game.Question;
 import no.anderska.wta.game.QuestionGenerator;
+import no.anderska.wta.game.QuestionSet;
 import no.anderska.wta.questions.DummyQuestionGenerator;
 
 import org.junit.Before;
@@ -49,7 +50,7 @@ public class GameServletTest {
     @Test
     public void shouldHandleAnswer() throws Exception {
         String playerid = gameHandler.getPlayerHandler().createPlayer("Some name");
-        gameHandler.putQuestion(playerid, "Some id", questionGenerator, asList(q1, q2, q3));
+        gameHandler.putQuestion(playerid, new QuestionSet(asList(q1, q2, q3), questionGenerator, "Some id"));
 
 
         PlayerAnswerDto playerAnswerDto = new PlayerAnswerDto();
