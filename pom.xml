@@ -1,84 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>no.anders</groupId>
-	<artifactId>winner-takes-all</artifactId>
-	<name>winner-takes-all</name>
-	<version>1.0-SNAPSHOT</version>
-	<packaging>war</packaging>
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+        xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>no.anders</groupId>
+    <artifactId>winner-takes-all</artifactId>
+    <name>winner-takes-all</name>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
 
-	<dependencies>
-		<dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
-			<version>2.2</version>
-		</dependency>
-		<dependency>
-			<groupId>javassist</groupId>
-			<artifactId>javassist</artifactId>
-			<version>3.12.1.GA</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.6.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.6.3</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-server</artifactId>
-			<version>9.0.6.v20130930</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-plus</artifactId>
-			<version>9.0.6.v20130930</version>
-		</dependency>
-		<dependency>
-			<groupId>org.seleniumhq.webdriver</groupId>
-			<artifactId>webdriver-htmlunit</artifactId>
-			<version>0.9.7376</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>net.sourceforge.htmlunit</groupId>
-			<artifactId>htmlunit</artifactId>
-			<version>2.7</version>
-		</dependency>
-		<dependency>
-			<groupId>org.seleniumhq.webdriver</groupId>
-			<artifactId>webdriver-firefox</artifactId>
-			<version>0.9.7376</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.easytesting</groupId>
-			<artifactId>fest-assert</artifactId>
-			<version>1.4</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>1.9.5</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
+    <dependencies>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.12.1.GA</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.6.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.6.3</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>9.0.6.v20130930</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-plus</artifactId>
+            <version>9.0.6.v20130930</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.webdriver</groupId>
+            <artifactId>webdriver-htmlunit</artifactId>
+            <version>0.9.7376</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.htmlunit</groupId>
+            <artifactId>htmlunit</artifactId>
+            <version>2.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.webdriver</groupId>
+            <artifactId>webdriver-firefox</artifactId>
+            <version>0.9.7376</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.easytesting</groupId>
+            <artifactId>fest-assert</artifactId>
+            <version>1.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.9.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20090211</version>
         </dependency>
         <dependency>
             <groupId>dom4j</groupId>
@@ -86,28 +91,28 @@
             <version>1.6.1</version>
             <scope>test</scope>
         </dependency>
-            
-            
-	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<target>1.7</target>
-					<source>1.7</source>
-				</configuration>
-				<version>2.3.2</version>
-			</plugin>
-		</plugins>
-	</build>
 
-	<repositories>
-		<repository>
-			<id>repository.jboss.org-public</id>
-			<name>JBoss repository</name>
-			<url>https://repository.jboss.org/nexus/content/repositories/public-jboss/</url>
-		</repository>
-	</repositories>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <target>1.7</target>
+                    <source>1.7</source>
+                </configuration>
+                <version>2.3.2</version>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>repository.jboss.org-public</id>
+            <name>JBoss repository</name>
+            <url>https://repository.jboss.org/nexus/content/repositories/public-jboss/</url>
+        </repository>
+    </repositories>
 </project>

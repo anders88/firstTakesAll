@@ -1,38 +1,24 @@
 package no.anderska.wta.servlet;
 
 
-import static java.util.Arrays.asList;
-import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.google.gson.Gson;
 import no.anderska.wta.dto.PlayerAnswerDto;
-import no.anderska.wta.game.GameHandler;
-import no.anderska.wta.game.GameLogger;
-import no.anderska.wta.game.Question;
-import no.anderska.wta.game.QuestionGenerator;
-import no.anderska.wta.game.QuestionSet;
+import no.anderska.wta.game.*;
 import no.anderska.wta.questions.DummyQuestionGenerator;
-
+import org.json.JSONArray;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+import static java.util.Arrays.asList;
+import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
 public class GameServletTest {
 
@@ -65,7 +51,7 @@ public class GameServletTest {
 
         assertThat(htmlSource.toString()).isEqualTo("{\"status\" : \"OK\"}");
         assertThat(gameHandler.getPlayerHandler().getPoints(playerid))
-            .isEqualTo(questionGenerator.points());
+                .isEqualTo(questionGenerator.points());
     }
 
     @Test
@@ -87,7 +73,7 @@ public class GameServletTest {
 
         String playerid = gameHandler.getPlayerHandler().createPlayer("Some name");
 
-        questionGenerator.addQuestionSet(Arrays.asList(q1,q2,q3));
+        questionGenerator.addQuestionSet(Arrays.asList(q1, q2, q3));
 
         when(req.getMethod()).thenReturn("GET");
         when(req.getParameter("playerid")).thenReturn(playerid);
@@ -98,10 +84,14 @@ public class GameServletTest {
         verify(resp).setStatus(HttpServletResponse.SC_OK);
         verify(resp).setContentType("text/json");
 
-        Gson gson = new Gson();
-        List<String> answers = gson.fromJson(htmlSource.toString(), new TypeToken<List<String>>() {}.getType());
 
-        assertThat(answers).containsExactly(q1.getQuestion(),q2.getQuestion(),q3.getQuestion());
+        JSONArray answers = new JSONArray(htmlSource.toString());
+
+        assertThat(answers.length()).isEqualTo(3);
+        assertThat(answers.get(0)).isEqualTo(q1.getQuestion());
+        assertThat(answers.get(1)).isEqualTo(q2.getQuestion());
+        assertThat(answers.get(2)).isEqualTo(q3.getQuestion());
+
     }
 
     @Test
@@ -111,7 +101,7 @@ public class GameServletTest {
 
         servlet.service(req, resp);
 
-        verify(resp).sendError(HttpServletResponse.SC_BAD_REQUEST,"Missing parameter category");
+        verify(resp).sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing parameter category");
     }
 
     @Test
@@ -122,7 +112,7 @@ public class GameServletTest {
 
         servlet.service(req, resp);
 
-        verify(resp).sendError(HttpServletResponse.SC_BAD_REQUEST,"Unknown player 'playerone'");
+        verify(resp).sendError(HttpServletResponse.SC_BAD_REQUEST, "Unknown player 'playerone'");
     }
 
     @Before
