@@ -31,11 +31,7 @@ public class StatusServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/json");
         Gson gson = new Gson();
-        if ("/allStat".equals(req.getPathInfo())) {
-            List<CategoriesAnsweredDTO> categoriesAnsweredDTOs = adminHandler.categoriesAnswered();
-            resp.getWriter().append(gson.toJson(categoriesAnsweredDTOs));
-            return;
-        }
+
         List<CategoryDTO> categories = statusGiver.categoryStatus();
         List<PlayerDTO> players = playerHandler.playerList();
         GameStatusDTO gameStatusDTO = new GameStatusDTO(players, categories);
