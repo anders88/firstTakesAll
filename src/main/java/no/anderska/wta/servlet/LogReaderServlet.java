@@ -40,7 +40,7 @@ public class LogReaderServlet extends HttpServlet {
                     resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Did not find entry with id " + id);
                     return;
                 }
-                writer.append(JsonUtil.toJson(details));
+                writer.append(JsonUtil.toJson(details).toString());
 
             } catch (NumberFormatException e) {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Must supply numeric id");
@@ -48,7 +48,7 @@ public class LogReaderServlet extends HttpServlet {
         } else {
             List<AnswerLogEntryDTO> logEntries = logReader.getLogEntries();
 
-            writer.append(JsonUtil.toJson(logEntries));
+            writer.append(JsonUtil.toJson(logEntries).toString());
         }
     }
 

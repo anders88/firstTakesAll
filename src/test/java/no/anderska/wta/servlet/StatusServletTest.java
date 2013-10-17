@@ -1,11 +1,10 @@
 package no.anderska.wta.servlet;
 
-import com.google.gson.Gson;
 import no.anderska.wta.StatusGiver;
 import no.anderska.wta.dto.CategoryDTO;
-import no.anderska.wta.dto.GameStatusDTO;
 import no.anderska.wta.dto.PlayerDTO;
-import no.anderska.wta.game.AdminHandler;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,7 +14,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -27,44 +25,40 @@ public class StatusServletTest {
     private final HttpServletRequest req = mock(HttpServletRequest.class);
     private final HttpServletResponse resp = mock(HttpServletResponse.class);
     private final StringWriter htmlSource = new StringWriter();
-    private final AdminHandler adminHandler = mock(AdminHandler.class);
 
     @Test
     public void shouldGiveListOfCategories() throws Exception {
         when(req.getMethod()).thenReturn("GET");
 
         StatusGiver statusGiver = mock(StatusGiver.class);
-        when(statusGiver.categoryStatus()).thenReturn(Arrays.asList(new CategoryDTO("1","one",1,null),new CategoryDTO("2","two",2,"Someone")));
+        when(statusGiver.categoryStatus()).thenReturn(Arrays.asList(new CategoryDTO("1", "one", 1, null), new CategoryDTO("2", "two", 2, "Someone")));
         servlet.setStatusGiver(statusGiver);
 
         PlayerHandler playerHandler = mock(PlayerHandler.class);
-        when(playerHandler.playerList()).thenReturn(Arrays.asList(new PlayerDTO("Player one",10),new PlayerDTO("Player two",15)));
+        when(playerHandler.playerList()).thenReturn(Arrays.asList(new PlayerDTO("Player one", 10), new PlayerDTO("Player two", 15)));
         servlet.setPlayerHandler(playerHandler);
 
         servlet.service(req, resp);
 
-        Gson gson = new Gson();
-        GameStatusDTO gameStatusDTO = gson.fromJson(htmlSource.toString(), GameStatusDTO.class);
+        JSONObject jsonObject = new JSONObject(htmlSource.toString());
+        JSONArray categories = jsonObject.getJSONArray("categories");
 
-        List<CategoryDTO> categories = gameStatusDTO.getCategories();
+        assertThat(categories.length()).isEqualTo(2);
+        assertThat(categories.getJSONObject(0).getString("id")).isEqualTo("1");
+        assertThat(categories.getJSONObject(0).isNull("answeredBy")).isTrue();
+        assertThat(categories.getJSONObject(1).getString("id")).isEqualTo("2");
+        assertThat(categories.getJSONObject(1).getString("answeredBy")).isEqualTo("Someone");
 
-        assertThat(categories).hasSize(2);
 
-        assertThat(categories.get(0).getId()).isEqualTo("1");
-        assertThat(categories.get(0).getAnsweredBy()).isNull();
-        assertThat(categories.get(1).getId()).isEqualTo("2");
-        assertThat(categories.get(1).getAnsweredBy()).isEqualTo("Someone");
+        JSONArray players = jsonObject.getJSONArray("players");
+        assertThat(players.length()).isEqualTo(2);
 
-        List<PlayerDTO> players = gameStatusDTO.getPlayers();
-
-        assertThat(players).hasSize(2);
     }
 
 
     @Before
     public void setup() throws IOException {
         when(resp.getWriter()).thenReturn(new PrintWriter(htmlSource));
-        servlet.setAdminHandler(adminHandler);
     }
 
 

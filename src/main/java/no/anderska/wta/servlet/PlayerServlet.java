@@ -21,7 +21,7 @@ public class PlayerServlet extends HttpServlet {
         if ("/list".equals(req.getPathInfo())) {
             resp.setContentType("text/json");
             List<PlayerDTO> players = playerHandler.playerList();
-            resp.getWriter().append(JsonUtil.toJson(players));
+            resp.getWriter().append(JsonUtil.toJson(players).toString());
         } else {
             displayCreatePage(resp, null, "");
         }
@@ -54,11 +54,14 @@ public class PlayerServlet extends HttpServlet {
         if (errormessage == null) {
             String playerId = playerHandler.createPlayer(gamerName);
             PrintWriter writer = resp.getWriter();
-            writer //
-                    .append("<html><body>").append("<p>Welcome ").append(gamerName).append(" you have id ").append(playerId).append("</p>") //
-                    .append("<p><a href='../categories.html'>To game status</a></p>") //
-                    .append("</body></html>") //
-            ;
+            writer.append("<html><body>");
+            writer.append("<p>Welcome ");
+            writer.append(gamerName);
+            writer.append(" you have id ");
+            writer.append(playerId);
+            writer.append("</p>");
+            writer.append("<p><a href='../categories.html'>To game status</a></p>");
+            writer.append("</body></html>");
         } else {
             displayCreatePage(resp, errormessage, htmlEscape(gamerName));
         }
