@@ -1,11 +1,11 @@
 package no.anderska.wta.servlet;
 
 
-import com.google.gson.Gson;
 import no.anderska.wta.dto.PlayerAnswerDto;
 import no.anderska.wta.game.*;
 import no.anderska.wta.questions.DummyQuestionGenerator;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static java.util.Arrays.asList;
@@ -41,11 +42,16 @@ public class GameServletTest {
 
         PlayerAnswerDto playerAnswerDto = new PlayerAnswerDto();
         playerAnswerDto.setPlayerId(playerid);
-        playerAnswerDto.setAnswers(asList(q1.getCorrectAnswer(), q2.getCorrectAnswer(), q3.getCorrectAnswer()));
-        Gson gson = new Gson();
+        List<String> answerList = asList(q1.getCorrectAnswer(), q2.getCorrectAnswer(), q3.getCorrectAnswer());
+        playerAnswerDto.setAnswers(answerList);
 
         when(req.getMethod()).thenReturn("POST");
-        when(req.getReader()).thenReturn(new BufferedReader(new StringReader(gson.toJson(playerAnswerDto))));
+        JSONObject answer = new JSONObject();
+        answer.put("playerId",playerid);
+        answer.put("answers", new JSONArray(answerList));
+
+
+        when(req.getReader()).thenReturn(new BufferedReader(new StringReader(answer.toString())));
 
         servlet.service(req, resp);
 
