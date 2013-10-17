@@ -53,6 +53,10 @@ public class QuestionGeneratorFactory {
         questionFactory.put("Equation", EquationQuestionGenerator.class);
         questionFactory.put("TimeCalc", TimeCalculationGenerator.class);
         questionFactory.put("Sudoku", FixedSudokoGenerator.class);
+        questionFactory.put("TrivialNumbers", NumberAsTextQuestionGenerator.TrivialNumbers.class);
+        questionFactory.put("SmallNumbers", NumberAsTextQuestionGenerator.SmallNumbers.class);
+        questionFactory.put("NormalNumbers", NumberAsTextQuestionGenerator.NormalNumbers.class);
+        questionFactory.put("LargeNumbers", NumberAsTextQuestionGenerator.LargeNumbers.class);
 
         return questionFactory;
     }
