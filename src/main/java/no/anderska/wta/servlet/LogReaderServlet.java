@@ -5,6 +5,8 @@ import no.anderska.wta.SetupGame;
 import no.anderska.wta.dto.AnswerLogEntryDTO;
 import no.anderska.wta.dto.LogEntryDetailDTO;
 import no.anderska.wta.logging.LogReader;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -48,8 +50,14 @@ public class LogReaderServlet extends HttpServlet {
             }
         } else {
             List<AnswerLogEntryDTO> logEntries = logReader.getLogEntries();
+            JSONArray json = new JSONArray();
+            for (AnswerLogEntryDTO entry : logEntries) {
+                JSONObject jsonObject = new JSONObject(entry);
+                json.put(jsonObject);
+            }
 
-            writer.append(gson.toJson(logEntries));
+            //writer.append(gson.toJson(logEntries));
+            writer.append(json.toString());
         }
     }
 

@@ -41,8 +41,8 @@ public class AnswerLogEntryDTO {
         return time;
     }
 
-    public AnswerStatus getAnswerStatus() {
-        return answerStatus;
+    public String getAnswerStatus() {
+        return answerStatus != null ? answerStatus.toString() : null;
     }
 
     public String getMessage() {
