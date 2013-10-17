@@ -1,32 +1,29 @@
 package no.anderska.wta.servlet;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
+import no.anderska.wta.SetupGame;
+import no.anderska.wta.dto.PlayerDTO;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.google.gson.Gson;
-import no.anderska.wta.SetupGame;
-import no.anderska.wta.dto.PlayerDTO;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 
 public class PlayerServlet extends HttpServlet {
 
     private PlayerHandler playerHandler;
-    
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         if ("/list".equals(req.getPathInfo())) {
             resp.setContentType("text/json");
-            Gson gson = new Gson();
             List<PlayerDTO> players = playerHandler.playerList();
-            resp.getWriter().append(gson.toJson(players));
+            resp.getWriter().append(JsonUtil.toJson(players));
         } else {
-            displayCreatePage(resp,null,"");
+            displayCreatePage(resp, null, "");
         }
     }
 
@@ -35,15 +32,15 @@ public class PlayerServlet extends HttpServlet {
         PrintWriter writer = resp.getWriter();
         writer.append("<html><body>");
         if (errormessage != null) {
-            writer.append("<p style='color: red;'>" + errormessage + "</p>");
+            writer.append("<p style='color: red;'>").append(errormessage).append("</p>");
         }
         writer
-            .append("<form method='POST' action='player'>") //
-            .append("<input type='text' name='gamerName' value='") //
-            .append(nameValue) //
-            .append("'/>") //
-            .append("<input type='submit' name='createGamer' value='Create Gamer'/>") //
-            .append("</form>") //
+                .append("<form method='POST' action='player'>") //
+                .append("<input type='text' name='gamerName' value='") //
+                .append(nameValue) //
+                .append("'/>") //
+                .append("<input type='submit' name='createGamer' value='Create Gamer'/>") //
+                .append("</form>") //
         ;
         writer.append("</body></html>");
     }
@@ -58,13 +55,12 @@ public class PlayerServlet extends HttpServlet {
             String playerId = playerHandler.createPlayer(gamerName);
             PrintWriter writer = resp.getWriter();
             writer //
-                .append("<html><body>") //
-                .append("<p>Welcome " + gamerName + " you have id " + playerId + "</p>") //
-                .append("<p><a href='../categories.html'>To game status</a></p>") //
-                .append("</body></html>") //
-                ;
+                    .append("<html><body>").append("<p>Welcome ").append(gamerName).append(" you have id ").append(playerId).append("</p>") //
+                    .append("<p><a href='../categories.html'>To game status</a></p>") //
+                    .append("</body></html>") //
+            ;
         } else {
-            displayCreatePage(resp,errormessage,htmlEscape(gamerName));
+            displayCreatePage(resp, errormessage, htmlEscape(gamerName));
         }
     }
 
@@ -92,10 +88,10 @@ public class PlayerServlet extends HttpServlet {
     public void setPlayerHandler(PlayerHandler playerHandler) {
         this.playerHandler = playerHandler;
     }
-    
+
     @Override
     public void init() throws ServletException {
-    	this.playerHandler = SetupGame.instance().getPlayerHandler();
-    			
+        this.playerHandler = SetupGame.instance().getPlayerHandler();
+
     }
 }

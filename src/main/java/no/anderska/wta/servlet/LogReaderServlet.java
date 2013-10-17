@@ -4,8 +4,6 @@ import no.anderska.wta.SetupGame;
 import no.anderska.wta.dto.AnswerLogEntryDTO;
 import no.anderska.wta.dto.LogEntryDetailDTO;
 import no.anderska.wta.logging.LogReader;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -42,13 +40,7 @@ public class LogReaderServlet extends HttpServlet {
                     resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Did not find entry with id " + id);
                     return;
                 }
-
-                JSONArray json = new JSONArray();
-                for (LogEntryDetailDTO detail : details) {
-                    JSONObject jsonObject = new JSONObject(detail);
-                    json.put(jsonObject);
-                }
-                writer.append(json.toString());
+                writer.append(JsonUtil.toJson(details));
 
             } catch (NumberFormatException e) {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Must supply numeric id");
@@ -56,13 +48,7 @@ public class LogReaderServlet extends HttpServlet {
         } else {
             List<AnswerLogEntryDTO> logEntries = logReader.getLogEntries();
 
-            JSONArray json = new JSONArray();
-            for (AnswerLogEntryDTO entry : logEntries) {
-                JSONObject jsonObject = new JSONObject(entry);
-                json.put(jsonObject);
-            }
-
-            writer.append(json.toString());
+            writer.append(JsonUtil.toJson(logEntries));
         }
     }
 
