@@ -1,7 +1,6 @@
 package no.anderska.wta.servlet;
 
 
-import no.anderska.wta.dto.PlayerAnswerDto;
 import no.anderska.wta.game.*;
 import no.anderska.wta.questions.DummyQuestionGenerator;
 import org.json.JSONArray;
@@ -39,11 +38,8 @@ public class GameServletTest {
         String playerid = gameHandler.getPlayerHandler().createPlayer("Some name");
         gameHandler.putQuestion(playerid, new QuestionSet(asList(q1, q2, q3), questionGenerator, "Some id"));
 
-
-        PlayerAnswerDto playerAnswerDto = new PlayerAnswerDto();
-        playerAnswerDto.setPlayerId(playerid);
         List<String> answerList = asList(q1.getCorrectAnswer(), q2.getCorrectAnswer(), q3.getCorrectAnswer());
-        playerAnswerDto.setAnswers(answerList);
+
 
         when(req.getMethod()).thenReturn("POST");
         JSONObject answer = new JSONObject();
