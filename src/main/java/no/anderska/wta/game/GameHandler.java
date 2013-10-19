@@ -53,7 +53,7 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
             PointAwarded pointAwarded = claimCategory(questionSet.getCategoryName(),playerid);
             int points = 0;
             if (pointAwarded != PointAwarded.NONE) {
-                points = questionSet.getGenerator().points();
+                points = questionFactory.getPoint(questionSet.getCategoryName());
                 if (pointAwarded == PointAwarded.HALF) {
                     points = points / 2;
                 }
@@ -133,7 +133,7 @@ public class GameHandler implements GameHandlerPlayerInterface, StatusGiver, Adm
         QuestionGenerator generator = activeGenerators.get(category);
         String answeredById = takenCategories.get(category);
         String answeredBy = answeredById != null ? playerHandler.playerName(answeredById) : null;
-        return new CategoryDTO(category, generator.description(), generator.points(), answeredBy);
+        return new CategoryDTO(category, generator.description(), questionFactory.getPoint(category), answeredBy);
     }
 
     @Override

@@ -3,6 +3,7 @@ package no.anderska.wta.servlet;
 
 import no.anderska.wta.game.*;
 import no.anderska.wta.questions.DummyQuestionGenerator;
+import no.anderska.wta.questions.QuestionGeneratorFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Before;
@@ -33,10 +34,19 @@ public class GameServletTest {
     private final DummyQuestionGenerator questionGenerator = new DummyQuestionGenerator();
     private final GameLogger gameLogger = mock(GameLogger.class);
 
+    @Before
+    public void setup() throws IOException {
+        when(resp.getWriter()).thenReturn(new PrintWriter(htmlSource));
+        servlet.setGameHandlerPlayerInterface(gameHandler);
+        servlet.setGameLogger(gameLogger);
+        gameHandler.setGameLogger(gameLogger);
+        gameHandler.setQuestionGeneratorFactory(QuestionGeneratorFactory.withAllQuestions());
+    }
+
     @Test
     public void shouldHandleAnswer() throws Exception {
         String playerid = gameHandler.getPlayerHandler().createPlayer("Some name");
-        gameHandler.putQuestion(playerid, new QuestionSet(asList(q1, q2, q3), questionGenerator, "Some id"));
+        gameHandler.putQuestion(playerid, new QuestionSet(asList(q1, q2, q3), questionGenerator, "Echo"));
 
         List<String> answerList = asList(q1.getCorrectAnswer(), q2.getCorrectAnswer(), q3.getCorrectAnswer());
 
@@ -53,7 +63,7 @@ public class GameServletTest {
 
         assertThat(htmlSource.toString()).isEqualTo("{\"status\" : \"OK\"}");
         assertThat(gameHandler.getPlayerHandler().getPoints(playerid))
-                .isEqualTo(questionGenerator.points());
+                .isEqualTo(2);
     }
 
     @Test
@@ -117,11 +127,5 @@ public class GameServletTest {
         verify(resp).sendError(HttpServletResponse.SC_BAD_REQUEST, "Unknown player 'playerone'");
     }
 
-    @Before
-    public void setup() throws IOException {
-        when(resp.getWriter()).thenReturn(new PrintWriter(htmlSource));
-        servlet.setGameHandlerPlayerInterface(gameHandler);
-        servlet.setGameLogger(gameLogger);
-        gameHandler.setGameLogger(gameLogger);
-    }
+
 }

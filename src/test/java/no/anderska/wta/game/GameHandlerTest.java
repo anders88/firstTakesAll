@@ -2,6 +2,8 @@ package no.anderska.wta.game;
 
 import static java.util.Arrays.asList;
 import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,6 +21,7 @@ import no.anderska.wta.servlet.PlayerHandler;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 public class GameHandlerTest {
 
@@ -30,6 +33,15 @@ public class GameHandlerTest {
 
     private final String playerName = "Player";
     private final String playerid = playerHandler.createPlayer(playerName);
+
+    @Before
+    public void setup() {
+        gameHandler.addQuestionCategory("one", generator);
+        gameHandler.setGameLogger(gameLogger);
+        QuestionGeneratorFactory mockQuestionGeneratorFactory = Mockito.mock(QuestionGeneratorFactory.class);
+        when(mockQuestionGeneratorFactory.createGenerator(anyString())).thenReturn(generator);
+        gameHandler.setQuestionGeneratorFactory(mockQuestionGeneratorFactory);
+    }
 
     @Test
     public void shouldGiveQuestions() throws Exception {
@@ -58,6 +70,7 @@ public class GameHandlerTest {
 
     @Test
     public void shouldRespondToCorrectAnswer() throws Exception {
+
         generator.addQuestionSet(asList(new Question("one", "factone"), new Question("two", "facttwo")));
         gameHandler.questions(playerid, "one");
 
@@ -129,7 +142,6 @@ public class GameHandlerTest {
 
     @Test
     public void shouldEditCategories() {
-        gameHandler.setQuestionGeneratorFactory(QuestionGeneratorFactory.withAllQuestions());
         gameHandler.editCategories(asList("FromRoman", "one"));
         assertThat(gameHandler.questions(playerid, "one").isOk()).isTrue();
         gameHandler.answer(playerid, Arrays.asList("a"));
@@ -143,9 +155,5 @@ public class GameHandlerTest {
     }
 
 
-    @Before
-    public void setup() {
-        gameHandler.addQuestionCategory("one", generator);
-        gameHandler.setGameLogger(gameLogger);
-    }
+
 }

@@ -9,6 +9,7 @@ import no.anderska.wta.game.QuestionGenerator;
 public class QuestionGeneratorFactory {
 
     private final Map<String, Class<? extends QuestionGenerator>> allGenerators = new HashMap<>();
+    private final Map<String, Integer> allPoints = new HashMap<>();
 
     public QuestionGenerator createGenerator(String category) {
         Class<? extends QuestionGenerator> generatorClass = allGenerators.get(category);
@@ -26,39 +27,51 @@ public class QuestionGeneratorFactory {
         return allGenerators.keySet();
     }
 
-    public void put(String category, Class<? extends QuestionGenerator> questionGenerator) {
+    public void put(String category, Class<? extends QuestionGenerator> questionGenerator,int points) {
         this.allGenerators.put(category, questionGenerator);
+        this.allPoints.put(category,points);
     }
+
+    public int getPoint(String category) {
+        Integer p = allPoints.get(category);
+        if (p == null) {
+            throw new IllegalArgumentException("Unknown category " + category);
+        }
+        return p;
+    }
+
 
     public static QuestionGeneratorFactory withAllQuestions() {
         QuestionGeneratorFactory questionFactory = new QuestionGeneratorFactory();
 
-        questionFactory.put("Echo", EchoQuestionGenerator.class);
-        questionFactory.put("Length", WordCountQuestionGenerator.class);
-        questionFactory.put("First", FirstCharacterQuestionGenerator.class);
-        questionFactory.put("Last", LastCharacterQuestionGenerator.class);
-        questionFactory.put("Reverse", ReverseStringQuestionGenerator.class);
-        questionFactory.put("HtmlEscape", HtmlEscapeQuestionGenerator.class);
-        questionFactory.put("Sort", SortQuestionGenerator.class);
-        questionFactory.put("NumberSort", SortNumericQuestionGenerator.class);
-        questionFactory.put("RomanSort", SortRomanQuestionGenerator.class);
-        questionFactory.put("Addition", AdditionQuestionGenerator.class);
-        questionFactory.put("MaxOccurence", MaxLetterOccurenceQuestionGenerator.class);
-        questionFactory.put("Fibonacci", FibonacciQuestionGenerator.class);
-        questionFactory.put("Minesweeper", MinesweeperQuestionGenerator.class);
-        questionFactory.put("PrimeFactor", PrimeFactorQuestionGenerator.class);
-        questionFactory.put("ToRoman", RomanQuestionGenerator.class);
-        questionFactory.put("FromRoman", ToRomanNumberQuestionGenerator.class);
-        questionFactory.put("Computation", ComputationQuestionGenerator.class);
-        questionFactory.put("Equation", EquationQuestionGenerator.class);
-        questionFactory.put("TimeCalc", TimeCalculationGenerator.class);
-        questionFactory.put("Sudoku", FixedSudokoGenerator.class);
-        questionFactory.put("TrivialNumbers", NumberAsTextQuestionGenerator.TrivialNumbers.class);
-        questionFactory.put("SmallNumbers", NumberAsTextQuestionGenerator.SmallNumbers.class);
-        questionFactory.put("NormalNumbers", NumberAsTextQuestionGenerator.NormalNumbers.class);
-        questionFactory.put("LargeNumbers", NumberAsTextQuestionGenerator.LargeNumbers.class);
+        questionFactory.put("Echo", EchoQuestionGenerator.class, 2);
+        questionFactory.put("Length", WordCountQuestionGenerator.class, 5);
+        questionFactory.put("First", FirstCharacterQuestionGenerator.class, 5);
+        questionFactory.put("Last", LastCharacterQuestionGenerator.class, 5);
+        questionFactory.put("Reverse", ReverseStringQuestionGenerator.class, 10);
+        questionFactory.put("HtmlEscape", HtmlEscapeQuestionGenerator.class, 20);
+        questionFactory.put("Sort", SortQuestionGenerator.class, 15);
+        questionFactory.put("NumberSort", SortNumericQuestionGenerator.class, 25);
+        questionFactory.put("RomanSort", SortRomanQuestionGenerator.class, 50);
+        questionFactory.put("Addition", AdditionQuestionGenerator.class, 10);
+        questionFactory.put("MaxOccurence", MaxLetterOccurenceQuestionGenerator.class, 15);
+        questionFactory.put("Fibonacci", FibonacciQuestionGenerator.class, 20);
+        questionFactory.put("Minesweeper", MinesweeperQuestionGenerator.class, 50);
+        questionFactory.put("PrimeFactor", PrimeFactorQuestionGenerator.class, 50);
+        questionFactory.put("ToRoman", RomanQuestionGenerator.class, 40);
+        questionFactory.put("FromRoman", ToRomanNumberQuestionGenerator.class, 40);
+        questionFactory.put("Computation", ComputationQuestionGenerator.class, 25);
+        questionFactory.put("Equation", EquationQuestionGenerator.class, 45);
+        questionFactory.put("TimeCalc", TimeCalculationGenerator.class, 30);
+        questionFactory.put("Sudoku", FixedSudokoGenerator.class, 65);
+        questionFactory.put("TrivialNumbers", NumberAsTextQuestionGenerator.TrivialNumbers.class, 10);
+        questionFactory.put("SmallNumbers", NumberAsTextQuestionGenerator.SmallNumbers.class, 20);
+        questionFactory.put("NormalNumbers", NumberAsTextQuestionGenerator.NormalNumbers.class, 30);
+        questionFactory.put("LargeNumbers", NumberAsTextQuestionGenerator.LargeNumbers.class, 40);
+
 
         return questionFactory;
     }
+
 
 }

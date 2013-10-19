@@ -27,8 +27,8 @@ public class CategoriesServletTest {
 
     @Test
     public void shouldShowCategories() throws IOException, JSONException {
-        questionFactory.put("One", DummyQuestionGenerator.class);
-        questionFactory.put("Two", DummyQuestionGenerator.class);
+        questionFactory.put("One", DummyQuestionGenerator.class,5);
+        questionFactory.put("Two", DummyQuestionGenerator.class,10);
         gameHandler.setQuestionGeneratorFactory(questionFactory);
 
         gameHandler.editCategories(Arrays.asList("Two"));

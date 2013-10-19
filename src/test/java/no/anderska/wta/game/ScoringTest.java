@@ -2,20 +2,24 @@ package no.anderska.wta.game;
 
 import static java.util.Arrays.asList;
 import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
 
 import no.anderska.wta.AnswerStatus;
 import no.anderska.wta.questions.DummyQuestionGenerator;
+import no.anderska.wta.questions.QuestionGeneratorFactory;
 import no.anderska.wta.servlet.PlayerHandler;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
 
 public class ScoringTest {
 
@@ -39,6 +43,13 @@ public class ScoringTest {
         expectedCaptor = ArgumentCaptor.forClass(stringListClass);
         questionCaptor = ArgumentCaptor.forClass(stringListClass);
 
+        QuestionGeneratorFactory mockQuestionGeneratorFactory = Mockito.mock(QuestionGeneratorFactory.class);
+        when(mockQuestionGeneratorFactory.createGenerator(anyString())).thenReturn(generators);
+        when(mockQuestionGeneratorFactory.getPoint(anyString())).thenReturn(110);
+        gameHandler.setQuestionGeneratorFactory(mockQuestionGeneratorFactory);
+
+
+
 
     }
 
@@ -50,7 +61,7 @@ public class ScoringTest {
         AnswerStatus status = gameHandler.answer(playerId, asList(question.getCorrectAnswer()));
         assertThat(status).isEqualTo(AnswerStatus.OK);
         assertThat(playerHandler.getPoints(playerId))
-            .isEqualTo(generators.points());
+            .isEqualTo(110);
 
         verify(gameLogger).answer(eq(playerId), eq("some category"),answerCaptor.capture(), expectedCaptor.capture(),questionCaptor.capture(),eq(AnswerStatus.OK),eq(110));
 
@@ -72,7 +83,7 @@ public class ScoringTest {
         AnswerStatus status = gameHandler.answer(playerId, asList(question.getCorrectAnswer()));
         assertThat(status).isEqualTo(AnswerStatus.OK);
         assertThat(playerHandler.getPoints(playerId))
-            .isEqualTo(generators.points());
+            .isEqualTo(110);
     }
 
     @Test
