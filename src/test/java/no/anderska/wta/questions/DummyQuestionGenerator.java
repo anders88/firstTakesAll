@@ -36,11 +36,6 @@ public class DummyQuestionGenerator implements QuestionGenerator {
         return "Dummy category description";
     }
 
-    @Override
-    public int points() {
-        return 110;
-    }
-
     public void addQuestionSet(List<Question> questionSet) {
         questionSets.add(questionSet);
     }

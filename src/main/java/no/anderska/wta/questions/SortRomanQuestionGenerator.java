@@ -17,11 +17,6 @@ public class SortRomanQuestionGenerator implements QuestionGenerator {
     }
 
     @Override
-    public int points() {
-        return 50;
-    }
-
-    @Override
     public QuestionSet generateQuestionSet(String playerid, String categoryid) {
         List<Integer> question = generateQuestion();
         return new QuestionSet(toRomanNumbers(question), toRomanNumbers(generateAnswers(question)), this, categoryid);

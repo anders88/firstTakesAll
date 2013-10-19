@@ -106,8 +106,4 @@ class MinesweeperQuestionGenerator implements QuestionGenerator {
         return "Display the number of mines on a minesweeper board with mines denoted * and empty fields denoted -. [-*-] => [1*1] and [--*][*--][---] => [12*][*21][110]";
     }
 
-    @Override
-    public int points() {
-        return 50;
-    }
 }

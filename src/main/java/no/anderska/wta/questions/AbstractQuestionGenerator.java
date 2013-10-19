@@ -40,11 +40,6 @@ abstract class AbstractQuestionGenerator implements QuestionGenerator {
         return description;
     }
 
-    @Override
-    public final int points() {
-        return points;
-    }
-
     protected static String randomString(int length) {
         StringBuilder res = new StringBuilder();
         for (int i=0;i<length;i++) {

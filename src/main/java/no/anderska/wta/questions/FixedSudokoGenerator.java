@@ -47,8 +47,4 @@ class FixedSudokoGenerator implements QuestionGenerator {
         return "Solve a 9X9 sudoku board. Each row, column and 3X3 square should have numbers 1-9 Board is denoted [123456789][---------]... The - should be replaced with correct numbers.";
     }
 
-    @Override
-    public int points() {
-        return 65;
-    }
 }

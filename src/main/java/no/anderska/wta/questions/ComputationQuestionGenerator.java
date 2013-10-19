@@ -25,8 +25,4 @@ class ComputationQuestionGenerator implements QuestionGenerator {
         return "Calculate the answer of the calculus. Multiplication takes precedence over addition and substraction hence '2+4*2' = '10'";
     }
 
-    @Override
-    public int points() {
-        return 25;
-    }
 }

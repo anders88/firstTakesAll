@@ -18,11 +18,6 @@ public class SortQuestionGenerator implements QuestionGenerator {
     }
 
     @Override
-    public int points() {
-        return 15;
-    }
-
-    @Override
     public QuestionSet generateQuestionSet(String playerid, String categoryid) {
         List<String> question = generateQuestion();
         return new QuestionSet(question, generateAnswers(question), this, categoryid);
