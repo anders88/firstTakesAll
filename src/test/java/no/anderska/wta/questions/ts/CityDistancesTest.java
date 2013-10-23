@@ -19,5 +19,13 @@ public class CityDistancesTest {
         assertThat(distances.get(2, 1)).isEqualTo(5);
     }
 
+    @Test
+    public void shouldGiveAllCities() throws Exception {
+        distances.add(1,2,5);
+        distances.add(1,3,5);
+        assertThat(distances.cities()).contains(1,2,3);
+    }
+
+
 
 }

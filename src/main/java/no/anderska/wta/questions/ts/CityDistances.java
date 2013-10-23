@@ -1,9 +1,13 @@
 package no.anderska.wta.questions.ts;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class CityDistances {
+    private Map<Pair,Integer> distances = new HashMap<>();
+
     private static class Pair {
         private final int a;
         private final int b;
@@ -27,7 +31,15 @@ public class CityDistances {
             return new Integer(a).hashCode() + new Integer(b).hashCode();
         }
     }
-    private Map<Pair,Integer> distances = new HashMap<>();
+
+    public Set<Integer> cities() {
+        Set<Integer> result = new HashSet<>();
+        for (Pair p : distances.keySet()) {
+            result.add(p.a);
+            result.add(p.b);
+        }
+        return result;
+    }
 
     public void add(int from, int to, int distance) {
         distances.put(new Pair(from,to),distance);
