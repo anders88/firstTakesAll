@@ -68,6 +68,7 @@ public class QuestionGeneratorFactory {
         questionFactory.put("SmallNumbers", NumberAsTextQuestionGenerator.SmallNumbers.class, 20);
         questionFactory.put("NormalNumbers", NumberAsTextQuestionGenerator.NormalNumbers.class, 30);
         questionFactory.put("LargeNumbers", NumberAsTextQuestionGenerator.LargeNumbers.class, 40);
+        questionFactory.put("TravellingSalesman", TravellingSalesmanQuestionGenerator.class, 100);
 
 
         return questionFactory;
