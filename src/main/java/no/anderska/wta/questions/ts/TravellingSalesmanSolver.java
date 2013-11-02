@@ -1,54 +1,58 @@
 package no.anderska.wta.questions.ts;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class TravellingSalesmanSolver {
-    private Set<Integer> allCities;
-    private List<Integer> visited;
-    private List<Integer> bestRoute;
-    private int best;
-    private int sum;
+
+    private int startNode;
+    private Map<Task,Solution> solutionMap;
+
+
     private CityDistances cityDistances;
 
-
-    public synchronized List<Integer> compute(CityDistances cityDistances, int start) {
+    public synchronized Solution compute(CityDistances cityDistances, int start) {
         this.cityDistances = cityDistances;
-        allCities = cityDistances.cities();
-        visited = new ArrayList<>();
+        this.startNode = start;
+        this.solutionMap = new HashMap<>();
 
-        visited.add(start);
-        best = Integer.MAX_VALUE;
-        sum = 0;
-
-        walk();
-
-        return bestRoute;
+        return walk(new HashSet<>(cityDistances.cities()),start);
     }
 
-    private void walk() {
-        if (visited.size() == allCities.size()) {
-            bestRoute = new ArrayList<>(visited);
-            bestRoute.add(visited.get(0));
-            best = sum;
-            return;
+    private Solution walk(Set<Integer> cities,int start) {
+        Task task = new Task(cities,start);
+        Solution storedSolution = solutionMap.get(task);
+        if (storedSolution != null) {
+            return storedSolution;
         }
-        if (sum < best) {
-            for (int next : allCities) {
-                if (visited.contains(next)) {
-                    continue;
-                }
-                int distance = cityDistances.get(visited.get(visited.size()-1),next);
-                sum = sum + distance;
-                visited.add(next);
 
-                walk();
+        cities.remove(start);
+        if (cities.size() == 0) {
+            List<Integer> lastStep = new ArrayList<>();
+            lastStep.add(start);
+            lastStep.add(startNode);
+            int lastStepLength = cityDistances.get(start,startNode);
+            return new Solution(lastStep,lastStepLength);
+        }
 
-                visited.remove(visited.size()-1);
-                sum = sum - distance;
+        int best = Integer.MAX_VALUE;
+        Solution restPath = null;
+
+        for (Integer nextDestination : cities) {
+            Solution rest = walk(new HashSet<Integer>(cities),nextDestination);
+            if (rest.length < best) {
+                restPath = rest;
+                best = rest.length;
             }
         }
+        List<Integer> path = new ArrayList<>();
+        path.add(start);
+        path.addAll(restPath.path);
+        int length = cityDistances.get(start,restPath.path.get(0)) + restPath.length;
 
+        Solution solution = new Solution(path, length);
+        solutionMap.put(task,solution);
+        return solution;
     }
+
+
 }
