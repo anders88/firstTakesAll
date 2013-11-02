@@ -11,9 +11,9 @@ public class TravellingSalesmanQuestionGenerator extends AbstractQuestionGenerat
             "Find the shortest path. Cities have numbers from 1 to 12. Start in one city, go between all cities and come back to the starting city." +
                     "Distancences are given on the form '1-2=8,1-3=11'. Meaning that the distance from 1 to 2 is 8 and from 1 to 3 is 11. (Obiously the " +
                     "distance from 2 to one will also be 8). Example '1-2=50,1-3=1,1-4=1,2-3=1,2-4=1,3-4=50' has correct answer '4' with a path of" +
-                    " for example '1-3-2-4-1'. (Only the distance should be provided in the answer - not the path";
+                    " for example '1-3-2-4-1'. (Only the distance should be provided in the answer - not the path)";
 
-    TravellingSalesmanQuestionGenerator(int numberOfQuestions, int points, String description) {
+    public TravellingSalesmanQuestionGenerator() {
         super(4, DESCRIPTION);
     }
 
@@ -26,8 +26,9 @@ public class TravellingSalesmanQuestionGenerator extends AbstractQuestionGenerat
             for (int j=i+1;j<=12;j++) {
                 if (!first) {
                     qustr.append(",");
-                    first=false;
                 }
+                first=false;
+
                 int distance = random.nextInt(40)+1;
                 distances.add(i,j,distance);
                 qustr.append(i);

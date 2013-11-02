@@ -19,12 +19,17 @@ public class SetupGame {
     private final MemoryGameLogger memoryGameLogger;
 
 	private SetupGame() {
-        gameHandler = new GameHandler();
-        memoryGameLogger = new MemoryGameLogger(gameHandler.getPlayerHandler());
-        gameHandler.setGameLogger(memoryGameLogger);
-        memoryGameLogger.setPlayerHandler(gameHandler.getPlayerHandler());
-        gameHandler.setQuestionGeneratorFactory(QuestionGeneratorFactory.withAllQuestions());
-	}
+        try {
+            gameHandler = new GameHandler();
+            memoryGameLogger = new MemoryGameLogger(gameHandler.getPlayerHandler());
+            gameHandler.setGameLogger(memoryGameLogger);
+            memoryGameLogger.setPlayerHandler(gameHandler.getPlayerHandler());
+            gameHandler.setQuestionGeneratorFactory(QuestionGeneratorFactory.withAllQuestions());
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw e;
+        }
+    }
 
     public PlayerHandler getPlayerHandler() {
 		return gameHandler.getPlayerHandler();
