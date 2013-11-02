@@ -1,7 +1,6 @@
 package no.anderska.wta.questions;
 
 import no.anderska.wta.game.Question;
-import no.anderska.wta.questions.AbstractQuestionGenerator;
 import no.anderska.wta.questions.ts.CityDistances;
 import no.anderska.wta.questions.ts.Solution;
 import no.anderska.wta.questions.ts.TravellingSalesmanSolver;
@@ -15,7 +14,7 @@ public class TravellingSalesmanQuestionGenerator extends AbstractQuestionGenerat
                     " for example '1-3-2-4-1'. (Only the distance should be provided in the answer - not the path";
 
     TravellingSalesmanQuestionGenerator(int numberOfQuestions, int points, String description) {
-        super(4, 80, DESCRIPTION);
+        super(4, DESCRIPTION);
     }
 
     @Override

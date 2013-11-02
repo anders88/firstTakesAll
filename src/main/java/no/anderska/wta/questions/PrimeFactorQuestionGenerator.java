@@ -13,7 +13,7 @@ class PrimeFactorQuestionGenerator extends AbstractQuestionGenerator {
     private final int maxPicks;
 
     private PrimeFactorQuestionGenerator(int maxNumber,int maxPicks, int numberOfQuestions) {
-        super(numberOfQuestions, 50, DESCRIPTION);
+        super(numberOfQuestions, DESCRIPTION);
         this.maxPicks = maxPicks;
         if (maxNumber <= 2 || maxPicks <= 0) {
             throw new IllegalArgumentException("Parameters must be positive");

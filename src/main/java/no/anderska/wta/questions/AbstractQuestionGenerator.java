@@ -13,17 +13,15 @@ abstract class AbstractQuestionGenerator implements QuestionGenerator {
     protected static final Random random = new Random();
     private final int numberOfQuestions;
     private final String description;
-    private final int points;
 
     protected abstract Question createQuestion();
 
-    AbstractQuestionGenerator(int numberOfQuestions, int points, String description) {
+    AbstractQuestionGenerator(int numberOfQuestions, String description) {
         if (numberOfQuestions < 0) {
             throw new IllegalArgumentException("numberOfQuestions must be > 0, was " + numberOfQuestions);
         }
         this.numberOfQuestions = numberOfQuestions;
         this.description = description;
-        this.points = points;
     }
 
     @Override

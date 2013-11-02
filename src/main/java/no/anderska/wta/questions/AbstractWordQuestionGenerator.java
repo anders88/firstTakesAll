@@ -5,7 +5,7 @@ import no.anderska.wta.game.Question;
 public abstract class AbstractWordQuestionGenerator extends AbstractQuestionGenerator {
 
     public AbstractWordQuestionGenerator(int numberOfQuestions, int points, String description) {
-        super(numberOfQuestions, points, description);
+        super(numberOfQuestions, description);
     }
 
     protected abstract String createAnswer(String question);

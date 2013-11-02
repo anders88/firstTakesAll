@@ -71,7 +71,7 @@ public class NumberAsTextQuestionGenerator extends AbstractQuestionGenerator {
     }
 
     NumberAsTextQuestionGenerator(int points, String description) {
-        super(30, points, description);
+        super(30, description);
     }
 
     @Override

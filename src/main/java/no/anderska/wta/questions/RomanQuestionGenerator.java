@@ -8,7 +8,7 @@ class RomanQuestionGenerator extends AbstractQuestionGenerator {
     private final RomanNumberSolver solver = new RomanNumberSolver();
 
     private RomanQuestionGenerator(int maxNumber, int numberOfQuestions) {
-        super(numberOfQuestions, 40, DESCRIPTION);
+        super(numberOfQuestions, DESCRIPTION);
         if (maxNumber < 1 || maxNumber >= 4000) {
             throw new IllegalArgumentException("Wrong parameters");
         }

@@ -8,7 +8,7 @@ class AdditionQuestionGenerator extends AbstractQuestionGenerator {
     private final int maxFactors;
 
     private AdditionQuestionGenerator(int numberOfQuestions, int maxFactors) {
-        super(numberOfQuestions, 10, DESCRIPTION);
+        super(numberOfQuestions, DESCRIPTION);
         if (maxFactors < 2) {
             throw new IllegalArgumentException("Number of factors must be 2 or greater");
         }

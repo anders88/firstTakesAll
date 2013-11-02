@@ -12,7 +12,7 @@ class TimeCalculationGenerator extends AbstractQuestionGenerator {
     private RandomTimeGeneration random = new RandomTimeGeneration();
 
     public TimeCalculationGenerator() {
-        super(30, 30, "A plane travels to and from a place. Calculate the local time when it lands on format 'yyyy-mm-dd at hh:mm' eg. '2013-09-03 at 16:34'");
+        super(30, "A plane travels to and from a place. Calculate the local time when it lands on format 'yyyy-mm-dd at hh:mm' eg. '2013-09-03 at 16:34'");
     }
 
     Question makeRandomTrip() {
