@@ -3,7 +3,6 @@ package no.anderska.wta.questions;
 import no.anderska.wta.game.Question;
 import no.anderska.wta.questions.timegen.City;
 import no.anderska.wta.questions.timegen.RandomTimeGeneration;
-
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;

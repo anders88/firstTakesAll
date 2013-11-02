@@ -1,10 +1,10 @@
 package no.anderska.wta.questions;
 
+import no.anderska.wta.game.QuestionGenerator;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
-import no.anderska.wta.game.QuestionGenerator;
 
 public class QuestionGeneratorFactory {
 

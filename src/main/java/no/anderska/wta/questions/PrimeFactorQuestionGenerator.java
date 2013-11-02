@@ -1,10 +1,10 @@
 package no.anderska.wta.questions;
 
+import no.anderska.wta.game.Question;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import no.anderska.wta.game.Question;
 
 class PrimeFactorQuestionGenerator extends AbstractQuestionGenerator {
 

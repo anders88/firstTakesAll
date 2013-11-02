@@ -1,12 +1,12 @@
 package no.anderska.wta.questions;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import no.anderska.wta.game.Question;
 import no.anderska.wta.game.QuestionGenerator;
 import no.anderska.wta.game.QuestionSet;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 abstract class AbstractQuestionGenerator implements QuestionGenerator {
 

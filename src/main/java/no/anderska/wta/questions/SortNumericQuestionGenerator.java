@@ -1,13 +1,13 @@
 package no.anderska.wta.questions;
 
-import static no.anderska.wta.questions.AbstractQuestionGenerator.random;
+import no.anderska.wta.game.QuestionGenerator;
+import no.anderska.wta.game.QuestionSet;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import no.anderska.wta.game.QuestionGenerator;
-import no.anderska.wta.game.QuestionSet;
+import static no.anderska.wta.questions.AbstractQuestionGenerator.random;
 
 public class SortNumericQuestionGenerator implements QuestionGenerator {
 
