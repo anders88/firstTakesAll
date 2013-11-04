@@ -1,10 +1,11 @@
 package no.anderska.wta.questions;
 
-import no.anderska.wta.game.Question;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import no.anderska.wta.Validate;
+import no.anderska.wta.game.Question;
 
 class PrimeFactorQuestionGenerator extends AbstractQuestionGenerator {
 
@@ -14,10 +15,8 @@ class PrimeFactorQuestionGenerator extends AbstractQuestionGenerator {
 
     private PrimeFactorQuestionGenerator(int maxNumber,int maxPicks, int numberOfQuestions) {
         super(numberOfQuestions, DESCRIPTION);
-        this.maxPicks = maxPicks;
-        if (maxNumber <= 2 || maxPicks <= 0) {
-            throw new IllegalArgumentException("Parameters must be positive");
-        }
+        this.maxPicks = Validate.positiveNumber(maxPicks, "maxPicks");
+        Validate.positiveNumber(maxNumber, "maxNumber");
         primeFactor.add(2);
         for (int num=3;num<=maxNumber;num++) {
             boolean found = false;

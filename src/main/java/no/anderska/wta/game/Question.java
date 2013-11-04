@@ -1,15 +1,14 @@
 package no.anderska.wta.game;
 
+import no.anderska.wta.Validate;
+
 public class Question {
     private final String question;
     private final String fact;
 
     public Question(String question, String fact) {
-        if (question == null || fact == null) {
-            throw new IllegalArgumentException("Question and fact must be non null");
-        }
-        this.question = question;
-        this.fact = fact;
+        this.question = Validate.notNull(question, "question");
+        this.fact = Validate.notNull(fact, "fact");
     }
 
     public String getQuestion() {

@@ -1,12 +1,13 @@
 package no.anderska.wta.questions;
 
-import no.anderska.wta.game.Question;
-import no.anderska.wta.game.QuestionGenerator;
-import no.anderska.wta.game.QuestionSet;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import no.anderska.wta.Validate;
+import no.anderska.wta.game.Question;
+import no.anderska.wta.game.QuestionGenerator;
+import no.anderska.wta.game.QuestionSet;
 
 class MinesweeperQuestionGenerator implements QuestionGenerator {
     private final int rows;
@@ -16,13 +17,10 @@ class MinesweeperQuestionGenerator implements QuestionGenerator {
 
 
     private MinesweeperQuestionGenerator(int rows, int cols, int percentMines, int numberOfBoards) {
-        if (rows < 1 || cols < 1 || numberOfBoards < 1 || percentMines < 0 || percentMines > 100) {
-            throw new IllegalArgumentException("Wrong parameters");
-        }
-        this.rows = rows;
-        this.cols = cols;
-        this.percentMines = percentMines;
-        this.numberOfBoards = numberOfBoards;
+        this.rows = Validate.positiveNumber(rows, "rows");
+        this.cols = Validate.positiveNumber(cols, "cols");
+        this.percentMines = Validate.numberInRange(percentMines, "percentMines", 1, 100);
+        this.numberOfBoards = Validate.positiveNumber(numberOfBoards, "numberOfBoards");
     }
 
     public MinesweeperQuestionGenerator() {

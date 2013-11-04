@@ -1,12 +1,13 @@
 package no.anderska.wta.questions;
 
-import no.anderska.wta.game.Question;
-import no.anderska.wta.game.QuestionGenerator;
-import no.anderska.wta.game.QuestionSet;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import no.anderska.wta.Validate;
+import no.anderska.wta.game.Question;
+import no.anderska.wta.game.QuestionGenerator;
+import no.anderska.wta.game.QuestionSet;
 
 abstract class AbstractQuestionGenerator implements QuestionGenerator {
 
@@ -17,10 +18,7 @@ abstract class AbstractQuestionGenerator implements QuestionGenerator {
     protected abstract Question createQuestion();
 
     AbstractQuestionGenerator(int numberOfQuestions, String description) {
-        if (numberOfQuestions < 0) {
-            throw new IllegalArgumentException("numberOfQuestions must be > 0, was " + numberOfQuestions);
-        }
-        this.numberOfQuestions = numberOfQuestions;
+        this.numberOfQuestions = Validate.positiveNumber(numberOfQuestions, "numberOfQuestions");
         this.description = description;
     }
 

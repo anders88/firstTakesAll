@@ -1,5 +1,6 @@
 package no.anderska.wta.questions;
 
+import no.anderska.wta.Validate;
 import no.anderska.wta.game.Question;
 
 class ToRomanQuestionGenerator extends AbstractQuestionGenerator {
@@ -8,10 +9,7 @@ class ToRomanQuestionGenerator extends AbstractQuestionGenerator {
 
     protected ToRomanQuestionGenerator(int maxNumber, int numberOfQuestions, String description) {
         super(numberOfQuestions, description);
-        if (maxNumber < 1 || maxNumber >= 4000) {
-            throw new IllegalArgumentException("Wrong parameters");
-        }
-        this.maxNumber = maxNumber;
+        this.maxNumber = Validate.numberInRange(maxNumber, "maxNumber", 1, 3999);
     }
 
     public ToRomanQuestionGenerator() {

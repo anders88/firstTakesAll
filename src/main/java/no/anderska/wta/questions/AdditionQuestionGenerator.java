@@ -1,5 +1,6 @@
 package no.anderska.wta.questions;
 
+import no.anderska.wta.Validate;
 import no.anderska.wta.game.Question;
 
 class AdditionQuestionGenerator extends AbstractQuestionGenerator {
@@ -9,10 +10,7 @@ class AdditionQuestionGenerator extends AbstractQuestionGenerator {
 
     private AdditionQuestionGenerator(int numberOfQuestions, int maxFactors) {
         super(numberOfQuestions, DESCRIPTION);
-        if (maxFactors < 2) {
-            throw new IllegalArgumentException("Number of factors must be 2 or greater");
-        }
-        this.maxFactors = maxFactors;
+        this.maxFactors = Validate.greaterOrEqual(maxFactors, "maxFactors", 2);
 	}
 
     public AdditionQuestionGenerator() {
