@@ -1,10 +1,10 @@
 package no.anderska.wta.questions;
 
-import no.anderska.wta.game.QuestionGenerator;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+import no.anderska.wta.game.QuestionGenerator;
 
 public class QuestionGeneratorFactory {
 
@@ -58,8 +58,10 @@ public class QuestionGeneratorFactory {
         questionFactory.put("Fibonacci", FibonacciQuestionGenerator.class, 20);
         questionFactory.put("Minesweeper", MinesweeperQuestionGenerator.class, 50);
         questionFactory.put("PrimeFactor", PrimeFactorQuestionGenerator.class, 50);
-        questionFactory.put("ToRoman", RomanQuestionGenerator.class, 40);
-        questionFactory.put("FromRoman", ToRomanNumberQuestionGenerator.class, 40);
+        questionFactory.put("ToRoman", ToRomanQuestionGenerator.class, 40);
+        questionFactory.put("ToSmallRoman", ToRomanQuestionGenerator.Small.class, 15);
+        questionFactory.put("FromRoman", FromRomanNumberQuestionGenerator.class, 40);
+        questionFactory.put("FromSmallRoman", FromRomanNumberQuestionGenerator.Small.class, 15);
         questionFactory.put("Computation", ComputationQuestionGenerator.class, 25);
         questionFactory.put("Equation", EquationQuestionGenerator.class, 45);
         questionFactory.put("TimeCalc", TimeCalculationGenerator.class, 30);
