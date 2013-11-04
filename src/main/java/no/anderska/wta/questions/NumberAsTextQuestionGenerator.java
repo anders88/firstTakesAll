@@ -6,7 +6,7 @@ public class NumberAsTextQuestionGenerator extends AbstractQuestionGenerator {
 
     public static class TrivialNumbers extends NumberAsTextQuestionGenerator {
         public TrivialNumbers() {
-            super(10, "Convert a number under 20 to text. E.g. 5 => 'five'");
+            super("Convert a number under 20 to text. E.g. 5 => 'five'");
         }
 
         @Override
@@ -19,7 +19,7 @@ public class NumberAsTextQuestionGenerator extends AbstractQuestionGenerator {
 
     public static class SmallNumbers extends NumberAsTextQuestionGenerator {
         public SmallNumbers() {
-            super(20, "Convert a number under 100 to text. E.g. 25 => 'twenty five'");
+            super("Convert a number under 100 to text. E.g. 25 => 'twenty five'");
         }
 
         @Override
@@ -32,7 +32,7 @@ public class NumberAsTextQuestionGenerator extends AbstractQuestionGenerator {
 
     public static class NormalNumbers extends NumberAsTextQuestionGenerator {
         public NormalNumbers() {
-            super(30, "Convert a number under 1000 to text. E.g. 125 => 'one hundred and twenty five'");
+            super("Convert a number under 1000 to text. E.g. 125 => 'one hundred and twenty five'");
         }
 
         @Override
@@ -44,7 +44,7 @@ public class NumberAsTextQuestionGenerator extends AbstractQuestionGenerator {
 
     public static class LargeNumbers extends NumberAsTextQuestionGenerator {
         public LargeNumbers() {
-            super(40, "Convert any number to text. E.g. 12225 => 'twelve thosand two hundred and twenty five'");
+            super("Convert any number to text. E.g. 12225 => 'twelve thosand two hundred and twenty five'");
         }
 
         @Override
@@ -70,7 +70,7 @@ public class NumberAsTextQuestionGenerator extends AbstractQuestionGenerator {
         }
     }
 
-    NumberAsTextQuestionGenerator(int points, String description) {
+    NumberAsTextQuestionGenerator(String description) {
         super(30, description);
     }
 

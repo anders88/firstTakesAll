@@ -6,7 +6,7 @@ import org.junit.Test;
 
 public class NumberAsTextQuestionGeneratorTest {
 
-    private final NumberAsTextQuestionGenerator generator = new NumberAsTextQuestionGenerator(10, null);
+    private final NumberAsTextQuestionGenerator generator = new NumberAsTextQuestionGenerator(null);
 
     @Test
     public void shouldDealWithSmallNumbers() {

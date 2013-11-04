@@ -4,7 +4,7 @@ package no.anderska.wta.questions;
 public class HtmlEscapeQuestionGenerator extends AbstractWordQuestionGenerator {
 
     public HtmlEscapeQuestionGenerator() {
-        super(10, 20, "Escape HTML text. <b>Scream & Should</b> => &lt;b&gt;Scream &amp; Shout&lt;/b&gt;");
+        super(10, "Escape HTML text. <b>Scream & Should</b> => &lt;b&gt;Scream &amp; Shout&lt;/b&gt;");
     }
 
     @Override

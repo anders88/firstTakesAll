@@ -6,7 +6,7 @@ public class WordCountQuestionGenerator extends AbstractWordQuestionGenerator {
     private static final String DESCRIPTION = "The answer is the number of characters in the question. Question: 'hello', Correct answer '5'";
 
     WordCountQuestionGenerator() {
-        super(10, 5, DESCRIPTION);
+        super(10, DESCRIPTION);
     }
 
     @Override

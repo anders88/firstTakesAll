@@ -6,7 +6,7 @@ public class FirstCharacterQuestionGenerator extends AbstractWordQuestionGenerat
     private static final String DESCRIPTION = "The answer is the first character in the question. Question: 'hello', Correct answer 'h'";
 
     FirstCharacterQuestionGenerator() {
-        super(10, 5, DESCRIPTION);
+        super(10, DESCRIPTION);
     }
 
     @Override

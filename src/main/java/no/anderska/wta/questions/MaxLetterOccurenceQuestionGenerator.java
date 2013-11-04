@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 class MaxLetterOccurenceQuestionGenerator extends AbstractWordQuestionGenerator {
     public MaxLetterOccurenceQuestionGenerator() {
-        super(25, 15, "Return the letter with most occurenses. If equal return first in alphabet' I.e 'abbc' => 'b' and 'accee' => 'c'");
+        super(25, "Return the letter with most occurenses. If equal return first in alphabet' I.e 'abbc' => 'b' and 'accee' => 'c'");
     }
 
     @Override

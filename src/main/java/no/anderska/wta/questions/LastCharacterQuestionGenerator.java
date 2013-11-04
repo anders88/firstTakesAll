@@ -5,7 +5,7 @@ public class LastCharacterQuestionGenerator extends AbstractWordQuestionGenerato
     private static final String DESCRIPTION = "The answer is the last character in the question. Question: 'hello', Correct answer 'o'";
 
     LastCharacterQuestionGenerator() {
-        super(10, 5, DESCRIPTION);
+        super(10, DESCRIPTION);
     }
 
     @Override

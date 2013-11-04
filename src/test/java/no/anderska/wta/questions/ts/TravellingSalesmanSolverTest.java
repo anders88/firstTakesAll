@@ -1,11 +1,10 @@
 package no.anderska.wta.questions.ts;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import static org.fest.assertions.Assertions.assertThat;
 
 import java.util.Random;
 
-import static org.fest.assertions.Assertions.assertThat;
+import org.junit.Test;
 
 public class TravellingSalesmanSolverTest {
 
