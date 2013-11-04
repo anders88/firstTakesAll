@@ -119,7 +119,7 @@ public class NumberAsTextQuestionGenerator extends AbstractQuestionGenerator {
         if (number >= 1000000000) {
             if (number % 1000000000 == 0) {
                 return asText(number/1000000000) + " billion";
-            } else if ((number%1000000000) / 100 > 1) {
+            } else if ((number%1000000000) / 100 >= 1) {
                 return asText(number - number%1000000000) + " " + asText(number%1000000000);
             } else {
                 return asText(number - number%1000000000) + " and " + asText(number%1000000000);
@@ -129,7 +129,7 @@ public class NumberAsTextQuestionGenerator extends AbstractQuestionGenerator {
         if (number >= 1000000) {
             if (number % 1000000 == 0) {
                 return asText(number/1000000) + " million";
-            } else if ((number%1000000) / 100 > 1) {
+            } else if ((number%1000000) / 100 >= 1) {
                 return asText(number - number%1000000) + " " + asText(number%1000000);
             } else {
                 return asText(number - number%1000000) + " and " + asText(number%1000000);
@@ -139,7 +139,7 @@ public class NumberAsTextQuestionGenerator extends AbstractQuestionGenerator {
         if (number >= 1000) {
             if (number % 1000 == 0) {
                 return asText(number/1000) + " thousand";
-            } else if ((number%1000) / 100 > 1) {
+            } else if ((number%1000) / 100 >= 1) {
                 return asText(number - number%1000) + " " + asText(number%1000);
             } else {
                 return asText(number - number%1000) + " and " + asText(number%1000);

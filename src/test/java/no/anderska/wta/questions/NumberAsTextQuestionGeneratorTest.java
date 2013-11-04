@@ -35,6 +35,7 @@ public class NumberAsTextQuestionGeneratorTest {
         assertThat(generator.asText(1000)).isEqualTo("one thousand");
         assertThat(generator.asText(12414)).isEqualTo("twelve thousand four hundred and fourteen");
         assertThat(generator.asText(15017)).isEqualTo("fifteen thousand and seventeen");
+        assertThat(generator.asText(15107)).isEqualTo("fifteen thousand one hundred and seven");
     }
 
     @Test
