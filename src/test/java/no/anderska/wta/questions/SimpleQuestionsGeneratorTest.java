@@ -1,4 +1,4 @@
-package no.anderska.wta.questions;
+ï»¿package no.anderska.wta.questions;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -10,21 +10,21 @@ public class SimpleQuestionsGeneratorTest {
     public void wordCount() {
         WordCountQuestionGenerator generator = new WordCountQuestionGenerator();
         assertThat(generator.createAnswer("Hello")).isEqualTo("5");
-        assertThat(generator.createAnswer("År")).isEqualTo("2");
+        assertThat(generator.createAnswer("Ã…r")).isEqualTo("2");
     }
 
     @Test
     public void firstCharacter() {
         FirstCharacterQuestionGenerator generator = new FirstCharacterQuestionGenerator();
         assertThat(generator.createAnswer("Hello")).isEqualTo("H");
-        assertThat(generator.createAnswer("År")).isEqualTo("Å");
+        assertThat(generator.createAnswer("Ã…r")).isEqualTo("Ã…");
     }
 
     @Test
     public void lastCharacter() {
         LastCharacterQuestionGenerator generator = new LastCharacterQuestionGenerator();
         assertThat(generator.createAnswer("Hello")).isEqualTo("o");
-        assertThat(generator.createAnswer("Også")).isEqualTo("å");
+        assertThat(generator.createAnswer("OgsÃ¥")).isEqualTo("Ã¥");
     }
 
 
