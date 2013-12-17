@@ -1,4 +1,4 @@
-﻿package no.anderska.wta.questions;
+package no.anderska.wta.questions;
 
 import static org.fest.assertions.Assertions.assertThat;
 
