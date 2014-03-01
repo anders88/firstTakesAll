@@ -2,6 +2,9 @@
 
 The server code used to host a first takes all game
 
+# Deploy branch
+This bramch is used to deploy the code to www.anderssandbox.com. 
+
 ## WARNING
 If you are participating in a First Takes All game looking at the code in this project will ruin your experience. Head over to https://github.com/anders88/firstTakesAllSolver to check out a startingpoint.
 
