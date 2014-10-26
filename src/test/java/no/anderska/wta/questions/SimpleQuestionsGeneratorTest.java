@@ -17,7 +17,7 @@ public class SimpleQuestionsGeneratorTest {
     public void firstCharacter() {
         FirstCharacterQuestionGenerator generator = new FirstCharacterQuestionGenerator();
         assertThat(generator.createAnswer("Hello")).isEqualTo("H");
-        assertThat(generator.createAnswer("Ar")).isEqualTo("Å");
+        assertThat(generator.createAnswer("Ar")).isEqualTo("A");
     }
 
     @Test
